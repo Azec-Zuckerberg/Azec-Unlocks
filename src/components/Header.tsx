@@ -1,13 +1,8 @@
 
-import { ShoppingCart, User } from "lucide-react";
+import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface HeaderProps {
-  cartCount: number;
-  onCartClick: () => void;
-}
-
-const Header = ({ cartCount, onCartClick }: HeaderProps) => {
+const Header = () => {
   return (
     <header className="sticky top-0 z-50 glass-card border-b border-white/10">
       <div className="container mx-auto px-6 py-4">
@@ -34,18 +29,6 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
             <Button className="glass-button hidden md:inline-flex">
               UNBAN MY PC
             </Button>
-            
-            <button 
-              onClick={onCartClick}
-              className="relative p-3 glass-card-hover rounded-xl transition-all duration-300"
-            >
-              <ShoppingCart className="w-5 h-5 text-white" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gaming-red text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium shadow-glow">
-                  {cartCount}
-                </span>
-              )}
-            </button>
             
             <button className="p-3 glass-card-hover rounded-xl transition-all duration-300">
               <User className="w-5 h-5 text-white" />

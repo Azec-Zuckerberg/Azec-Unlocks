@@ -1,6 +1,5 @@
 
-import { ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface Product {
   id: string;
@@ -14,14 +13,23 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
+  onPurchase: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
+const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
+  const { toast } = useToast();
   const statusClass = product.status === "Undetected" ? "status-undetected" : "status-update";
   
+  const handlePurchase = () => {
+    toast({
+      title: "Redirecting to checkout",
+      description: `Processing payment for ${product.name}...`,
+    });
+    onPurchase(product);
+  };
+  
   return (
-    <div className="glass-card glass-card-hover p-6 group cursor-pointer">
+    <div className="glass-card glass-card-hover p-6 group cursor-pointer" onClick={handlePurchase}>
       <div className="relative mb-6">
         <div className="w-full h-48 bg-white/5 rounded-xl overflow-hidden">
           <img 
@@ -55,13 +63,9 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
             <p className="text-white font-bold text-2xl">€{product.price.toFixed(2)}</p>
           </div>
           
-          <Button 
-            onClick={() => onAddToCart(product)}
-            className="glass-button flex items-center space-x-2"
-          >
-            <ShoppingCart className="w-4 h-4" />
-            <span>Add</span>
-          </Button>
+          <div className="glass-button flex items-center space-x-2 pointer-events-none">
+            <span>Buy Now</span>
+          </div>
         </div>
       </div>
     </div>
