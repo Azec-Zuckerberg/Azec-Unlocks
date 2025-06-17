@@ -31,7 +31,7 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
   return (
     <div className="glass-card glass-card-hover p-6 group cursor-pointer" onClick={handlePurchase}>
       <div className="relative mb-6">
-        <div className="w-full h-48 bg-white/5 rounded-xl overflow-hidden">
+        <div className="w-full h-48 rounded-xl overflow-hidden">
           <img 
             src={product.image} 
             alt={product.name}
@@ -61,10 +61,6 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
           <div>
             <p className="text-white/60 text-sm font-medium">Starts at</p>
             <p className="text-white font-bold text-2xl">€{product.price.toFixed(2)}</p>
-          </div>
-          
-          <div className="glass-button flex items-center space-x-2 pointer-events-none">
-            <span>Buy Now</span>
           </div>
         </div>
       </div>
