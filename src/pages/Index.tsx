@@ -137,11 +137,12 @@ const Index = () => {
     <div className="min-h-screen bg-gaming-bg">
       <Header cartCount={cartCount} onCartClick={() => setIsCartOpen(true)} />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-6 py-12">
         {/* Store Title */}
-        <div className="text-center mb-8">
-          <p className="text-gaming-red text-sm font-semibold mb-2 tracking-wider uppercase">STORE</p>
-          <h1 className="text-white text-4xl md:text-5xl font-bold mb-8">Our products</h1>
+        <div className="text-center mb-16">
+          <p className="text-gaming-red text-sm font-semibold mb-4 tracking-widest uppercase">STORE</p>
+          <h1 className="text-white text-5xl md:text-6xl font-bold mb-4 tracking-tight">Our Products</h1>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto">Discover premium digital tools and services designed for the modern user</p>
         </div>
 
         {/* Category Filter */}

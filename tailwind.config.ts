@@ -66,14 +66,29 @@ export default {
 				// Gaming theme colors
 				'gaming-red': '#ff1744',
 				'gaming-red-dark': '#d50000',
-				'gaming-bg': '#0a0a0a',
-				'gaming-card': '#1a1a1a',
-				'gaming-card-hover': '#2a2a2a',
+				'gaming-bg': '#000000',
+				'gaming-card': 'rgba(255, 255, 255, 0.05)',
+				'gaming-card-hover': 'rgba(255, 255, 255, 0.08)',
+			},
+			fontFamily: {
+				'sf': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'xl': '1rem',
+				'2xl': '1.5rem',
+				'3xl': '2rem',
+			},
+			backdropBlur: {
+				'xs': '2px',
+			},
+			boxShadow: {
+				'glow': '0 0 20px rgba(255, 23, 68, 0.3)',
+				'glow-lg': '0 0 40px rgba(255, 23, 68, 0.4)',
+				'glass': '0 8px 32px rgba(0, 0, 0, 0.3)',
+				'glass-lg': '0 20px 60px rgba(0, 0, 0, 0.4)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -111,13 +126,22 @@ export default {
 						transform: 'scale(1)',
 						opacity: '1'
 					}
+				},
+				'glow-pulse': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(255, 23, 68, 0.3)'
+					},
+					'50%': {
+						boxShadow: '0 0 40px rgba(255, 23, 68, 0.6)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
-				'scale-in': 'scale-in 0.2s ease-out'
+				'scale-in': 'scale-in 0.2s ease-out',
+				'glow-pulse': 'glow-pulse 2s ease-in-out infinite'
 			}
 		}
 	},
