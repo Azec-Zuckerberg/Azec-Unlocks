@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import Header from "@/components/Header";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductGrid from "@/components/ProductGrid";
 import SparklingBackground from "@/components/SparklingBackground";
+import Footer from "@/components/Footer";
 import { Product } from "@/components/ProductCard";
 import { useToast } from "@/hooks/use-toast";
 
@@ -87,7 +87,6 @@ const Index = () => {
     : products.filter(product => product.category === activeCategory);
 
   const handlePurchase = (product: Product) => {
-    // Stripe integration will be implemented here
     toast({
       title: "Redirecting to checkout",
       description: `Processing payment for ${product.name}...`,
@@ -121,6 +120,8 @@ const Index = () => {
           onPurchase={handlePurchase}
         />
       </main>
+
+      <Footer />
     </div>
   );
 };

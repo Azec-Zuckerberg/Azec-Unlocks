@@ -29,13 +29,13 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
   };
   
   return (
-    <div className="glass-card glass-card-hover p-6 group cursor-pointer" onClick={handlePurchase}>
+    <div className="glass-card glass-card-hover p-6 group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 relative" onClick={handlePurchase}>
       <div className="relative mb-6">
         <div className="w-full h-48 rounded-xl overflow-hidden">
           <img 
             src={product.image} 
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
         </div>
         
@@ -55,7 +55,7 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
       </div>
       
       <div className="space-y-4">
-        <h3 className="text-white font-semibold text-lg leading-tight">{product.name}</h3>
+        <h3 className="text-white font-semibold text-lg leading-tight group-hover:text-white/90 transition-colors">{product.name}</h3>
         
         <div className="flex items-center justify-between">
           <div>
