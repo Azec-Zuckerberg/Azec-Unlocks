@@ -5,8 +5,8 @@ const GridBackground = () => {
   const gridLines = useMemo(() => {
     const lines = [];
     const gridSize = 40;
-    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1920;
-    const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 1080;
+    const viewportWidth = 1920; // Fixed width to prevent recalculation
+    const viewportHeight = 1080; // Fixed height to prevent recalculation
     
     // Vertical lines
     for (let x = 0; x <= viewportWidth; x += gridSize) {
@@ -55,6 +55,8 @@ const GridBackground = () => {
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       <svg
         className="w-full h-full"
+        viewBox="0 0 1920 1080"
+        preserveAspectRatio="xMidYMid slice"
         style={{
           filter: 'blur(0.2px)',
         }}
