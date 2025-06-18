@@ -29,13 +29,21 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
   };
   
   return (
-    <div className="glass-card glass-card-hover p-6 group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 relative" onClick={handlePurchase}>
+    <div 
+      className="glass-card glass-card-hover p-6 group cursor-pointer relative" 
+      onClick={handlePurchase}
+      style={{
+        willChange: 'transform',
+        transform: 'translateZ(0)', // Force hardware acceleration
+      }}
+    >
       <div className="relative mb-6">
         <div className="w-full h-48 rounded-xl overflow-hidden">
           <img 
             src={product.image} 
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            style={{ willChange: 'transform' }}
           />
         </div>
         
