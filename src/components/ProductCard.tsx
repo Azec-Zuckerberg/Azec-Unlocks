@@ -1,7 +1,7 @@
-
 import { useToast } from "@/hooks/use-toast";
+import { ShieldCheck } from "lucide-react";
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   price: number;
@@ -9,6 +9,7 @@ interface Product {
   category: string;
   status: "Undetected" | "In Update";
   type?: string;
+  description?: string;
 }
 
 interface ProductCardProps {
@@ -55,13 +56,11 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
       </div>
       
       <div className="space-y-4">
-        <h3 className="text-white font-semibold text-lg leading-tight group-hover:text-white/90 transition-colors">{product.name}</h3>
+        <h3 className="text-white font-semibold text-lg leading-tight group-hover:text-white/90 transition-colors text-center">{product.name}</h3>
         
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-white/60 text-sm font-medium">Starts at</p>
-            <p className="text-white font-bold text-2xl">€{product.price.toFixed(2)}</p>
-          </div>
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-white/60 text-sm font-medium">Starts at</p>
+          <p className="text-white font-bold text-2xl">€{product.price.toFixed(2)}</p>
         </div>
       </div>
     </div>
@@ -69,4 +68,3 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
 };
 
 export default ProductCard;
-export type { Product };

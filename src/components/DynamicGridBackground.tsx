@@ -1,8 +1,4 @@
-/* ------------------------------------------------------------------
-   DynamicGridBackground.tsx – moving grey grid squares with varying opacity
-   Works in ANY React/TSX setup (Create-React-App, Vite, Next, etc.)
-------------------------------------------------------------------- */
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 interface GridSquare {
   id: number;
@@ -14,7 +10,7 @@ interface GridSquare {
   direction: { x: number; y: number };
 }
 
-const SparklingBackground: React.FC = () => {
+const DynamicGridBackground: React.FC = () => {
   const [squares, setSquares] = useState<GridSquare[]>([]);
   const [mouse, setMouse] = useState({ x: 50, y: 50 });
 
@@ -94,7 +90,6 @@ const SparklingBackground: React.FC = () => {
     return () => clearInterval(interval);
   }, [mouse]);
 
-  /* ---------- render ---------- */
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
       {/* Static grid background */}
@@ -139,4 +134,4 @@ const SparklingBackground: React.FC = () => {
   );
 };
 
-export default SparklingBackground;
+export default DynamicGridBackground; 

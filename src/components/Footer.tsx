@@ -1,4 +1,3 @@
-
 import { Shield, Zap, Users, Award } from "lucide-react";
 
 const Footer = () => {
@@ -41,12 +40,10 @@ const Footer = () => {
               
               {/* Payment Methods */}
               <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  {paymentMethods.map((method, index) => (
-                    <div key={index} className="glass-card-hover px-3 py-2 rounded-lg">
-                      <div className={`w-6 h-4 ${method.color} rounded-sm`}></div>
-                    </div>
-                  ))}
+                <div className="flex flex-wrap gap-4 items-center justify-start">
+                  <img src="/payment-methods/visa.png" alt="Visa" className="h-8 w-auto" />
+                  <img src="/payment-methods/mastercard.png" alt="Mastercard" className="h-8 w-auto" />
+                  <img src="/payment-methods/paypal.png" alt="PayPal" className="h-8 w-auto" />
                 </div>
               </div>
             </div>
