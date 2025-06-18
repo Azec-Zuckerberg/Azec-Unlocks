@@ -1,14 +1,8 @@
-
 import { useState } from "react";
 import Header from "@/components/Header";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductGrid from "@/components/ProductGrid";
-<<<<<<< HEAD
 import GridBackground from "../components/GridBackground";
-=======
-import SparklingBackground from "@/components/SparklingBackground";
-import GridBackground from "@/components/GridBackground";
->>>>>>> dff5db48600e7c726ef8925d2405710ec8f464f0
 import Footer from "@/components/Footer";
 import { Product } from "@/components/ProductCard";
 import { useToast } from "@/hooks/use-toast";
@@ -65,14 +59,7 @@ const Index = () => {
   /* ----------  render  ---------- */
   return (
     <div className="min-h-screen bg-gaming-bg relative">
-<<<<<<< HEAD
-      {/* background FX */}
       <GridBackground />
-
-=======
-      <GridBackground />
-      <SparklingBackground />
->>>>>>> dff5db48600e7c726ef8925d2405710ec8f464f0
       <Header />
 
       <main className="container mx-auto px-6 py-12 relative z-10 pt-32">
