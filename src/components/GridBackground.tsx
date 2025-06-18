@@ -12,7 +12,7 @@ const GridBackground = () => {
     for (let x = 0; x <= viewportWidth; x += gridSize) {
       const distanceFromCenter = Math.abs(x - viewportWidth / 2);
       const normalizedDistance = distanceFromCenter / (viewportWidth / 2);
-      const opacity = 0.15 * (1 - normalizedDistance * 0.7);
+      const opacity = 0.4 * (1 - normalizedDistance * 0.6);
       
       lines.push(
         <line
@@ -21,9 +21,9 @@ const GridBackground = () => {
           y1={0}
           x2={x}
           y2={viewportHeight}
-          stroke="white"
+          stroke="#6b7280"
           strokeWidth="0.5"
-          opacity={Math.max(0.02, opacity)}
+          opacity={Math.max(0.08, opacity)}
         />
       );
     }
@@ -32,7 +32,7 @@ const GridBackground = () => {
     for (let y = 0; y <= viewportHeight; y += gridSize) {
       const distanceFromCenter = Math.abs(y - viewportHeight / 2);
       const normalizedDistance = distanceFromCenter / (viewportHeight / 2);
-      const opacity = 0.15 * (1 - normalizedDistance * 0.7);
+      const opacity = 0.4 * (1 - normalizedDistance * 0.6);
       
       lines.push(
         <line
@@ -41,9 +41,9 @@ const GridBackground = () => {
           y1={y}
           x2={viewportWidth}
           y2={y}
-          stroke="white"
+          stroke="#6b7280"
           strokeWidth="0.5"
-          opacity={Math.max(0.02, opacity)}
+          opacity={Math.max(0.08, opacity)}
         />
       );
     }
@@ -56,7 +56,7 @@ const GridBackground = () => {
       <svg
         className="w-full h-full"
         style={{
-          filter: 'blur(0.3px)',
+          filter: 'blur(0.2px)',
         }}
       >
         {gridLines}
