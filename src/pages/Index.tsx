@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import Header from "@/components/Header";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductGrid from "@/components/ProductGrid";
 import SparklingBackground from "@/components/SparklingBackground";
+import GridBackground from "@/components/GridBackground";
 import Footer from "@/components/Footer";
 import { Product } from "@/components/ProductCard";
 import { useToast } from "@/hooks/use-toast";
@@ -96,6 +98,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gaming-bg relative">
+      <GridBackground />
       <SparklingBackground />
       <Header />
       
