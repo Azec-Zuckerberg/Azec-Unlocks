@@ -38,6 +38,7 @@ const Header = () => {
       {/* Navigation */}
       <nav className="flex items-center space-x-6">
         <Link to="/" className="text-white/90 font-medium hover:text-white transition">{t('store')}</Link>
+        <Link to="/reviews" className="text-white/90 font-medium hover:text-white transition">{t('reviews')}</Link>
         <Link to="/faq" className="text-white/90 font-medium hover:text-white transition">{t('faq')}</Link>
         <Link to="/contact" className="text-white/90 font-medium hover:text-white transition">{t('contact')}</Link>
         <Link to="/guides" className="text-white/90 font-medium hover:text-white transition">{t('guides')}</Link>
@@ -50,19 +51,18 @@ const Header = () => {
           className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition text-white font-medium text-sm focus:outline-none"
           onClick={() => setOpen((v) => !v)}
         >
-          <Globe className="w-5 h-5 text-white" />
+        <Globe className="w-5 h-5 text-white" />
           {LANGUAGES.find(l => l.code === i18n.language)?.label || "EN"}
-          <svg className="w-3 h-3 ml-1 text-white/70" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        <svg className="w-3 h-3 ml-1 text-white/70" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         {open && (
-          <div className="absolute left-1/2 -translate-x-1/2 mt-2 min-w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg z-50 flex flex-col items-center" style={{background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)'}}>
+          <div className="absolute left-1/2 -translate-x-1/2 mt-1 min-w-[64px] bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-lg z-50 flex flex-col items-center p-1" style={{background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)'}}>
             {LANGUAGES.map(lang => (
               <button
                 key={lang.code}
                 onClick={() => { i18n.changeLanguage(lang.code); setOpen(false); }}
-                className={`flex items-center w-full px-4 py-2 text-left text-white hover:bg-white/10 transition ${i18n.language === lang.code ? 'font-semibold' : ''}`}
+                className={`flex items-center w-full px-2 py-1 text-left text-white hover:bg-white/10 transition text-base ${i18n.language === lang.code ? 'font-semibold' : ''}`}
               >
-                {i18n.language === lang.code && <Check className="w-4 h-4 mr-2 text-white" />}
                 {lang.label}
               </button>
             ))}

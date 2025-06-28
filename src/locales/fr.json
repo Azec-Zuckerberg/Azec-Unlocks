@@ -5,7 +5,7 @@
   "guides": "Guides",
   "undetected": "Indétecté",
   "buy_now": "Acheter",
-  "read_faq": "Lire la FAQ",
+  "read_faq": "Voir les avis",
   "language": "FR",
   "redirecting_checkout": "Redirection vers le paiement",
   "processing_payment": "Traitement du paiement pour {{product}}…",
@@ -87,5 +87,10 @@
   "contact_message_placeholder": "Votre message",
   "contact_send_message": "Envoyer le message",
   "contact_success": "Message envoyé avec succès !",
-  "contact_error": "Une erreur est survenue. Veuillez réessayer."
+  "contact_error": "Une erreur est survenue. Veuillez réessayer.",
+  "reviews": "Avis",
+  "reviews_title": "Avis",
+  "reviews_subtitle": "Voici ce que nos clients disent de nous.",
+  "they_speak_for_us": "ils parlent pour nous",
+  "trusted_by_customers": "Approuvé par nos clients avec une note moyenne de"
 } 

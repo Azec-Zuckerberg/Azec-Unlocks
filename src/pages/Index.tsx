@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { FC } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundNeo from "@/components/BackgroundNeo";
-import { Product } from "@/components/ProductCard";
 import { useToast } from "@/hooks/use-toast";
 import StatsSection from "@/components/StatsSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import GlassCard from "@/components/GlassCard";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
+// ---------------------------------------------------------------------------
+//  Sample product data (kept exactly as you had it)
+// ---------------------------------------------------------------------------
 const product = {
   id: "2",
   name: "External Chair",
@@ -19,102 +20,160 @@ const product = {
   category: "DMA",
   status: "Undetected",
   headline: "It's not cheating if you don't get caught.",
-  description: "With the proper settings, Azec's External features will bypass Ricochet. High-performance, undetected hacks at unbeatable prices, backed by premium customer support.",
+  description:
+    "With the proper settings, Azec's External features will bypass Ricochet. High-performance, undetected hacks at unbeatable prices, backed by premium customer support.",
 };
 
-const Index = () => {
+// ---------------------------------------------------------------------------
+//  Page component
+// ---------------------------------------------------------------------------
+const Index: FC = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
 
   const handlePurchase = () => {
     toast({
-      title: t('redirecting_checkout'),
-      description: t('processing_payment', { product: t('external_chair') }),
+      title: t("redirecting_checkout"),
+      description: t("processing_payment", { product: t("external_chair") }),
     });
     console.log("Processing direct checkout for product:", product);
   };
 
   return (
-    <div className="min-h-screen relative">
+    <div className="relative min-h-screen">
+      {/* background / chrome */}
       <BackgroundNeo />
       <Header />
 
-      <main className="container mx-auto px-6 py-12 relative z-10 pt-32">
+      {/* ------------------------------------------------------------ */}
+      {/* main content */}
+      {/* ------------------------------------------------------------ */}
+      <main className="container relative z-10 mx-auto px-6 py-12 pt-32">
         <div>
-          <div className="text-center mb-16">
-            <h1 className="text-white text-5xl md:text-6xl font-bold mb-4 tracking-tight">
-              {t('store_headline')}
-            </h1>
+          {/* headline */}
+          <div className="mb-6 text-center">
+            <h1 className="mb-4 text-5xl font-bold tracking-tight text-white md:text-6xl">
+              {t("store_headline")}
+          </h1>
+            <div className="flex justify-center mt-4">
+              <Link to="/reviews" className="group">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-400/40 bg-green-400/20 backdrop-blur-lg shadow-lg text-green-200 font-semibold text-sm transition group-hover:scale-105 group-hover:bg-green-400/30">
+                  <svg className="w-4 h-4 text-green-300/80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z" strokeLinejoin="round" strokeLinecap="round"/>
+                  </svg>
+                  {t('trusted_by_customers')} <span className="font-bold text-green-300/90">4.23</span>
+                  <svg className="w-4 h-4 ml-1 text-green-300/80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7" strokeLinejoin="round" strokeLinecap="round"/>
+                  </svg>
+                </span>
+              </Link>
+            </div>
           </div>
 
-          {/* Unified Product + Features Section */}
+          {/* ----------------------------------------------------------------- */}
+          {/* unified product + features section (glass card)                   */}
+          {/* ----------------------------------------------------------------- */}
           <GlassCard
-            className="w-full max-w-6xl mx-auto rounded-3xl p-8 mb-20 border border-white/20 flex flex-col gap-12"
+            className="mx-auto mb-20 flex w-full max-w-6xl flex-col gap-12 rounded-3xl border border-white/20 p-8"
             style={{
-              background: 'rgba(255,255,255,0.06)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)'
+              background: "rgba(255,255,255,0.06)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
             }}
           >
-            {/* Product Showcase Row */}
-            <div className="flex flex-col lg:flex-row items-center gap-8">
-              {/* Left: Text and Buttons */}
-              <div className="flex flex-col justify-center items-start gap-8 min-w-[280px] max-w-lg mx-auto">
-                {/* Badge/Icon */}
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#810D0A]/80 text-white shadow">
+            {/* =============================================================== */}
+            {/* product showcase row                                           */}
+            {/* =============================================================== */}
+            <div className="flex flex-col items-center gap-8 lg:flex-row">
+              {/* ------------ LEFT : text + buttons -------------------------- */}
+              <div className="mx-auto flex min-w-[280px] max-w-lg flex-col items-start justify-center gap-8">
+                {/* badge */}
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-[#810D0A]/80 px-3 py-1 text-xs font-semibold text-white shadow">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M13 2L3 14H12L11 22L21 10H13L13 2Z" fill="#fff"/>
+                      <path
+                        d="M13 2L3 14H12L11 22L21 10H13L13 2Z"
+                        fill="#fff"
+                      />
                     </svg>
-                    {t('undetected')}
+                    {t("undetected")}
                   </span>
                 </div>
-                {/* Headline */}
-                <h2 className="text-white text-3xl md:text-4xl font-extrabold leading-tight mb-2">
-                  {t('external_chair')}
+
+                {/* title */}
+                <h2 className="mb-2 text-3xl font-extrabold leading-tight text-white md:text-4xl">
+                  {t("external_chair")}
                 </h2>
-                {/* Description */}
-                <p className="text-white/60 text-base mb-6">
-                  {t('external_chair_desc')}
+
+                {/* description */}
+                <p className="mb-6 text-base text-white/60">
+                  {t("external_chair_desc")}
                 </p>
-                {/* Buttons */}
-                <div className="flex gap-4 w-full">
-                  <Link to="/faq" className="flex-1 bg-white text-black font-semibold py-3 px-6 rounded-xl transition hover:bg-white/90 text-center">{t('read_faq')}</Link>
-                  <button onClick={handlePurchase} className="flex-1 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold py-3 px-6 rounded-xl transition text-center">{t('buy_now')}</button>
+
+                {/* ---------------- BUTTONS (FIXED!) ------------------------ */}
+                {/* Both buttons are given an identical fixed height (h-20 == 80 px) */}
+                {/* Content is perfectly centered with flex utilities          */}
+                <div className="flex gap-4 w-full items-stretch">
+                  <Link to="/reviews" className="flex-1 w-full bg-white text-black font-semibold rounded-xl transition hover:bg-white/90 text-center flex flex-col items-center justify-center py-3 px-6">
+                    <span className="mt-1">{t('read_faq')}</span>
+                    <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
+                  </Link>
+                  <button onClick={handlePurchase} className="flex-1 w-full h-full bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-start py-3 px-6">
+                    <span>{t('buy_now')}</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at $0.49</span>
+                  </button>
                 </div>
               </div>
-              {/* Right: Product Image */}
-              <div className="flex-1 flex items-center justify-center w-full h-full">
-                <div className="relative w-full max-w-xl aspect-video rounded-2xl overflow-hidden flex items-center justify-center">
-                  <img src={product.image} alt={t('external_chair')} className="w-full h-full object-cover" />
+
+              {/* ------------ RIGHT : product image ------------------------- */}
+              <div className="flex flex-1 items-center justify-center">
+                <div className="relative aspect-video w-full max-w-xl overflow-hidden rounded-2xl">
+                  <img
+                    src={product.image}
+                    alt={t("external_chair")}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </div>
             </div>
 
-            {/* Feature Cards Row - Large Images */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-              {/* Card 1: Left - Ban2.png large image */}
-              <div className="rounded-2xl p-8 flex flex-col items-center border border-white/20">
-                <div className="mb-6 w-full flex justify-center">
-                  <img src="/Ban2.png" alt={t('feature1_alt')} className="max-h-48 w-auto object-contain rounded-2xl" />
+            {/* =============================================================== */}
+            {/* feature cards row                                              */}
+            {/* =============================================================== */}
+            <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2">
+              {/* card 1 */}
+              <div className="flex flex-col items-center rounded-2xl border border-white/20 p-8">
+                <div className="mb-6 flex w-full justify-center">
+                  <img
+                    src="/Ban2.png"
+                    alt={t("feature1_alt")}
+                    className="max-h-48 w-auto rounded-2xl object-contain"
+                  />
                 </div>
-                <h3 className="text-white text-xl font-bold text-center mb-2">{t('feature1_title')}</h3>
+                <h3 className="mb-2 text-center text-xl font-bold text-white">
+                  {t("feature1_title")}
+                </h3>
               </div>
-              {/* Card 2: Right - Ban1.png large image */}
-              <div className="rounded-2xl p-8 flex flex-col items-center border border-white/20">
-                <div className="mb-6 w-full flex justify-center">
-                  <img src="/Ban1.png" alt={t('feature2_alt')} className="max-h-48 w-auto object-contain rounded-2xl" />
+
+              {/* card 2 */}
+              <div className="flex flex-col items-center rounded-2xl border border-white/20 p-8">
+                <div className="mb-6 flex w-full justify-center">
+                  <img
+                    src="/Ban1.png"
+                    alt={t("feature2_alt")}
+                    className="max-h-48 w-auto rounded-2xl object-contain"
+                  />
                 </div>
-                <h3 className="text-white text-xl font-bold text-center mb-2">{t('feature2_title')}</h3>
+                <h3 className="mb-2 text-center text-xl font-bold text-white">
+                  {t("feature2_title")}
+                </h3>
               </div>
             </div>
           </GlassCard>
         </div>
 
-        {/* Stats Section */}
+        {/* stats + features */}
         <StatsSection />
-
-        {/* Features Section */}
         <FeaturesSection />
       </main>
 

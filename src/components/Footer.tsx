@@ -45,14 +45,14 @@ const Footer = () => {
             </div>
 
             {/* Quick Links */}
-            <div className="space-y-3">
+              <div className="space-y-3">
               <h3 className="text-white font-semibold text-lg">{t('footer_quick_links')}</h3>
               <div className="space-y-2">
-                {["/", "/faq", "/contact", "/guides"].map((to, index) => (
+                {['/', '/faq', '/contact', '/guides', '/reviews'].map((to, index) => (
                   <div key={index} className="flex items-center space-x-2 group">
                     <div className="w-1 h-1 bg-[$#B70000] rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
                     <Link to={to} className="text-white/70 hover:text-white transition-colors text-sm">
-                      {quickLinks[index]}
+                      {[t('store'), t('faq'), t('contact'), t('guides'), t('reviews')][index]}
                     </Link>
                   </div>
                 ))}

@@ -5,7 +5,7 @@
   "guides": "Guides",
   "undetected": "Undetected",
   "buy_now": "Buy now",
-  "read_faq": "Read FAQ",
+  "read_faq": "See reviews",
   "language": "EN",
   "redirecting_checkout": "Redirecting to checkout",
   "processing_payment": "Processing payment for {{product}}…",
@@ -87,5 +87,10 @@
   "contact_message_placeholder": "Your Message",
   "contact_send_message": "Send Message",
   "contact_success": "Message sent successfully!",
-  "contact_error": "Something went wrong. Please try again."
+  "contact_error": "Something went wrong. Please try again.",
+  "reviews": "Reviews",
+  "reviews_title": "Reviews",
+  "reviews_subtitle": "Here is what our customers say about us.",
+  "they_speak_for_us": "they speak for us",
+  "trusted_by_customers": "Trusted by customers with an average rating of"
 } 
