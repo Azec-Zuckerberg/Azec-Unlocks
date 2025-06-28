@@ -31,12 +31,15 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
   
   return (
     <div 
-      className="glass-card glass-card-hover p-6 group cursor-pointer relative" 
-      onClick={handlePurchase}
+      className="glass-card glass-card-hover p-6 group cursor-pointer relative min-w-[280px] max-w-[340px] w-full"
       style={{
-        willChange: 'transform',
-        transform: 'translateZ(0)', // Force hardware acceleration
+        background: 'rgba(255, 255, 255, 0.08)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        border: '1px solid rgba(255,255,255,0.20)',
+        borderRadius: '1rem',
       }}
+      onClick={handlePurchase}
     >
       <div className="relative mb-6">
         <div className="w-full h-48 rounded-xl overflow-hidden">

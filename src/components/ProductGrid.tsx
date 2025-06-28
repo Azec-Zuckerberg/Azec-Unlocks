@@ -11,7 +11,7 @@ const ProductGrid = ({ products, onPurchase }: ProductGridProps) => {
     <div className="flex justify-center">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
-          <div key={product.id} className="flex flex-col items-center p-4 rounded-lg shadow-lg">
+          <div key={product.id} className="flex flex-col items-center p-4 rounded-lg">
             <ProductCard 
               product={product} 
               onPurchase={onPurchase}
