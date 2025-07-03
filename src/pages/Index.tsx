@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundNeo from "@/components/BackgroundNeo";
@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import StatsSection from "@/components/StatsSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import GlassCard from "@/components/GlassCard";
+import DurationModal from "@/components/DurationModal";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -30,13 +31,19 @@ const product = {
 const Index: FC = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePurchase = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleSelectDuration = (option: any) => {
     toast({
       title: t("redirecting_checkout"),
       description: t("processing_payment", { product: t("external_chair") }),
     });
-    console.log("Processing direct checkout for product:", product);
+    window.open(option.checkoutUrl, '_blank');
+    setIsModalOpen(false);
   };
 
   return (
@@ -59,7 +66,7 @@ const Index: FC = () => {
               <Link to="/reviews" className="group">
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-400/40 bg-green-400/20 backdrop-blur-lg shadow-lg text-green-200 font-semibold text-sm transition group-hover:scale-105 group-hover:bg-green-400/30">
                   <svg className="w-4 h-4 text-green-300/80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z" strokeLinejoin="round" strokeLinecap="round"/>
+                    <path d="M12 3L4 7v5c0 5.25 4.5 9.25 8 10 3.5-.75 8-4.75 8-10V7l-8-4z" fill="currentColor" stroke="currentColor" strokeLinejoin="round" />
                   </svg>
                   {t('trusted_by_customers')} <span className="font-bold text-green-300/90">4.23</span>
                   <svg className="w-4 h-4 ml-1 text-green-300/80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -120,7 +127,7 @@ const Index: FC = () => {
                   </Link>
                   <button onClick={handlePurchase} className="flex-1 w-full h-full bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-start py-3 px-6">
                     <span>{t('buy_now')}</span>
-                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at $0.49</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at €2.95</span>
                   </button>
                 </div>
               </div>
@@ -178,6 +185,13 @@ const Index: FC = () => {
       </main>
 
       <Footer />
+      
+      {/* Duration Selection Modal */}
+      <DurationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelectDuration={handleSelectDuration}
+      />
     </div>
   );
 };

@@ -6,7 +6,7 @@ const StatsSection: React.FC = () => {
   const { t } = useTranslation();
   const stats = [
     { value: "445", label: t('stats_products_sold') },
-    { value: "356", label: t('stats_total_customers') },
+    { value: "2022", label: 'SELLING SINCE' },
     { value: "425", label: t('stats_reviews_received') },
     { value: "4.23", label: t('stats_average_rating') },
   ];
