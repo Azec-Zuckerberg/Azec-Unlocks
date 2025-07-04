@@ -5,9 +5,9 @@ import { useTranslation } from "react-i18next";
 const StatsSection: React.FC = () => {
   const { t } = useTranslation();
   const stats = [
-    { value: "445", label: t('stats_products_sold') },
+    { value: "168", label: t('stats_products_sold') },
     { value: "2022", label: 'SELLING SINCE' },
-    { value: "425", label: t('stats_reviews_received') },
+    { value: "25", label: t('stats_reviews_received') },
     { value: "4.23", label: t('stats_average_rating') },
   ];
 

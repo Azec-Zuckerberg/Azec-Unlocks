@@ -1,13 +1,26 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { Copy, ExternalLink } from "lucide-react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Copy, ExternalLink, ArrowLeft } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { Card, CardContent } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 
 const steps = [
   { label: "Order Information" },
   { label: "Confirm & Pay" },
   { label: "Receive Your Items" },
 ];
+
+// Plan definitions (match DurationModal)
+const plans = {
+  "2h":     { id: "2h", name: "2 HOURS LICENSE",  price: "€2.95",  usd: "$3.19",  description: "Best for testing" },
+  "1day":   { id: "1day", name: "1 DAY LICENSE",    price: "€11.95", usd: "$12.99", description: "Suitable for quick tasks" },
+  "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€23.95", usd: "$25.99", description: "Ideal for ongoing projects" },
+  "1month": { id: "1month", name: "1 MONTH LICENSE",  price: "€29.95", usd: "$32.49", description: "Perfect for long-term needs" },
+};
+
+
 
 // Generate a random English word from a dictionary list
 const ENGLISH_WORDS = [
@@ -17,22 +30,40 @@ function generateRandomKeyword() {
   return ENGLISH_WORDS[Math.floor(Math.random() * ENGLISH_WORDS.length)];
 }
 
+function generateRandomInvoiceId() {
+  // Example: 16 hex chars + '-' + 12 digits
+  const hex = Array.from({length: 16}, () => Math.floor(Math.random()*16).toString(16)).join("");
+  const digits = Array.from({length: 12}, () => Math.floor(Math.random()*10)).join("");
+  return `${hex}-${digits}`;
+}
+
 const CheckoutPage = () => {
-  // Step state
-  const [step, setStep] = useState(0);
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Get step from URL, default to 0
+  const currentStep = parseInt(searchParams.get("step") || "0");
+  
   // Form state
   const [email, setEmail] = useState("");
   const [coupon, setCoupon] = useState("");
   const [agree, setAgree] = useState(false);
   const [marketing, setMarketing] = useState(false);
 
+  // Get plan from URL
+  const planId = searchParams.get("plan") || "1month";
+  const plan = plans[planId] || plans["1month"];
+
+  // Random invoice ID (only generated once per checkout)
+  const [invoiceId, setInvoiceId] = useState("");
+  useEffect(() => {
+    setInvoiceId(generateRandomInvoiceId());
+  }, []);
+
   // Payment info (static for demo)
-  const invoiceId = "efbd eb4c3e769-0000005281086";
-  const paypalEmail = "khoufgames@gmail.com";
-  const amount = "€23.95";
-  const usdAmount = "$28.19";
-  const createdAt = "Jul 3, 2025, 5:32 AM";
-  const expiresAt = "Jul 4, 2025, 5:32 AM";
+  const paypalEmail = "azeckuroshi@gmail.com";
+  const amount = plan.price;
+  const usdAmount = plan.usd;
 
   // Random note keyword (only generated once per checkout)
   const [note, setNote] = useState("");
@@ -47,13 +78,26 @@ const CheckoutPage = () => {
       await navigator.clipboard.writeText(text);
       setCopied(label);
       setTimeout(() => setCopied("") , 1500);
+      toast({
+        title: "Copied!",
+        description: `${label} copied to clipboard`,
+      });
     } catch {}
   };
 
-  // Handle form submit
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setStep(1);
+  const handleNextStep = () => {
+    const nextStep = currentStep + 1;
+    setSearchParams({ plan: planId, step: nextStep.toString() });
+  };
+
+  const handleBackStep = () => {
+    if (currentStep > 0) {
+      const prevStep = currentStep - 1;
+      setSearchParams({ plan: planId, step: prevStep.toString() });
+    } else {
+      // If we're at step 0, go back to store
+      navigate(-1);
+    }
   };
 
   return (
@@ -70,7 +114,7 @@ const CheckoutPage = () => {
             <span className="font-semibold text-white text-xl">AzecUnlocks</span>
           </div>
           <div className="text-base text-white/60 mb-1">Pay AzecUnlocks</div>
-          <div className="text-4xl font-extrabold text-white mb-7">€23.95</div>
+          <div className="text-4xl font-extrabold text-white mb-7">{plan.price}</div>
           <div className="flex items-center gap-4 mb-5">
             <img
               src="/lovable-uploads/Product-external.png"
@@ -79,19 +123,19 @@ const CheckoutPage = () => {
             />
             <div className="flex-1">
               <div className="font-semibold text-white leading-tight text-lg">External Chair</div>
-              <div className="text-xs text-white/60 leading-tight">External Chair - 1 Week</div>
+              <div className="text-xs text-white/60 leading-tight">{plan.name}</div>
               <div className="text-xs text-white/30 leading-tight">1x</div>
             </div>
-            <span className="font-bold text-white text-lg">€23.95</span>
+            <span className="font-bold text-white text-lg">{plan.price}</span>
           </div>
           <hr className="my-5 border-[#232323]" />
           <div className="flex justify-between text-white/80 text-base mb-1">
             <span>Subtotal</span>
-            <span>€23.95</span>
+            <span>{plan.price}</span>
           </div>
           <div className="flex justify-between text-2xl font-bold text-white">
             <span>Total</span>
-            <span>€23.95</span>
+            <span>{plan.price}</span>
           </div>
         </div>
         {/* Right: Step Content */}
@@ -99,15 +143,15 @@ const CheckoutPage = () => {
           {/* Step Indicator */}
           <div className="flex mb-8 border-b border-[#232323]">
             {steps.map((s, i) => (
-              <div key={s.label} className={`flex-1 pb-3 text-center ${i === step ? "border-b-2 border-blue-500" : ""}`}>
-                <span className={`text-base font-semibold ${i === step ? "text-blue-400" : i < step ? "text-white" : "text-white/40"}`}>{`Step ${i + 1}`}</span>
-                <div className={`mt-1 text-lg font-bold ${i === step ? "text-white" : i < step ? "text-white" : "text-white/60"}`}>{s.label}</div>
+              <div key={s.label} className={`flex-1 pb-3 text-center ${i === currentStep ? "border-b-2 border-blue-500" : ""}`}>
+                <span className={`text-base font-semibold ${i === currentStep ? "text-blue-400" : i < currentStep ? "text-white" : "text-white/40"}`}>{`Step ${i + 1}`}</span>
+                <div className={`mt-1 text-lg font-bold ${i === currentStep ? "text-white" : i < currentStep ? "text-white" : "text-white/60"}`}>{s.label}</div>
               </div>
             ))}
           </div>
           {/* Step 1: Form */}
-          {step === 0 && (
-            <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
+                     {currentStep === 0 && (
+             <form className="flex flex-col gap-7" onSubmit={(e) => { e.preventDefault(); handleNextStep(); }}>
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-base font-semibold text-white mb-1">
@@ -221,7 +265,7 @@ const CheckoutPage = () => {
             </form>
           )}
           {/* Step 2: Payment Instructions */}
-          {step === 1 && (
+          {currentStep === 1 && (
             <div>
               {/* Payment Method Card */}
               <div className="mb-8 border border-[#232323] rounded-lg bg-[#181818] p-6">
@@ -237,16 +281,12 @@ const CheckoutPage = () => {
                     <button type="button" onClick={() => handleCopy(invoiceId, "Invoice ID")}>{copied === "Invoice ID" ? "Copied!" : <Copy className="w-4 h-4 text-blue-400" />}</button>
                   </div>
                   <div>E-mail Address</div>
-                  <div className="text-right">azekuroshi@gmail.com</div>
+                  <div className="text-right">{email}</div>
                   <div>Total Price</div>
-                  <div className="text-right">€23.95</div>
+                  <div className="text-right">{plan.price}</div>
                   <div>Total Price (USD)</div>
-                  <div className="text-right">{usdAmount}</div>
+                  <div className="text-right">{plan.usd}</div>
                 </div>
-              </div>
-              {/* Notice */}
-              <div className="mb-8 border border-blue-700 bg-blue-900/10 text-blue-400 rounded-lg px-6 py-4 text-sm">
-                Your order will be <span className="font-bold">automatically processed</span> once the payment is received.
               </div>
               {/* Payment Steps */}
               <ol className="flex flex-col gap-8 mb-8">
@@ -281,19 +321,19 @@ const CheckoutPage = () => {
               <Button
                 type="button"
                 className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
-                onClick={() => setStep(2)}
+                onClick={handleNextStep}
               >
                 I did everything
               </Button>
             </div>
           )}
           {/* Step 3: Contact Instructions */}
-          {step === 2 && (
+          {currentStep === 2 && (
             <div className="flex flex-col items-center justify-center gap-8 py-8">
               <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
                 <h2 className="text-2xl font-bold text-white mb-4">Final Step: Contact Us</h2>
                 <p className="text-white/80 text-base mb-6">
-                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">support@azecunlocks.com</span>.<br />
+                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">azeckuroshi@gmail.com</span>.<br />
                   <br />
                   <span className="text-white">Include the following in your message:</span>
                 </p>
@@ -302,8 +342,8 @@ const CheckoutPage = () => {
                   <li className="mb-2">• <span className="font-semibold">Your email address:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{email}</span></li>
                   <li className="mb-2">• <span className="font-semibold">A screenshot of your payment</span></li>
                 </ul>
-                <div className="text-white/70 text-sm mb-4">Discord: <span className="font-semibold text-blue-400">YourDiscord#1234</span></div>
-                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">support@azecunlocks.com</span></div>
+                <div className="text-white/70 text-sm mb-4">Discord: <span className="font-semibold text-blue-400">Azec</span></div>
+                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">azeckuroshi@gmail.com</span></div>
               </div>
             </div>
           )}
@@ -316,6 +356,17 @@ const CheckoutPage = () => {
           <Link to="/terms" target="_blank" rel="noopener noreferrer" className="underline text-white/60 hover:text-white">Terms of Service</Link>
         </div>
       </div>
+      {/* Back Button */}
+      {currentStep > 0 && (
+        <Button
+          type="button"
+          className="absolute top-4 left-4 bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-2 px-4 rounded-full shadow-none"
+          onClick={handleBackStep}
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back
+        </Button>
+      )}
     </div>
   );
 };
