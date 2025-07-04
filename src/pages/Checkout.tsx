@@ -14,10 +14,10 @@ const steps = [
 
 // Plan definitions (match DurationModal)
 const plans = {
-  "2h":     { id: "2h", name: "2 HOURS LICENSE",  price: "€2.95",  usd: "$3.19",  description: "Best for testing" },
-  "1day":   { id: "1day", name: "1 DAY LICENSE",    price: "€11.95", usd: "$12.99", description: "Suitable for quick tasks" },
-  "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€23.95", usd: "$25.99", description: "Ideal for ongoing projects" },
-  "1month": { id: "1month", name: "1 MONTH LICENSE",  price: "€29.95", usd: "$32.49", description: "Perfect for long-term needs" },
+  "2h":     { id: "2h", name: "2 HOURS LICENSE",  price: "€2.95",  usd: "$3.47",  description: "Best for testing" },
+  "1day":   { id: "1day", name: "1 DAY LICENSE",    price: "€11.95", usd: "$14.07", description: "Suitable for quick tasks" },
+  "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€23.95", usd: "$28.20", description: "Ideal for ongoing projects" },
+  "1month": { id: "1month", name: "1 MONTH LICENSE",  price: "€29.95", usd: "$35.26", description: "Perfect for long-term needs" },
 };
 
 
