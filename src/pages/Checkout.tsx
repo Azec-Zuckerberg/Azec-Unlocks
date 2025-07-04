@@ -61,7 +61,7 @@ const CheckoutPage = () => {
   }, []);
 
   // Payment info (static for demo)
-  const paypalEmail = "azeckuroshi@gmail.com";
+  const paypalEmail = "khoufigames@gmail.com";
   const amount = plan.price;
   const usdAmount = plan.usd;
 
@@ -333,7 +333,7 @@ const CheckoutPage = () => {
               <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
                 <h2 className="text-2xl font-bold text-white mb-4">Final Step: Contact Us</h2>
                 <p className="text-white/80 text-base mb-6">
-                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">azeckuroshi@gmail.com</span>.<br />
+                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">khoufigames@gmail.com</span>.<br />
                   <br />
                   <span className="text-white">Include the following in your message:</span>
                 </p>
@@ -343,7 +343,7 @@ const CheckoutPage = () => {
                   <li className="mb-2">• <span className="font-semibold">A screenshot of your payment</span></li>
                 </ul>
                 <div className="text-white/70 text-sm mb-4">Discord: <span className="font-semibold text-blue-400">Azec</span></div>
-                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">azeckuroshi@gmail.com</span></div>
+                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">khoufigames@gmail.com</span></div>
               </div>
             </div>
           )}

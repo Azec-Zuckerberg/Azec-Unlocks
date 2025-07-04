@@ -24,7 +24,7 @@ const Terms: React.FC = () => {
         </section>
         <section>
           <h2 className="text-lg font-bold text-white mb-2">5. Contact</h2>
-          <p className="text-white/80 text-sm">If you have any questions about these Terms, please contact us at <a href="mailto:support@azecunlocks.com" className="text-blue-400 underline">support@azecunlocks.com</a>.</p>
+          <p className="text-white/80 text-sm">If you have any questions about these Terms, please contact us at <a href="mailto:khoufigames@gmail.com" className="text-blue-400 underline">khoufigames@gmail.com</a>.</p>
         </section>
       </div>
     </div>
