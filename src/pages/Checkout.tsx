@@ -297,7 +297,7 @@ const CheckoutPage = () => {
                   <div className="text-white/80 text-xs mb-2">If you do not send as Friends & Family, your order might not be processed and you might not be eligible for a refund.</div>
                   <div className="flex items-center gap-2 mb-2">
                     <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, "PayPal Email")}>{paypalEmail} {copied === "PayPal Email" && <span className="ml-1">Copied!</span>}</Button>
-                    <a href="https://paypal.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
+                    <a href="https://www.paypal.com/myaccount/transfer/homepage" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
                       Open PayPal <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
