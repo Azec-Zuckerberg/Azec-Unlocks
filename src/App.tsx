@@ -9,6 +9,8 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Guides from "./pages/Guides";
 import Reviews from "./pages/Reviews";
+import Checkout from "./pages/Checkout";
+import TermsOfService from "./pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/guides" element={<Guides />} />
           <Route path="/reviews" element={<Reviews />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

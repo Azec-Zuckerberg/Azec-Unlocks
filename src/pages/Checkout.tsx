@@ -1,0 +1,323 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Copy, ExternalLink } from "lucide-react";
+
+const steps = [
+  { label: "Order Information" },
+  { label: "Confirm & Pay" },
+  { label: "Receive Your Items" },
+];
+
+// Generate a random English word from a dictionary list
+const ENGLISH_WORDS = [
+  "apple", "river", "forest", "mountain", "cloud", "dream", "light", "shadow", "ocean", "star", "planet", "energy", "music", "flower", "garden", "island", "mirror", "crystal", "ember", "pulse", "echo", "breeze", "flame", "frost", "wave", "stone", "sky", "storm", "sun", "moon", "wind", "rain", "leaf", "root", "seed", "petal", "branch", "field", "meadow", "valley", "hill", "path", "trail", "road", "bridge", "gate", "tower", "castle", "cave", "lake", "pond", "brook", "stream", "spring", "autumn", "winter", "summer", "harvest", "dawn", "dusk", "twilight", "night", "day", "hour", "minute", "second", "spark", "flare", "prism", "ripple", "zenith", "nova", "orbit", "vortex", "bliss", "pride", "honor", "peace", "hope", "joy", "grace", "faith", "truth", "wisdom", "valor", "spirit", "quest", "vision", "focus", "logic", "sense", "dreamer", "hero", "guide", "sage", "seer", "ranger", "scout", "pilot", "rider", "keeper", "maker", "smith", "weaver", "scribe"
+];
+function generateRandomKeyword() {
+  return ENGLISH_WORDS[Math.floor(Math.random() * ENGLISH_WORDS.length)];
+}
+
+const CheckoutPage = () => {
+  // Step state
+  const [step, setStep] = useState(0);
+  // Form state
+  const [email, setEmail] = useState("");
+  const [coupon, setCoupon] = useState("");
+  const [agree, setAgree] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+
+  // Payment info (static for demo)
+  const invoiceId = "efbd eb4c3e769-0000005281086";
+  const paypalEmail = "khoufgames@gmail.com";
+  const amount = "€23.95";
+  const usdAmount = "$28.19";
+  const createdAt = "Jul 3, 2025, 5:32 AM";
+  const expiresAt = "Jul 4, 2025, 5:32 AM";
+
+  // Random note keyword (only generated once per checkout)
+  const [note, setNote] = useState("");
+  useEffect(() => {
+    setNote(generateRandomKeyword());
+  }, []);
+
+  // Copy to clipboard
+  const [copied, setCopied] = useState("");
+  const handleCopy = async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(label);
+      setTimeout(() => setCopied("") , 1500);
+    } catch {}
+  };
+
+  // Handle form submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStep(1);
+  };
+
+  return (
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#111] px-2 py-8">
+      <div className="flex items-start justify-center w-full">
+        {/* Left: Order Summary */}
+        <div className="w-full max-w-md rounded-2xl bg-[#181818] px-8 py-8 shadow border border-[#232323] mr-10 flex-shrink-0" style={{ minWidth: 380 }}>
+          <div className="flex items-center gap-3 mb-7">
+            <img
+              src="/lovable-uploads/AzecLogoNoBG.png"
+              alt="AzecUnlocks Logo"
+              className="h-9 w-9 rounded-full object-cover bg-black"
+            />
+            <span className="font-semibold text-white text-xl">AzecUnlocks</span>
+          </div>
+          <div className="text-base text-white/60 mb-1">Pay AzecUnlocks</div>
+          <div className="text-4xl font-extrabold text-white mb-7">€23.95</div>
+          <div className="flex items-center gap-4 mb-5">
+            <img
+              src="/lovable-uploads/Product-external.png"
+              alt="External Chair"
+              className="h-14 w-14 rounded object-cover border border-[#232323]"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-white leading-tight text-lg">External Chair</div>
+              <div className="text-xs text-white/60 leading-tight">External Chair - 1 Week</div>
+              <div className="text-xs text-white/30 leading-tight">1x</div>
+            </div>
+            <span className="font-bold text-white text-lg">€23.95</span>
+          </div>
+          <hr className="my-5 border-[#232323]" />
+          <div className="flex justify-between text-white/80 text-base mb-1">
+            <span>Subtotal</span>
+            <span>€23.95</span>
+          </div>
+          <div className="flex justify-between text-2xl font-bold text-white">
+            <span>Total</span>
+            <span>€23.95</span>
+          </div>
+        </div>
+        {/* Right: Step Content */}
+        <div className="w-full max-w-xl rounded-2xl bg-[#181818] px-10 py-10 shadow border border-[#232323] flex flex-col gap-7" style={{ minWidth: 480 }}>
+          {/* Step Indicator */}
+          <div className="flex mb-8 border-b border-[#232323]">
+            {steps.map((s, i) => (
+              <div key={s.label} className={`flex-1 pb-3 text-center ${i === step ? "border-b-2 border-blue-500" : ""}`}>
+                <span className={`text-base font-semibold ${i === step ? "text-blue-400" : i < step ? "text-white" : "text-white/40"}`}>{`Step ${i + 1}`}</span>
+                <div className={`mt-1 text-lg font-bold ${i === step ? "text-white" : i < step ? "text-white" : "text-white/60"}`}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+          {/* Step 1: Form */}
+          {step === 0 && (
+            <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-base font-semibold text-white mb-1">
+                  E-mail Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full rounded-lg border border-[#232323] bg-[#181818] px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                  placeholder="The order confirmation will be sent to this e-mail address."
+                />
+              </div>
+              {/* Coupon */}
+              <div>
+                <label htmlFor="coupon" className="block text-base font-semibold text-white mb-1">
+                  Coupon Code
+                </label>
+                <input
+                  id="coupon"
+                  type="text"
+                  value={coupon}
+                  onChange={e => setCoupon(e.target.value)}
+                  className="w-full rounded-lg border border-[#232323] bg-[#181818] px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                  placeholder="Have a coupon code? Enter it here."
+                />
+              </div>
+              {/* Payment Method */}
+              <div>
+                <label className="block text-base font-semibold text-white mb-1">
+                  Payment Method <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center rounded-lg border border-[#232323] bg-[#181818] px-4 py-3 text-white">
+                  <span className="flex-1 text-base">PayPal (Friends & Family)</span>
+                  <svg className="w-6 h-6 text-blue-400 ml-2" viewBox="0 0 32 32" fill="currentColor"><path d="M29.1 8.6c-.3-2.2-2.2-3.6-4.7-3.6h-8.2c-.7 0-1.3.5-1.4 1.2l-4.2 21.1c-.1.4.2.7.6.7h4.2c.3 0 .6-.2.7-.5l1.2-6.1c.1-.3.3-.5.7-.5h2.2c4.6 0 8.2-1.9 9.2-7.3.3-1.7.2-3.1-.3-4.3zm-3.2 4.2c-.7 3.7-3.3 4.1-6.4 4.1h-1.1c-.4 0-.7.3-.8.7l-1.2 6.1c0 .1-.1.1-.2.1h-2.1c-.1 0-.2-.1-.1-.2l3.7-18.7c0-.1.1-.1.2-.1h6.7c1.2 0 2.1.3 2.7.8.6.5.9 1.3.7 2.2z"/></svg>
+                </div>
+              </div>
+              {/* Terms Checkbox */}
+              <div className="flex items-center gap-2">
+                <label className="relative flex items-center cursor-pointer select-none" htmlFor="agree">
+                  <input
+                    id="agree"
+                    type="checkbox"
+                    checked={agree}
+                    onChange={e => setAgree(e.target.checked)}
+                    className="peer appearance-none w-6 h-6 rounded-full border border-[#232323] bg-white transition-all duration-200 shadow-sm checked:bg-[#5B64C2] checked:border-[#5B64C2] focus:ring-2 focus:ring-[#5B64C2] focus:outline-none"
+                    required
+                  />
+                  <span className="pointer-events-none absolute left-0 top-0 flex h-6 w-6 items-center justify-center">
+                    <svg
+                      className="opacity-0 scale-75 transition-all duration-200 peer-checked:opacity-100 peer-checked:scale-100"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 9.5L8 12.5L13 7.5"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </label>
+                <label htmlFor="agree" className="text-sm text-white ml-2 cursor-pointer">
+                  I have read and agree to <Link to="/terms" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">AzecUnlocks's Terms of Service</Link>.
+                </label>
+              </div>
+              {/* Marketing Checkbox */}
+              <div className="flex items-center gap-2">
+                <label className="relative flex items-center cursor-pointer select-none" htmlFor="marketing">
+                  <input
+                    id="marketing"
+                    type="checkbox"
+                    checked={marketing}
+                    onChange={e => setMarketing(e.target.checked)}
+                    className="peer appearance-none w-6 h-6 rounded-full border border-[#232323] bg-white transition-all duration-200 shadow-sm checked:bg-[#5B64C2] checked:border-[#5B64C2] focus:ring-2 focus:ring-[#5B64C2] focus:outline-none"
+                  />
+                  <span className="pointer-events-none absolute left-0 top-0 flex h-6 w-6 items-center justify-center">
+                    <svg
+                      className="opacity-0 scale-75 transition-all duration-200 peer-checked:opacity-100 peer-checked:scale-100"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 9.5L8 12.5L13 7.5"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </label>
+                <label htmlFor="marketing" className="text-sm text-white ml-2 cursor-pointer">
+                  I would like to receive updates and promotions from AzecUnlocks.
+                </label>
+              </div>
+              {/* Proceed Button */}
+              <Button type="submit" className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 mt-2 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none">
+                Proceed to Payment <span className="ml-1">→</span>
+              </Button>
+            </form>
+          )}
+          {/* Step 2: Payment Instructions */}
+          {step === 1 && (
+            <div>
+              {/* Payment Method Card */}
+              <div className="mb-8 border border-[#232323] rounded-lg bg-[#181818] p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-7 w-7" />
+                  <span className="font-semibold text-white text-base">PayPal (Friends & Family)</span>
+                  <span className="ml-auto text-xs text-white/40 font-mono">{invoiceId}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
+                  <div>Invoice ID</div>
+                  <div className="text-right flex items-center gap-2 justify-end">
+                    <span>{invoiceId}</span>
+                    <button type="button" onClick={() => handleCopy(invoiceId, "Invoice ID")}>{copied === "Invoice ID" ? "Copied!" : <Copy className="w-4 h-4 text-blue-400" />}</button>
+                  </div>
+                  <div>E-mail Address</div>
+                  <div className="text-right">azekuroshi@gmail.com</div>
+                  <div>Total Price</div>
+                  <div className="text-right">€23.95</div>
+                  <div>Total Price (USD)</div>
+                  <div className="text-right">{usdAmount}</div>
+                </div>
+              </div>
+              {/* Notice */}
+              <div className="mb-8 border border-blue-700 bg-blue-900/10 text-blue-400 rounded-lg px-6 py-4 text-sm">
+                Your order will be <span className="font-bold">automatically processed</span> once the payment is received.
+              </div>
+              {/* Payment Steps */}
+              <ol className="flex flex-col gap-8 mb-8">
+                {/* 1 */}
+                <li className="relative pl-10">
+                  <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">1</span>
+                  <div className="font-bold text-[#5B64C2] text-base mb-1">You should send a Friends & Family payment with a note to the following account.</div>
+                  <div className="text-white/80 text-xs mb-2">If you do not send as Friends & Family, your order might not be processed and you might not be eligible for a refund.</div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, "PayPal Email")}>{paypalEmail} {copied === "PayPal Email" && <span className="ml-1">Copied!</span>}</Button>
+                    <a href="https://paypal.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
+                      Open PayPal <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </li>
+                {/* 2 */}
+                <li className="relative pl-10">
+                  <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">2</span>
+                  <div className="font-bold text-[#5B64C2] text-base mb-1">Add a note to the payment, otherwise it will be ignored.</div>
+                  <div className="text-white/80 text-xs mb-2">You can copy it below.</div>
+                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(note, "Note")}>{note} {copied === "Note" && <span className="ml-1">Copied!</span>}</Button>
+                </li>
+                {/* 3 */}
+                <li className="relative pl-10">
+                  <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">3</span>
+                  <div className="font-bold text-[#5B64C2] text-base mb-1">Make sure to send the exact amount.</div>
+                  <div className="text-white/80 text-xs mb-2">You can copy it below.</div>
+                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(amount, "Amount")}>{amount} {copied === "Amount" && <span className="ml-1">Copied!</span>}</Button>
+                </li>
+              </ol>
+              {/* I did everything button */}
+              <Button
+                type="button"
+                className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
+                onClick={() => setStep(2)}
+              >
+                I did everything
+              </Button>
+            </div>
+          )}
+          {/* Step 3: Contact Instructions */}
+          {step === 2 && (
+            <div className="flex flex-col items-center justify-center gap-8 py-8">
+              <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
+                <h2 className="text-2xl font-bold text-white mb-4">Final Step: Contact Us</h2>
+                <p className="text-white/80 text-base mb-6">
+                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">support@azecunlocks.com</span>.<br />
+                  <br />
+                  <span className="text-white">Include the following in your message:</span>
+                </p>
+                <ul className="text-white/90 text-base mb-6 text-left mx-auto max-w-md">
+                  <li className="mb-2">• <span className="font-semibold">Your keyword:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{note}</span></li>
+                  <li className="mb-2">• <span className="font-semibold">Your email address:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{email}</span></li>
+                  <li className="mb-2">• <span className="font-semibold">A screenshot of your payment</span></li>
+                </ul>
+                <div className="text-white/70 text-sm mb-4">Discord: <span className="font-semibold text-blue-400">YourDiscord#1234</span></div>
+                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">support@azecunlocks.com</span></div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Footer under left card */}
+      <div className="w-full flex justify-center mt-8">
+        <div className="text-xs text-white/60">
+          Powered by <span className="font-bold text-white">Sell</span><span className="font-bold" style={{ color: '#5B64C2' }}>Auth</span> <span className="mx-1">•</span>
+          <Link to="/terms" target="_blank" rel="noopener noreferrer" className="underline text-white/60 hover:text-white">Terms of Service</Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CheckoutPage; 
