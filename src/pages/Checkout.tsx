@@ -61,15 +61,17 @@ const CheckoutPage = () => {
   }, []);
 
   // Payment info (static for demo)
-  const paypalEmail = "khoufigames@gmail.com";
-  const amount = plan.price;
-  const usdAmount = plan.usd;
-
-  // Random note keyword (only generated once per checkout)
-  const [note, setNote] = useState("");
-  useEffect(() => {
-    setNote(generateRandomKeyword());
-  }, []);
+  const paypalEmail = "azecunlocks@gmail.com";
+  let displayPrice = plan.price;
+  let displayUsd = plan.usd;
+  if (planId === "1month" && coupon.trim().toUpperCase() === "SUMMER5") {
+    // Remove euro sign and parse float
+    const euro = parseFloat(plan.price.replace("€", ""));
+    const usd = parseFloat(plan.usd.replace("$", ""));
+    displayPrice = `€${(euro - 5).toFixed(2)}`;
+    // Optionally, apply a similar discount to USD if needed
+    displayUsd = `$${(usd - 5).toFixed(2)}`;
+  }
 
   // Copy to clipboard
   const [copied, setCopied] = useState("");
@@ -114,7 +116,7 @@ const CheckoutPage = () => {
             <span className="font-semibold text-white text-xl">AzecUnlocks</span>
           </div>
           <div className="text-base text-white/60 mb-1">Pay AzecUnlocks</div>
-          <div className="text-4xl font-extrabold text-white mb-7">{plan.price}</div>
+          <div className="text-4xl font-extrabold text-white mb-7">{displayPrice}</div>
           <div className="flex items-center gap-4 mb-5">
             <img
               src="/lovable-uploads/Product-external.png"
@@ -126,16 +128,16 @@ const CheckoutPage = () => {
               <div className="text-xs text-white/60 leading-tight">{plan.name}</div>
               <div className="text-xs text-white/30 leading-tight">1x</div>
             </div>
-            <span className="font-bold text-white text-lg">{plan.price}</span>
+            <span className="font-bold text-white text-lg">{displayPrice}</span>
           </div>
           <hr className="my-5 border-[#232323]" />
           <div className="flex justify-between text-white/80 text-base mb-1">
             <span>Subtotal</span>
-            <span>{plan.price}</span>
+            <span>{displayPrice}</span>
           </div>
           <div className="flex justify-between text-2xl font-bold text-white">
             <span>Total</span>
-            <span>{plan.price}</span>
+            <span>{displayPrice}</span>
           </div>
         </div>
         {/* Right: Step Content */}
@@ -283,9 +285,27 @@ const CheckoutPage = () => {
                   <div>E-mail Address</div>
                   <div className="text-right">{email}</div>
                   <div>Total Price</div>
-                  <div className="text-right">{plan.price}</div>
+                  <div className="text-right">
+                    {planId === "1month" && coupon.trim().toUpperCase() === "SUMMER5" ? (
+                      <>
+                        <span className="line-through text-white/40 mr-2">{plan.price}</span>
+                        <span className="text-white font-bold">{displayPrice}</span>
+                      </>
+                    ) : (
+                      <span>{displayPrice}</span>
+                    )}
+                  </div>
                   <div>Total Price (USD)</div>
-                  <div className="text-right">{plan.usd}</div>
+                  <div className="text-right">
+                    {planId === "1month" && coupon.trim().toUpperCase() === "SUMMER5" ? (
+                      <>
+                        <span className="line-through text-white/40 mr-2">{plan.usd}</span>
+                        <span className="text-white font-bold">{displayUsd}</span>
+                      </>
+                    ) : (
+                      <span>{displayUsd}</span>
+                    )}
+                  </div>
                 </div>
               </div>
               {/* Payment Steps */}
@@ -293,11 +313,11 @@ const CheckoutPage = () => {
                 {/* 1 */}
                 <li className="relative pl-10">
                   <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">1</span>
-                  <div className="font-bold text-[#5B64C2] text-base mb-1">You should send a Friends & Family payment with a note to the following account.</div>
+                  <div className="font-bold text-[#5B64C2] text-base mb-1">You should send a Friends & Family payment to the following account.</div>
                   <div className="text-white/80 text-xs mb-2">If you do not send as Friends & Family, your order might not be processed and you might not be eligible for a refund.</div>
                   <div className="flex items-center gap-2 mb-2">
                     <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, "PayPal Email")}>{paypalEmail} {copied === "PayPal Email" && <span className="ml-1">Copied!</span>}</Button>
-                    <a href="https://www.paypal.com/myaccount/transfer/homepage" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
+                    <a href="https://paypal.me/AZECUNLOCKS" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
                       Open PayPal <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
@@ -305,16 +325,9 @@ const CheckoutPage = () => {
                 {/* 2 */}
                 <li className="relative pl-10">
                   <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">2</span>
-                  <div className="font-bold text-[#5B64C2] text-base mb-1">Add a note to the payment, otherwise it will be ignored.</div>
-                  <div className="text-white/80 text-xs mb-2">You can copy it below.</div>
-                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(note, "Note")}>{note} {copied === "Note" && <span className="ml-1">Copied!</span>}</Button>
-                </li>
-                {/* 3 */}
-                <li className="relative pl-10">
-                  <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">3</span>
                   <div className="font-bold text-[#5B64C2] text-base mb-1">Make sure to send the exact amount.</div>
                   <div className="text-white/80 text-xs mb-2">You can copy it below.</div>
-                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(amount, "Amount")}>{amount} {copied === "Amount" && <span className="ml-1">Copied!</span>}</Button>
+                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(displayPrice, "Amount")}>{displayPrice} {copied === "Amount" && <span className="ml-1">Copied!</span>}</Button>
                 </li>
               </ol>
               {/* I did everything button */}
@@ -333,17 +346,16 @@ const CheckoutPage = () => {
               <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
                 <h2 className="text-2xl font-bold text-white mb-4">Final Step: Contact Us</h2>
                 <p className="text-white/80 text-base mb-6">
-                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">khoufigames@gmail.com</span>.<br />
+                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">azecunlocks@gmail.com</span>.<br />
                   <br />
                   <span className="text-white">Include the following in your message:</span>
                 </p>
                 <ul className="text-white/90 text-base mb-6 text-left mx-auto max-w-md">
-                  <li className="mb-2">• <span className="font-semibold">Your keyword:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{note}</span></li>
                   <li className="mb-2">• <span className="font-semibold">Your email address:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{email}</span></li>
                   <li className="mb-2">• <span className="font-semibold">A screenshot of your payment</span></li>
                 </ul>
                 <div className="text-white/70 text-sm mb-4">Discord: <span className="font-semibold text-blue-400">Azec</span></div>
-                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">khoufigames@gmail.com</span></div>
+                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">azecunlocks@gmail.com</span></div>
               </div>
             </div>
           )}

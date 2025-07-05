@@ -17,4 +17,10 @@ i18n
     interpolation: { escapeValue: false }
   });
 
+// Add logic to force French if user is in France
+const userLang = navigator.language || navigator.languages[0] || '';
+if (userLang.toLowerCase().startsWith('fr') || userLang.toLowerCase().endsWith('-fr')) {
+  i18n.changeLanguage('fr');
+}
+
 export default i18n; 
