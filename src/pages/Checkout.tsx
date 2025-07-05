@@ -15,9 +15,9 @@ const steps = [
 // Plan definitions (match DurationModal)
 const plans = {
   "2h":     { id: "2h", name: "2 HOURS LICENSE",  price: "€2.95",  usd: "$3.47",  description: "Best for testing" },
-  "1day":   { id: "1day", name: "1 DAY LICENSE",    price: "€11.95", usd: "$14.07", description: "Suitable for quick tasks" },
-  "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€23.95", usd: "$28.20", description: "Ideal for ongoing projects" },
+  "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€10.95", usd: "$12.90", description: "Ideal for ongoing projects" },
   "1month": { id: "1month", name: "1 MONTH LICENSE",  price: "€29.95", usd: "$35.26", description: "Perfect for long-term needs" },
+  "lifetime": { id: "lifetime", name: "LIFETIME LICENSE", price: "€79.95", oldPrice: "€119.95", usd: "$94.00", oldUsd: "$141.00", description: "Unlimited access, one-time payment" },
 };
 
 
@@ -64,14 +64,6 @@ const CheckoutPage = () => {
   const paypalEmail = "azecunlocks@gmail.com";
   let displayPrice = plan.price;
   let displayUsd = plan.usd;
-  if (planId === "1month" && coupon.trim().toUpperCase() === "SUMMER5") {
-    // Remove euro sign and parse float
-    const euro = parseFloat(plan.price.replace("€", ""));
-    const usd = parseFloat(plan.usd.replace("$", ""));
-    displayPrice = `€${(euro - 5).toFixed(2)}`;
-    // Optionally, apply a similar discount to USD if needed
-    displayUsd = `$${(usd - 5).toFixed(2)}`;
-  }
 
   // Copy to clipboard
   const [copied, setCopied] = useState("");
@@ -286,9 +278,9 @@ const CheckoutPage = () => {
                   <div className="text-right">{email}</div>
                   <div>Total Price</div>
                   <div className="text-right">
-                    {planId === "1month" && coupon.trim().toUpperCase() === "SUMMER5" ? (
+                    {planId === "lifetime" ? (
                       <>
-                        <span className="line-through text-white/40 mr-2">{plan.price}</span>
+                        <span className="line-through text-white/40 mr-2">{plan.oldPrice}</span>
                         <span className="text-white font-bold">{displayPrice}</span>
                       </>
                     ) : (
@@ -297,9 +289,9 @@ const CheckoutPage = () => {
                   </div>
                   <div>Total Price (USD)</div>
                   <div className="text-right">
-                    {planId === "1month" && coupon.trim().toUpperCase() === "SUMMER5" ? (
+                    {planId === "lifetime" ? (
                       <>
-                        <span className="line-through text-white/40 mr-2">{plan.usd}</span>
+                        <span className="line-through text-white/40 mr-2">{plan.oldUsd}</span>
                         <span className="text-white font-bold">{displayUsd}</span>
                       </>
                     ) : (

@@ -7,6 +7,7 @@ interface DurationOption {
   price: string;
   oldPrice?: string;
   bestDeal?: boolean;
+  mostPopular?: boolean;
   description: string;
 }
 
@@ -20,9 +21,9 @@ const popupAnimation = `
 
 const options: DurationOption[] = [
   { id: '2h', name: '2 HOURS LICENSE', price: '€2.95', description: 'Best for testing' },
-  { id: '1day', name: '1 DAY LICENSE', price: '€11.95', description: 'Suitable for quick tasks' },
-  { id: '1week', name: '1 WEEK LICENSE', price: '€23.95', description: 'Ideal for ongoing projects' },
-  { id: '1month', name: '1 MONTH LICENSE', price: '€29.95', oldPrice: '€42.95', bestDeal: true, description: 'Perfect for long-term needs' },
+  { id: '1week', name: '1 WEEK LICENSE', price: '€10.95', description: 'Ideal for extensive testing' },
+  { id: '1month', name: '1 MONTH LICENSE', price: '€29.95', mostPopular: true, description: 'Perfect for long-term needs' },
+  { id: 'lifetime', name: 'LIFETIME LICENSE', price: '€79.95', oldPrice: '€119.95', bestDeal: true, description: 'Unlimited access, one-time payment' },
 ];
 
 const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
@@ -83,9 +84,9 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                   onClick={() => navigate(`/checkout?plan=${o.id}`)}
                   className={`relative flex w-full items-center justify-between rounded-xl
                               bg-white/10 px-4 py-3 text-base font-semibold text-white
-                              transition hover:bg-white/20 ${
-                                o.bestDeal ? "border-2 border-green-400" : ""
-                              }`}
+                              transition hover:bg-white/20
+                              ${o.bestDeal ? "border-2 border-green-400" : ""}
+                              ${o.mostPopular ? "border-2 border-yellow-400" : ""}`}
                 >
                   <span className="flex flex-col items-start text-left">
                     <span>{o.name}</span>
@@ -102,8 +103,22 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     <span className="font-bold">{o.price}</span>
                   </span>
                   {o.bestDeal && (
-                    <span className="absolute -top-2 right-2 rounded-full bg-green-400 px-2 py-0.5 text-xs font-bold text-black shadow">
-                      Best Deal
+                    <span className="absolute -top-2 right-2 rounded-full bg-green-400 px-2 py-0.5 text-xs font-bold text-black shadow flex items-center">
+                      <img src="/lovable-uploads/Dollarlogo.png" alt="Dollar Logo" className="h-4 w-4 mr-1" />
+                      <span>Best Deal</span>
+                    </span>
+                  )}
+                  {o.mostPopular && (
+                    <span className="absolute -top-2 right-2 rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-bold text-black shadow flex items-center">
+                      <svg
+                        className="h-4 w-4 mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M2.166 6.5l2.97 6.14a1 1 0 00.9.56h7.928a1 1 0 00.9-.56l2.97-6.14a.5.5 0 00-.8-.56l-3.13 2.61a1 1 0 01-1.32 0l-2.13-1.78a1 1 0 00-1.32 0l-2.13 1.78a1 1 0 01-1.32 0l-3.13-2.61a.5.5 0 00-.8.56zM16 16a1 1 0 01-1 1H5a1 1 0 01-1-1v-1h12v1z" />
+                      </svg>
+                      <span>Most popular</span>
                     </span>
                   )}
                 </button>
