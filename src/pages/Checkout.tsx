@@ -5,6 +5,7 @@ import { Copy, ExternalLink, ArrowLeft, Check, X as XIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import { useTranslation } from 'react-i18next';
 
 const steps = [
   { label: "Order Information" },
@@ -40,6 +41,7 @@ function generateRandomInvoiceId() {
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t, i18n } = useTranslation();
   
   // Get step from URL, default to 0
   const currentStep = parseInt(searchParams.get("step") || "0");
@@ -51,6 +53,7 @@ const CheckoutPage = () => {
   const [marketing, setMarketing] = useState(false);
   const [couponValid, setCouponValid] = useState<null | boolean>(null);
   const [couponLoading, setCouponLoading] = useState(false);
+  const [proceedingToPayment, setProceedingToPayment] = useState(false);
 
   // Get plan from URL
   const planId = searchParams.get("plan") || "1month";
@@ -82,8 +85,17 @@ const CheckoutPage = () => {
   };
 
   const handleNextStep = () => {
-    const nextStep = currentStep + 1;
-    setSearchParams({ plan: planId, step: nextStep.toString() });
+    if (currentStep === 0) {
+      setProceedingToPayment(true);
+      setTimeout(() => {
+        const nextStep = currentStep + 1;
+        setSearchParams({ plan: planId, step: nextStep.toString() });
+        setProceedingToPayment(false);
+      }, 2000);
+    } else {
+      const nextStep = currentStep + 1;
+      setSearchParams({ plan: planId, step: nextStep.toString() });
+    }
   };
 
   const handleBackStep = () => {
@@ -121,8 +133,40 @@ const CheckoutPage = () => {
               className="h-9 w-9 rounded-full object-cover bg-black"
             />
             <span className="font-semibold text-white text-xl">AzecUnlocks</span>
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                onClick={() => i18n.changeLanguage('en')}
+                className={`w-8 h-8 rounded-full border-2 transition-all overflow-hidden flex items-center justify-center ${
+                  i18n.language === 'en' 
+                    ? 'border-blue-400 scale-110' 
+                    : 'border-gray-400 hover:border-gray-300'
+                }`}
+                title="English"
+              >
+                <img 
+                  src="/lovable-uploads/ukflag.png" 
+                  alt="UK Flag" 
+                  className="w-full h-full min-w-full min-h-full object-cover object-center"
+                />
+              </button>
+              <button
+                onClick={() => i18n.changeLanguage('fr')}
+                className={`w-8 h-8 rounded-full border-2 transition-all overflow-hidden flex items-center justify-center ${
+                  i18n.language === 'fr' 
+                    ? 'border-blue-400 scale-110' 
+                    : 'border-gray-400 hover:border-gray-300'
+                }`}
+                title="Français"
+              >
+                <img 
+                  src="/lovable-uploads/franceflag.png" 
+                  alt="French Flag" 
+                  className="w-full h-full min-w-full min-h-full object-cover object-center"
+                />
+              </button>
+            </div>
           </div>
-          <div className="text-base text-white/60 mb-1">Pay AzecUnlocks</div>
+          <div className="text-base text-white/60 mb-1">{t('payAzecUnlocks')}</div>
           <div className="text-4xl font-extrabold text-white mb-7">{displayPrice}</div>
           <div className="flex items-center gap-4 mb-5">
             <img
@@ -131,7 +175,7 @@ const CheckoutPage = () => {
               className="h-14 w-14 rounded object-cover border border-[#232323]"
             />
             <div className="flex-1">
-              <div className="font-semibold text-white leading-tight text-lg">External Chair</div>
+              <div className="font-semibold text-white leading-tight text-lg">{t('externalChair')}</div>
               <div className="text-xs text-white/60 leading-tight">{plan.name}</div>
               <div className="text-xs text-white/30 leading-tight">1x</div>
             </div>
@@ -139,11 +183,11 @@ const CheckoutPage = () => {
           </div>
           <hr className="my-5 border-[#232323]" />
           <div className="flex justify-between text-white/80 text-base mb-1">
-            <span>Subtotal</span>
+            <span>{t('subtotal')}</span>
             <span>{displayPrice}</span>
           </div>
           <div className="flex justify-between text-2xl font-bold text-white">
-            <span>Total</span>
+            <span>{t('total')}</span>
             <span>{displayPrice}</span>
           </div>
         </div>
@@ -164,7 +208,7 @@ const CheckoutPage = () => {
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-base font-semibold text-white mb-1">
-                  Email <span className="text-red-500">*</span>
+                  {t('email')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="email"
@@ -173,13 +217,13 @@ const CheckoutPage = () => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   className="w-full rounded-lg border border-[#232323] bg-[#181818] px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
-                  placeholder="The order confirmation will be sent to this email address"
+                  placeholder={t('theOrderConfirmationWillBeSentToThisEmailAddress')}
                 />
               </div>
               {/* Coupon */}
               <div>
                 <label htmlFor="coupon" className="block text-base font-semibold text-white mb-1">
-                  Coupon Code
+                  {t('couponCode')}
                 </label>
                 <div className="flex items-center gap-2 bg-[#181818] border border-[#232323] rounded-lg px-2 py-1 w-full">
                   <input
@@ -188,25 +232,25 @@ const CheckoutPage = () => {
                     value={coupon}
                     onChange={e => { setCoupon(e.target.value); setCouponValid(null); }}
                     className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/30 px-2 py-3 text-base"
-                    placeholder="Have a coupon code? Enter it here"
+                    placeholder={t('haveACouponCodeEnterItHere')}
                   />
                   <Button type="button" onClick={validateCoupon} className="bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold rounded-xl shadow-none px-4 py-2" disabled={couponLoading}>
-                    {couponLoading ? <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> : "Validate"}
+                    {couponLoading ? <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> : t('validate')}
                   </Button>
                   {couponValid === true && <Check className="text-[#6c7cff] w-6 h-6 ml-2" />}
                   {couponValid === false && <XIcon className="text-[#6c7cff] w-6 h-6 ml-2" />}
                 </div>
                 {couponValid === false && (
-                  <div className="text-xs text-red-500 mt-1 ml-1">Enter a valid discount code</div>
+                  <div className="text-xs text-red-500 mt-1 ml-1">{t('enterAValidDiscountCode')}</div>
                 )}
               </div>
               {/* Payment Method */}
               <div>
                 <label className="block text-base font-semibold text-white mb-1">
-                  Payment Method <span className="text-red-500">*</span>
+                  {t('paymentMethod')} <span className="text-red-500">*</span>
                 </label>
                 <div className="flex items-center rounded-lg border border-[#232323] bg-[#181818] px-4 py-3 text-white">
-                  <span className="flex-1 text-base">PayPal Friends & Family</span>
+                  <span className="flex-1 text-base">{t('payPalFriendsFamily')}</span>
                   <svg className="w-6 h-6 text-blue-400 ml-2" viewBox="0 0 32 32" fill="currentColor"><path d="M29.1 8.6c-.3-2.2-2.2-3.6-4.7-3.6h-8.2c-.7 0-1.3.5-1.4 1.2l-4.2 21.1c-.1.4.2.7.6.7h4.2c.3 0 .6-.2.7-.5l1.2-6.1c.1-.3.3-.5.7-.5h2.2c4.6 0 8.2-1.9 9.2-7.3.3-1.7.2-3.1-.3-4.3zm-3.2 4.2c-.7 3.7-3.3 4.1-6.4 4.1h-1.1c-.4 0-.7.3-.8.7l-1.2 6.1c0 .1-.1.1-.2.1h-2.1c-.1 0-.2-.1-.1-.2l3.7-18.7c0-.1.1-.1.2-.1h6.7c1.2 0 2.1.3 2.7.8.6.5.9 1.3.7 2.2z"/></svg>
                 </div>
               </div>
@@ -241,7 +285,7 @@ const CheckoutPage = () => {
                   </span>
                 </label>
                 <label htmlFor="agree" className="text-sm text-white ml-2 cursor-pointer">
-                  I have read and agree to the <Link to="/terms" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">AzecUnlocks Terms of Service</Link>.
+                  {t('iHaveReadAndAgreeToThe')} <Link to="/terms" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">{t('azecUnlocksTermsOfService')}</Link>.
                 </label>
               </div>
               {/* Marketing Checkbox */}
@@ -274,12 +318,21 @@ const CheckoutPage = () => {
                   </span>
                 </label>
                 <label htmlFor="marketing" className="text-sm text-white ml-2 cursor-pointer">
-                  I would like to receive updates and promotions from AzecUnlocks
+                  {t('iWouldLikeToReceiveUpdatesAndPromotionsFromAzecUnlocks')}
                 </label>
               </div>
               {/* Proceed Button */}
-              <Button type="submit" className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 mt-2 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none">
-                Proceed to Payment <span className="ml-1">→</span>
+              <Button type="submit" className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 mt-2 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none" disabled={proceedingToPayment}>
+                {proceedingToPayment ? (
+                  <>
+                    <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
+                    {t('processing')}...
+                  </>
+                ) : (
+                  <>
+                    {t('proceedToPayment')} <span className="ml-1">→</span>
+                  </>
+                )}
               </Button>
             </form>
           )}
@@ -290,18 +343,18 @@ const CheckoutPage = () => {
               <div className="mb-8 border border-[#232323] rounded-lg bg-[#181818] p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-7 w-7" />
-                  <span className="font-semibold text-white text-base">PayPal Friends & Family</span>
+                  <span className="font-semibold text-white text-base">{t('payPalFriendsFamily')}</span>
                   <span className="ml-auto text-xs text-white/40 font-mono">{invoiceId}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
-                  <div>Invoice ID</div>
+                  <div>{t('invoiceID')}</div>
                   <div className="text-right flex items-center gap-2 justify-end">
                     <span>{invoiceId}</span>
-                    <button type="button" onClick={() => handleCopy(invoiceId, "Invoice ID")}>{copied === "Invoice ID" ? "Copied" : <Copy className="w-4 h-4 text-blue-400" />}</button>
+                    <button type="button" onClick={() => handleCopy(invoiceId, t('invoiceID'))}>{copied === t('invoiceID') ? t('copied') : <Copy className="w-4 h-4 text-blue-400" />}</button>
                   </div>
-                  <div>Email</div>
+                  <div>{t('email')}</div>
                   <div className="text-right">{email}</div>
-                  <div>Total Price</div>
+                  <div>{t('totalPrice')}</div>
                   <div className="text-right">
                     {planId === "lifetime" ? (
                       <>
@@ -312,7 +365,7 @@ const CheckoutPage = () => {
                       <span>{displayPrice}</span>
                     )}
                   </div>
-                  <div>Total Price (USD)</div>
+                  <div>{t('totalPriceUSD')}</div>
                   <div className="text-right">
                     {planId === "lifetime" ? (
                       <>
@@ -330,21 +383,21 @@ const CheckoutPage = () => {
                 {/* 1 */}
                 <li className="relative pl-10">
                   <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">1</span>
-                  <div className="font-bold text-[#5B64C2] text-base mb-1">You should send a friends or family payment to the following account</div>
-                  <div className="text-white/80 text-xs mb-2">If you do not send as friends or family, your order might not be processed and you might not be eligible for a refund</div>
+                  <div className="font-bold text-[#5B64C2] text-base mb-1">{t('youShouldSendAFriendsOrFamilyPaymentToTheFollowingAccount')}</div>
+                  <div className="text-white/80 text-xs mb-2">{t('ifYouDoNotSendAsFriendsOrFamilyYourOrderMightNotBeProcessedAndYouMightNotBeEligibleForARefund')}</div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, "PayPal Email")}>{paypalEmail} {copied === "PayPal Email" && <span className="ml-1">Copied</span>}</Button>
+                    <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, t('payPalEmail'))}>{paypalEmail} {copied === t('payPalEmail') && <span className="ml-1">{t('copied')}</span>}</Button>
                     <a href="https://paypal.me/AZECUNLOCKS" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
-                      Open PayPal <ExternalLink className="w-4 h-4" />
+                      {t('openPayPal')} <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
                 </li>
                 {/* 2 */}
                 <li className="relative pl-10">
                   <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">2</span>
-                  <div className="font-bold text-[#5B64C2] text-base mb-1">Make sure to send the exact amount</div>
-                  <div className="text-white/80 text-xs mb-2">You can copy it below</div>
-                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(displayPrice, "Amount")}>{displayPrice} {copied === "Amount" && <span className="ml-1">Copied</span>}</Button>
+                  <div className="font-bold text-[#5B64C2] text-base mb-1">{t('makeSureToSendTheExactAmount')}</div>
+                  <div className="text-white/80 text-xs mb-2">{t('youCanCopyItBelow')}</div>
+                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(displayPrice, t('amount'))}>{displayPrice} {copied === t('amount') && <span className="ml-1">{t('copied')}</span>}</Button>
                 </li>
               </ol>
               {/* I did everything button */}
@@ -353,7 +406,7 @@ const CheckoutPage = () => {
                 className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
                 onClick={handleNextStep}
               >
-                I did everything
+                {t('iDidEverything')}
               </Button>
             </div>
           )}
@@ -361,18 +414,18 @@ const CheckoutPage = () => {
           {currentStep === 2 && (
             <div className="flex flex-col items-center justify-center gap-8 py-8">
               <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
-                <h2 className="text-2xl font-bold text-white mb-4">Final Step: Contact Us</h2>
+                <h2 className="text-2xl font-bold text-white mb-4">{t('finalStepContactUs')}</h2>
                 <p className="text-white/80 text-base mb-6">
-                  To receive your product, please send us a message on <span className="font-semibold text-[#5B64C2]">Discord</span> or email us at <span className="font-semibold text-blue-400">azecUnlocks@gmail.com</span>.<br />
+                  {t('toReceiveYourProductPleaseSendUsAMessageOn')} <span className="font-semibold text-[#5B64C2]">{t('discord')}</span> {t('orEmailUsAt')} <span className="font-semibold text-blue-400">{t('azecUnlocksEmail')}</span>.<br />
                   <br />
-                  <span className="text-white">Include the following in your message:</span>
+                  <span className="text-white">{t('includeTheFollowingInYourMessage')}:</span>
                 </p>
                 <ul className="text-white/90 text-base mb-6 text-left mx-auto max-w-md">
-                  <li className="mb-2">• <span className="font-semibold">Your Email Address:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{email}</span></li>
-                  <li className="mb-2">• <span className="font-semibold">A screenshot of your payment</span></li>
+                  <li className="mb-2">• <span className="font-semibold">{t('yourEmailAddress')}:</span> <span className="bg-[#232323] px-2 py-1 rounded text-blue-400 select-all">{email}</span></li>
+                  <li className="mb-2">• <span className="font-semibold">{t('aScreenshotOfYourPayment')}</span></li>
                 </ul>
-                <div className="text-white/70 text-sm mb-4">Discord: <span className="font-semibold text-blue-400">azec</span></div>
-                <div className="text-white/70 text-sm">Email: <span className="font-semibold text-blue-400">azecUnlocks@gmail.com</span></div>
+                <div className="text-white/70 text-sm mb-4">{t('discord')}: <span className="font-semibold text-blue-400">{t('discordHandle')}</span></div>
+                <div className="text-white/70 text-sm">{t('email')}: <span className="font-semibold text-blue-400">{t('azecUnlocksEmail')}</span></div>
               </div>
             </div>
           )}
@@ -381,8 +434,8 @@ const CheckoutPage = () => {
       {/* Footer under left card */}
       <div className="w-full flex justify-center mt-8">
         <div className="text-xs text-white/60">
-          Powered by <span className="font-bold text-white">sell</span><span className="font-bold" style={{ color: '#5B64C2' }}>auth</span> <span className="mx-1">•</span>
-          <Link to="/terms" target="_blank" rel="noopener noreferrer" className="underline text-white/60 hover:text-white">Terms of Service</Link>
+          {t('poweredBy')} <span className="font-bold text-white">{t('sell')}</span><span className="font-bold" style={{ color: '#5B64C2' }}>{t('auth')}</span> <span className="mx-1">•</span>
+          <Link to="/terms" target="_blank" rel="noopener noreferrer" className="underline text-white/60 hover:text-white">{t('termsOfService')}</Link>
         </div>
       </div>
       {/* Back Button */}
@@ -393,7 +446,7 @@ const CheckoutPage = () => {
           onClick={handleBackStep}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
+          {t('back')}
         </Button>
       )}
     </div>
