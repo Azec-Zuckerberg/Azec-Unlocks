@@ -136,7 +136,7 @@ const CheckoutPage = () => {
             <div className="ml-auto flex items-center gap-2">
               <button
                 onClick={() => i18n.changeLanguage('en')}
-                className={`w-8 h-8 rounded-full border-2 transition-all overflow-hidden flex items-center justify-center ${
+                className={`w-8 h-8 rounded-full border-2 transition-all overflow-hidden ${
                   i18n.language === 'en' 
                     ? 'border-blue-400 scale-110' 
                     : 'border-gray-400 hover:border-gray-300'
@@ -146,12 +146,12 @@ const CheckoutPage = () => {
                 <img 
                   src="/lovable-uploads/ukflag.png" 
                   alt="UK Flag" 
-                  className="w-full h-full min-w-full min-h-full object-cover object-center"
+                  className="w-full h-full object-cover object-center"
                 />
               </button>
               <button
                 onClick={() => i18n.changeLanguage('fr')}
-                className={`w-8 h-8 rounded-full border-2 transition-all overflow-hidden flex items-center justify-center ${
+                className={`w-8 h-8 rounded-full border-2 transition-all overflow-hidden ${
                   i18n.language === 'fr' 
                     ? 'border-blue-400 scale-110' 
                     : 'border-gray-400 hover:border-gray-300'
@@ -161,7 +161,7 @@ const CheckoutPage = () => {
                 <img 
                   src="/lovable-uploads/franceflag.png" 
                   alt="French Flag" 
-                  className="w-full h-full min-w-full min-h-full object-cover object-center"
+                  className="w-full h-full object-cover object-center"
                 />
               </button>
             </div>
@@ -203,8 +203,8 @@ const CheckoutPage = () => {
             ))}
           </div>
           {/* Step 1: Form */}
-                     {currentStep === 0 && (
-             <form className="flex flex-col gap-7" onSubmit={(e) => { e.preventDefault(); handleNextStep(); }}>
+          {currentStep === 0 && (
+            <form className="flex flex-col gap-7" onSubmit={(e) => { e.preventDefault(); handleNextStep(); }}>
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-base font-semibold text-white mb-1">
@@ -338,7 +338,12 @@ const CheckoutPage = () => {
           )}
           {/* Step 2: Payment Instructions */}
           {currentStep === 1 && (
-            <div>
+            <>
+              <div className="mb-6">
+                <div className="border border-blue-500 rounded-lg bg-[#151626] px-6 py-4 text-blue-400 text-base">
+                  {t('keyAndLoaderReady')}
+                </div>
+              </div>
               {/* Payment Method Card */}
               <div className="mb-8 border border-[#232323] rounded-lg bg-[#181818] p-6">
                 <div className="flex items-center gap-3 mb-2">
@@ -408,7 +413,7 @@ const CheckoutPage = () => {
               >
                 {t('iDidEverything')}
               </Button>
-            </div>
+            </>
           )}
           {/* Step 3: Contact Instructions */}
           {currentStep === 2 && (
