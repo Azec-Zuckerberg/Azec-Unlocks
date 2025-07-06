@@ -42,8 +42,9 @@ const CheckoutPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t, i18n } = useTranslation();
   
-  // Get step from URL, default to 0
-  const currentStep = parseInt(searchParams.get("step") || "0");
+  // For unlockall, always start at step 0 if no step param is present
+  const stepParam = searchParams.get("step");
+  const currentStep = stepParam ? parseInt(stepParam) : 0;
   
   // Form state
   const [email, setEmail] = useState("");
@@ -58,6 +59,16 @@ const CheckoutPage = () => {
   // Get plan from URL
   const planId = searchParams.get("plan") || "lifetime";
   const plan = plans[planId] || plans["lifetime"];
+
+  // Detect if this is the Unlock All checkout
+  const isUnlockAll = searchParams.get("product") === "unlockall";
+  const unlockAllProduct = {
+    name: "Unlock All Lifetime",
+    image: "/lovable-uploads/Product-Unlockall.png",
+    description: "Unlock all camos, attachments, operators, and more in seconds. Safe, fast, and undetected. Works for all accounts and is backed by our premium support.",
+    price: "€29.95",
+    usd: "$33.95",
+  };
 
   // Random invoice ID (only generated once per checkout)
   const [invoiceId, setInvoiceId] = useState("");
@@ -175,29 +186,29 @@ const CheckoutPage = () => {
               </button>
             </div>
           </div>
-          <div className="text-base text-white/60 mb-1">{t('payAzecUnlocks')}</div>
-          <div className="text-4xl font-extrabold text-white mb-7">{displayPrice}</div>
+          <div className="text-base text-white/60 mb-1">{isUnlockAll ? unlockAllProduct.name : t('payAzecUnlocks')}</div>
+          <div className="text-4xl font-extrabold text-white mb-7">{isUnlockAll ? unlockAllProduct.price : displayPrice}</div>
           <div className="flex items-center gap-4 mb-5">
             <img
-              src="/lovable-uploads/Product-external.png"
-              alt="External Chair"
+              src={isUnlockAll ? unlockAllProduct.image : "/lovable-uploads/Product-external.png"}
+              alt={isUnlockAll ? unlockAllProduct.name : t('externalChair')}
               className="h-14 w-14 rounded object-cover border border-[#232323]"
             />
             <div className="flex-1">
-              <div className="font-semibold text-white leading-tight text-lg">{t('externalChair')}</div>
-              <div className="text-xs text-white/60 leading-tight">{plan.name}</div>
+              <div className="font-semibold text-white leading-tight text-lg">{isUnlockAll ? unlockAllProduct.name : t('externalChair')}</div>
+              <div className="text-xs text-white/60 leading-tight">{isUnlockAll ? unlockAllProduct.description : plan.name}</div>
               <div className="text-xs text-white/30 leading-tight">1x</div>
             </div>
-            <span className="font-bold text-white text-lg">{displayPrice}</span>
+            <span className="font-bold text-white text-lg">{isUnlockAll ? unlockAllProduct.price : displayPrice}</span>
           </div>
           <hr className="my-5 border-[#232323]" />
           <div className="flex justify-between text-white/80 text-base mb-1">
             <span>{t('subtotal')}</span>
-            <span>{displayPrice}</span>
+            <span>{isUnlockAll ? unlockAllProduct.price : displayPrice}</span>
           </div>
           <div className="flex justify-between text-2xl font-bold text-white">
             <span>{t('total')}</span>
-            <span>{displayPrice}</span>
+            <span>{isUnlockAll ? unlockAllProduct.price : displayPrice}</span>
           </div>
         </div>
         {/* Right: Step Content */}
@@ -348,76 +359,110 @@ const CheckoutPage = () => {
           {/* Step 2: Payment Instructions */}
           {currentStep === 1 && (
             <>
-              <div className="mb-6">
-                <div className="border border-blue-500 rounded-lg bg-[#151626] px-6 py-4 text-blue-400 text-base">
-                  {t('keyAndLoaderReady')}
+              {isUnlockAll ? (
+                <div className="flex flex-col items-center justify-center gap-8 py-8">
+                  <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
+                    <img
+                      src={unlockAllProduct.image}
+                      alt={unlockAllProduct.name}
+                      className="h-20 w-20 rounded object-cover border border-[#232323] mb-4"
+                    />
+                    <h2 className="text-2xl font-bold text-white mb-2">{unlockAllProduct.name}</h2>
+                    <p className="text-white/80 text-base mb-4">{unlockAllProduct.description}</p>
+                    <div className="text-3xl font-extrabold text-white mb-6">{unlockAllProduct.price}</div>
+                    <div className="mb-6 border border-blue-500 rounded-lg bg-[#151626] px-6 py-4 text-blue-400 text-base">
+                      {t('keyAndLoaderReady')}
+                    </div>
+                    <Button
+                      type="button"
+                      className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
+                      onClick={handleNextStep}
+                      disabled={checkingPayment}
+                    >
+                      {checkingPayment ? (
+                        <>
+                          <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
+                          {t('checkingPayment')}...
+                        </>
+                      ) : (
+                        t('iDidEverything')
+                      )}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              {/* Payment Method Card */}
-              <div className="mb-8 border border-[#232323] rounded-lg bg-[#181818] p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-7 w-7" />
-                  <span className="font-semibold text-white text-base">{t('payPalFriendsFamily')}</span>
-                  <span className="ml-auto text-xs text-white/40 font-mono">{invoiceId}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
-                  <div>{t('invoiceID')}</div>
-                  <div className="text-right flex items-center gap-2 justify-end">
-                    <span>{invoiceId}</span>
-                    <button type="button" onClick={() => handleCopy(invoiceId, t('invoiceID'))}>{copied === t('invoiceID') ? t('copied') : <Copy className="w-4 h-4 text-blue-400" />}</button>
+              ) : (
+                /* External Chair (default) step 2 */
+                <>
+                  <div className="mb-6">
+                    <div className="border border-blue-500 rounded-lg bg-[#151626] px-6 py-4 text-blue-400 text-base">
+                      {t('keyAndLoaderReady')}
+                    </div>
                   </div>
-                  <div>{t('email')}</div>
-                  <div className="text-right">{email}</div>
-                  <div>{t('totalPrice')}</div>
-                  <div className="text-right">
-                    <span>{displayPrice}</span>
+                  {/* Payment Method Card */}
+                  <div className="mb-8 border border-[#232323] rounded-lg bg-[#181818] p-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-7 w-7" />
+                      <span className="font-semibold text-white text-base">{t('payPalFriendsFamily')}</span>
+                      <span className="ml-auto text-xs text-white/40 font-mono">{invoiceId}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
+                      <div>{t('invoiceID')}</div>
+                      <div className="text-right flex items-center gap-2 justify-end">
+                        <span>{invoiceId}</span>
+                        <button type="button" onClick={() => handleCopy(invoiceId, t('invoiceID'))}>{copied === t('invoiceID') ? t('copied') : <Copy className="w-4 h-4 text-blue-400" />}</button>
+                      </div>
+                      <div>{t('email')}</div>
+                      <div className="text-right">{email}</div>
+                      <div>{t('totalPrice')}</div>
+                      <div className="text-right">
+                        <span>{displayPrice}</span>
+                      </div>
+                      <div>{t('totalPriceUSD')}</div>
+                      <div className="text-right">
+                        <span>{displayUsd}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>{t('totalPriceUSD')}</div>
-                  <div className="text-right">
-                    <span>{displayUsd}</span>
-                  </div>
-                </div>
-              </div>
-              {/* Payment Steps */}
-              <ol className="flex flex-col gap-8 mb-8">
-                {/* 1 */}
-                <li className="relative pl-10">
-                  <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">1</span>
-                  <div className="font-bold text-[#5B64C2] text-base mb-1">{t('youShouldSendAFriendsOrFamilyPaymentToTheFollowingAccount')}</div>
-                  <div className="text-white/80 text-xs mb-2">{t('ifYouDoNotSendAsFriendsOrFamilyYourOrderMightNotBeProcessedAndYouMightNotBeEligibleForARefund')}</div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, t('payPalEmail'))}>{paypalEmail} {copied === t('payPalEmail') && <span className="ml-1">{t('copied')}</span>}</Button>
-                    <a href="https://paypal.me/AZECUNLOCKS" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
-                      {t('openPayPal')} <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </div>
-                </li>
-                {/* 2 */}
-                <li className="relative pl-10">
-                  <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">2</span>
-                  <div className="font-bold text-[#5B64C2] text-base mb-1">{t('makeSureToSendTheExactAmount')}</div>
-                  <div className="text-white/80 text-xs mb-2">{t('youCanCopyItBelow')}</div>
-                  <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(displayPrice, t('amount'))}>{displayPrice} {copied === t('amount') && <span className="ml-1">{t('copied')}</span>}</Button>
-                </li>
-              </ol>
-              {/* I did everything button */}
-              <Button
-                type="button"
-                className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
-                onClick={handleNextStep}
-                disabled={checkingPayment}
-              >
-                {checkingPayment ? (
-                  <>
-                    <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
-                    {t('checkingPayment')}...
-                  </>
-                ) : (
-                  t('iDidEverything')
-                )}
-              </Button>
-              
-
+                  {/* Payment Steps */}
+                  <ol className="flex flex-col gap-8 mb-8">
+                    {/* 1 */}
+                    <li className="relative pl-10">
+                      <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">1</span>
+                      <div className="font-bold text-[#5B64C2] text-base mb-1">{t('youShouldSendAFriendsOrFamilyPaymentToTheFollowingAccount')}</div>
+                      <div className="text-white/80 text-xs mb-2">{t('ifYouDoNotSendAsFriendsOrFamilyYourOrderMightNotBeProcessedAndYouMightNotBeEligibleForARefund')}</div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(paypalEmail, t('payPalEmail'))}>{paypalEmail} {copied === t('payPalEmail') && <span className="ml-1">{t('copied')}</span>}</Button>
+                        <a href="https://paypal.me/AZECUNLOCKS" target="_blank" rel="noopener noreferrer" className="text-blue-400 flex items-center gap-1 text-xs font-semibold hover:underline px-4 py-2 border border-[#5B64C2] rounded-md">
+                          {t('openPayPal')} <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </div>
+                    </li>
+                    {/* 2 */}
+                    <li className="relative pl-10">
+                      <span className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#5B64C2] text-base font-bold text-white">2</span>
+                      <div className="font-bold text-[#5B64C2] text-base mb-1">{t('makeSureToSendTheExactAmount')}</div>
+                      <div className="text-white/80 text-xs mb-2">{t('youCanCopyItBelow')}</div>
+                      <Button type="button" className="bg-[#5B64C2] hover:bg-[#4a53a6] text-white font-semibold px-4 py-2 rounded-md text-xs" onClick={() => handleCopy(displayPrice, t('amount'))}>{displayPrice} {copied === t('amount') && <span className="ml-1">{t('copied')}</span>}</Button>
+                    </li>
+                  </ol>
+                  {/* I did everything button */}
+                  <Button
+                    type="button"
+                    className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
+                    onClick={handleNextStep}
+                    disabled={checkingPayment}
+                  >
+                    {checkingPayment ? (
+                      <>
+                        <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
+                        {t('checkingPayment')}...
+                      </>
+                    ) : (
+                      t('iDidEverything')
+                    )}
+                  </Button>
+                </>
+              )}
             </>
           )}
           {/* Step 3: Contact Instructions */}
@@ -432,7 +477,7 @@ const CheckoutPage = () => {
                   <p className="text-red-300 text-sm mb-3">{t('yourPaymentHasNotBeenReceived')}</p>
                   <p className="text-white/80 text-sm">{t('ifYouDidSendPaymentAndYouThinkItsErrorPlease')}</p>
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-4">{t('finalStepContactUs')}</h2>
+                <h2 className="text-2xl font-bold text-white mb-4">{isUnlockAll ? unlockAllProduct.name : t('finalStepContactUs')}</h2>
                 <p className="text-white/80 text-base mb-6">
                   {t('toReceiveYourProductPleaseSendUsAMessageOn')} <span className="font-semibold text-[#5B64C2]">{t('discord')}</span> {t('orEmailUsAt')} <span className="font-semibold text-blue-400">{t('azecUnlocksEmail')}</span>.<br />
                   <br />

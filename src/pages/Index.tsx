@@ -25,6 +25,18 @@ const product = {
     "With the proper settings, Azec's External features will bypass Ricochet. High-performance, undetected hacks at unbeatable prices, backed by premium customer support.",
 };
 
+const unlockAllProduct = {
+  id: "3",
+  name: "Unlock All Lifetime",
+  price: 9.99,
+  image: "/lovable-uploads/Product-Unlockall.png",
+  category: "Unlocks",
+  status: "Undetected",
+  headline: "Unlock every camo, attachment, and operator instantly!",
+  description:
+    "Unlock all camos, attachments, operators, and more in seconds. Safe, fast, and undetected. Works for all accounts and is backed by our premium support.",
+};
+
 // ---------------------------------------------------------------------------
 //  Page component
 // ---------------------------------------------------------------------------
