@@ -130,7 +130,7 @@
   "best_deal": "Meilleure offre",
   "most_popular": "Le plus populaire",
   "powered_by_sellauth": "Propulsé par SellAuth",
-  "safe_simple_sold": "Sûr, Simple, Vendu",
+  "safeSimpleSold": "Safe Simple Bold",
   "payAzecUnlocks": "Payer AzecUnlocks",
   "externalChair": "Chaise Externe",
   "email": "E-mail",
@@ -168,7 +168,7 @@
   "aScreenshotOfYourPayment": "Une capture d'écran de votre paiement",
   "discordHandle": "azec",
   "back": "Retour",
-  "poweredBy": "Propulsé par",
+  "poweredBy": "Propulsé par SellAuth",
   "sell": "sell",
   "auth": "auth",
   "termsOfService": "Conditions d'utilisation",
@@ -180,6 +180,10 @@
   "idealForExtensiveTesting": "Idéal pour les tests approfondis",
   "perfectForLongTermNeeds": "Parfait pour les besoins à long terme",
   "unlimitedAccessOneTimePayment": "Accès illimité, paiement unique",
-  "companyName": "Nom de l'entreprise",
-  "keyAndLoaderReady": "Votre clé et le loader seront prêts dès que le paiement sera reçu."
+  "companyName": "SellAuth",
+  "keyAndLoaderReady": "Votre clé et le loader seront prêts dès que le paiement sera reçu.",
+  "checkingPayment": "Vérification du paiement",
+  "paymentError": "Erreur de paiement",
+  "yourPaymentHasNotBeenReceived": "Votre paiement n'a pas été reçu.",
+  "ifYouDidSendPaymentAndYouThinkItsErrorPlease": "Si vous avez effectué le paiement et pensez qu'il s'agit d'une erreur, veuillez nous contacter."
 } 

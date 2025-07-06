@@ -17,8 +17,7 @@ const steps = [
 const plans = {
   "2h":     { id: "2h", name: "2 HOURS LICENSE",  price: "€2.95",  usd: "$3.47",  description: "Best for testing" },
   "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€10.95", usd: "$12.90", description: "Ideal for ongoing projects" },
-  "1month": { id: "1month", name: "1 MONTH LICENSE",  price: "€29.95", usd: "$35.26", description: "Perfect for long-term needs" },
-  "lifetime": { id: "lifetime", name: "LIFETIME LICENSE", price: "€79.95", oldPrice: "€119.95", usd: "$94.00", oldUsd: "$141.00", description: "Unlimited access, one-time payment" },
+  "lifetime": { id: "lifetime", name: "LIFETIME LICENSE", price: "€29.95", usd: "$33.95", description: "Unlimited access, one-time payment" },
 };
 
 
@@ -54,10 +53,11 @@ const CheckoutPage = () => {
   const [couponValid, setCouponValid] = useState<null | boolean>(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const [proceedingToPayment, setProceedingToPayment] = useState(false);
+  const [checkingPayment, setCheckingPayment] = useState(false);
 
   // Get plan from URL
-  const planId = searchParams.get("plan") || "1month";
-  const plan = plans[planId] || plans["1month"];
+  const planId = searchParams.get("plan") || "lifetime";
+  const plan = plans[planId] || plans["lifetime"];
 
   // Random invoice ID (only generated once per checkout)
   const [invoiceId, setInvoiceId] = useState("");
@@ -91,6 +91,15 @@ const CheckoutPage = () => {
         const nextStep = currentStep + 1;
         setSearchParams({ plan: planId, step: nextStep.toString() });
         setProceedingToPayment(false);
+      }, 2000);
+    } else if (currentStep === 1) {
+      // Show loading state for payment check
+      setCheckingPayment(true);
+      setTimeout(() => {
+        // Proceed to step 3 (always with error state)
+        const nextStep = currentStep + 1;
+        setSearchParams({ plan: planId, step: nextStep.toString() });
+        setCheckingPayment(false);
       }, 2000);
     } else {
       const nextStep = currentStep + 1;
@@ -361,25 +370,11 @@ const CheckoutPage = () => {
                   <div className="text-right">{email}</div>
                   <div>{t('totalPrice')}</div>
                   <div className="text-right">
-                    {planId === "lifetime" ? (
-                      <>
-                        <span className="line-through text-white/40 mr-2">{plan.oldPrice}</span>
-                        <span className="text-white font-bold">{displayPrice}</span>
-                      </>
-                    ) : (
-                      <span>{displayPrice}</span>
-                    )}
+                    <span>{displayPrice}</span>
                   </div>
                   <div>{t('totalPriceUSD')}</div>
                   <div className="text-right">
-                    {planId === "lifetime" ? (
-                      <>
-                        <span className="line-through text-white/40 mr-2">{plan.oldUsd}</span>
-                        <span className="text-white font-bold">{displayUsd}</span>
-                      </>
-                    ) : (
-                      <span>{displayUsd}</span>
-                    )}
+                    <span>{displayUsd}</span>
                   </div>
                 </div>
               </div>
@@ -410,15 +405,33 @@ const CheckoutPage = () => {
                 type="button"
                 className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
                 onClick={handleNextStep}
+                disabled={checkingPayment}
               >
-                {t('iDidEverything')}
+                {checkingPayment ? (
+                  <>
+                    <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
+                    {t('checkingPayment')}...
+                  </>
+                ) : (
+                  t('iDidEverything')
+                )}
               </Button>
+              
+
             </>
           )}
           {/* Step 3: Contact Instructions */}
           {currentStep === 2 && (
             <div className="flex flex-col items-center justify-center gap-8 py-8">
               <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
+                <div className="mb-6 p-4 border border-red-500 rounded-lg bg-red-500/10">
+                  <div className="flex items-center gap-2 text-red-400 mb-2">
+                    <XIcon className="w-5 h-5" />
+                    <span className="font-semibold">{t('paymentError')}</span>
+                  </div>
+                  <p className="text-red-300 text-sm mb-3">{t('yourPaymentHasNotBeenReceived')}</p>
+                  <p className="text-white/80 text-sm">{t('ifYouDidSendPaymentAndYouThinkItsErrorPlease')}</p>
+                </div>
                 <h2 className="text-2xl font-bold text-white mb-4">{t('finalStepContactUs')}</h2>
                 <p className="text-white/80 text-base mb-6">
                   {t('toReceiveYourProductPleaseSendUsAMessageOn')} <span className="font-semibold text-[#5B64C2]">{t('discord')}</span> {t('orEmailUsAt')} <span className="font-semibold text-blue-400">{t('azecUnlocksEmail')}</span>.<br />

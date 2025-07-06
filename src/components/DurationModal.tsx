@@ -30,8 +30,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const options: DurationOption[] = [
     { id: '2h', name: t('2HoursLicense'), price: '€2.95', description: t('bestForTesting') },
     { id: '1week', name: t('1WeekLicense'), price: '€10.95', description: t('idealForExtensiveTesting') },
-    { id: '1month', name: t('1MonthLicense'), price: '€29.95', mostPopular: true, description: t('perfectForLongTermNeeds') },
-    { id: 'lifetime', name: t('lifetimeLicense'), price: '€79.95', oldPrice: '€119.95', bestDeal: true, description: t('unlimitedAccessOneTimePayment') },
+    { id: 'lifetime', name: t('lifetimeLicense'), price: '€29.95', bestDeal: true, description: t('unlimitedAccessOneTimePayment') },
   ];
 
   if (!isOpen) return null;
