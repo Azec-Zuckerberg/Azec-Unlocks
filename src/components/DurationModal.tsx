@@ -118,7 +118,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                       >
                         <path d="M2.166 6.5l2.97 6.14a1 1 0 00.9.56h7.928a1 1 0 00.9-.56l2.97-6.14a.5.5 0 00-.8-.56l-3.13 2.61a1 1 0 01-1.32 0l-2.13-1.78a1 1 0 00-1.32 0l-2.13 1.78a1 1 0 01-1.32 0l-3.13-2.61a.5.5 0 00-.8.56zM16 16a1 1 0 01-1 1H5a1 1 0 01-1-1v-1h12v1z" />
                       </svg>
-                      <span>Most popular</span>
+                      <span>Most Popular</span>
                     </span>
                   )}
                 </button>
@@ -126,7 +126,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             </div>
 
             <footer className="mt-8 text-center text-sm text-white/60">
-              Powered by <span className="font-bold italic text-white">SellAuth</span>
+              Powered by <span className="font-bold italic text-white">Company Name</span>
               <div className="mt-1 text-xs text-white/40">Safe, Simple, Sold</div>
             </footer>
           </div>

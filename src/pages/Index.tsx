@@ -121,11 +121,11 @@ const Index: FC = () => {
                 {/* Both buttons are given an identical fixed height (h-20 == 80 px) */}
                 {/* Content is perfectly centered with flex utilities          */}
                 <div className="flex gap-4 w-full items-stretch">
-                  <Link to="/reviews" className="flex-1 w-full bg-white text-black font-semibold rounded-xl transition hover:bg-white/90 text-center flex flex-col items-center justify-center py-3 px-6">
+                  <Link to="/reviews" className="flex-1 w-full h-16 bg-white text-black font-semibold rounded-xl transition hover:bg-white/90 text-center flex flex-col items-center justify-center px-4">
                     <span className="mt-1">{t('read_faq')}</span>
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
-                  <button onClick={handlePurchase} className="flex-1 w-full h-full bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-start py-3 px-6">
+                  <button onClick={handlePurchase} className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4">
                     <span>{t('buy_now')}</span>
                     <span className="text-xs text-white/70 font-normal mt-0.5">starting at €2.95</span>
                   </button>
@@ -190,7 +190,6 @@ const Index: FC = () => {
       <DurationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSelectDuration={handleSelectDuration}
       />
     </div>
   );
