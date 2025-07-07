@@ -185,5 +185,11 @@
   "checkingPayment": "Vérification du paiement",
   "paymentError": "Erreur de paiement",
   "yourPaymentHasNotBeenReceived": "Votre paiement n'a pas été reçu.",
-  "ifYouDidSendPaymentAndYouThinkItsErrorPlease": "Si vous avez effectué le paiement et pensez qu'il s'agit d'une erreur, veuillez nous contacter."
+  "ifYouDidSendPaymentAndYouThinkItsErrorPlease": "Si vous avez effectué le paiement et pensez qu'il s'agit d'une erreur, veuillez nous contacter.",
+  "unlockall_title": "Débloquer tout à vie",
+  "unlockall_desc": "Débloquez tous les camouflages, accessoires, opérateurs et plus en quelques secondes. Sûr, rapide et indétecté. Fonctionne pour tous les comptes et bénéficie de notre support premium.",
+  "unlockall_feature1_title": "Tout débloqué, instantanément.",
+  "unlockall_feature2_title": "Plus de farm. Plus de limites. Juste du jeu.",
+  "unlockall_feature1_alt": "Icône couronne",
+  "unlockall_feature2_alt": "Icône dollar"
 } 

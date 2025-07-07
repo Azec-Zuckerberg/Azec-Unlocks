@@ -185,5 +185,11 @@
   "checkingPayment": "Checking payment",
   "paymentError": "Payment Error",
   "yourPaymentHasNotBeenReceived": "Your payment has not been received.",
-  "ifYouDidSendPaymentAndYouThinkItsErrorPlease": "If you did send payment and you think this is an error, please contact us."
+  "ifYouDidSendPaymentAndYouThinkItsErrorPlease": "If you did send payment and you think this is an error, please contact us.",
+  "unlockall_title": "Unlock All Lifetime",
+  "unlockall_desc": "Unlock all camos, attachments, operators, and more in seconds. Safe, fast, and undetected. Works for all accounts and is backed by our premium support.",
+  "unlockall_feature1_title": "Everything unlocked, instantly.",
+  "unlockall_feature2_title": "No grind. No limits. Just play.",
+  "unlockall_feature1_alt": "Crown icon",
+  "unlockall_feature2_alt": "Dollar icon"
 } 

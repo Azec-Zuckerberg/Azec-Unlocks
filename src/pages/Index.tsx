@@ -28,7 +28,7 @@ const product = {
 const unlockAllProduct = {
   id: "3",
   name: "Unlock All Lifetime",
-  price: 9.99,
+  price: 29.95,
   image: "/lovable-uploads/Product-Unlockall.png",
   category: "Unlocks",
   status: "Undetected",
@@ -186,6 +186,72 @@ const Index: FC = () => {
                 <h3 className="mb-2 text-center text-xl font-bold text-white">
                   {t("feature2_title")}
                 </h3>
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* ----------------------------------------------------------------- */}
+          {/* Unlock All product + features section (glass card)                */}
+          {/* ----------------------------------------------------------------- */}
+          <GlassCard
+            className="mx-auto mb-20 flex w-full max-w-6xl flex-col gap-12 rounded-3xl border border-white/20 p-8"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+            }}
+          >
+            {/* =============================================================== */}
+            {/* product showcase row                                           */}
+            {/* =============================================================== */}
+            <div className="flex flex-col items-center gap-8 lg:flex-row">
+              {/* ------------ LEFT : text + buttons -------------------------- */}
+              <div className="mx-auto flex min-w-[280px] max-w-lg flex-col items-start justify-center gap-8">
+                {/* badge */}
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-[#810D0A]/80 px-3 py-1 text-xs font-semibold text-white shadow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M13 2L3 14H12L11 22L21 10H13L13 2Z"
+                        fill="#fff"
+                      />
+                    </svg>
+                    {t("undetected")}
+                  </span>
+                </div>
+
+                {/* title */}
+                <h2 className="mb-2 text-3xl font-extrabold leading-tight text-white md:text-4xl">
+                  {t("unlockall_title")}
+                </h2>
+
+                {/* description */}
+                <p className="mb-6 text-base text-white/60">
+                  {t("unlockall_desc")}
+                </p>
+
+                {/* ---------------- BUTTONS (FIXED!) ------------------------ */}
+                <div className="flex gap-4 w-full items-stretch">
+                  <Link to="/reviews" className="flex-1 w-full h-16 bg-white text-black font-semibold rounded-xl transition hover:bg-white/90 text-center flex flex-col items-center justify-center px-4">
+                    <span className="mt-1">{t('read_faq')}</span>
+                    <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
+                  </Link>
+                  <Link to="/checkout?product=unlockall" className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4">
+                    <span>{t('buy_now')}</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · €29.95</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* ------------ RIGHT : product image ------------------------- */}
+              <div className="flex flex-1 items-center justify-center">
+                <div className="relative aspect-video w-full max-w-xl overflow-hidden rounded-2xl">
+                  <img
+                    src={unlockAllProduct.image}
+                    alt={t("unlockall_title")}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </GlassCard>
