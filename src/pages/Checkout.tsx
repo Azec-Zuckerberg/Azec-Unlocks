@@ -17,7 +17,8 @@ const steps = [
 const plans = {
   "2h":     { id: "2h", name: "2 HOURS LICENSE",  price: "€2.95",  usd: "$3.47",  description: "Best for testing" },
   "1week":  { id: "1week", name: "1 WEEK LICENSE",   price: "€10.95", usd: "$12.90", description: "Ideal for ongoing projects" },
-  "lifetime": { id: "lifetime", name: "LIFETIME LICENSE", price: "€29.95", usd: "$33.95", description: "Unlimited access, one-time payment" },
+  "lifetime": { id: "lifetime", name: "MONTHLY LICENSE", price: "€29.95", usd: "$33.95", description: "Unlimited access, one-time payment" },
+  "lifetime_external": { id: "lifetime_external", name: "LIFETIME EXTERNAL", price: "€74.95", usd: "$88.95", description: "Lifetime access, one-time payment" },
 };
 
 // Stripe links for each product/plan
@@ -25,6 +26,7 @@ const stripeLinks: Record<string, string> = {
   "2h": "https://buy.stripe.com/28EfZhgho28y3vPftn6AM03",
   "1week": "https://buy.stripe.com/5kQ6oHfdkfZo5DX6WR6AM02",
   "lifetime": "https://buy.stripe.com/8x2dR91muaF40jD2GB6AM00",
+  "lifetime_external": "https://buy.stripe.com/14AeVdgho8wW6I1dlf6AM05",
   "unlockall": "https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04",
 };
 
