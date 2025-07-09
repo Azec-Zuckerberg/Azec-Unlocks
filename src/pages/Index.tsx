@@ -27,7 +27,7 @@ const product = {
 const unlockAllProduct = {
   id: "3",
   name: "Unlock All Lifetime",
-  price: 74.95,
+  price: 29.95,
   image: "/lovable-uploads/Product-Unlockall.png",
   category: "Unlocks",
   status: "Undetected",
@@ -232,7 +232,7 @@ const Index: FC = () => {
                     className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4"
                   >
                     <span>{t('buy_now')}</span>
-                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · $74.95</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · $29.95</span>
                   </button>
                 </div>
               </div>
