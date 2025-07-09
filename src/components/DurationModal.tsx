@@ -128,7 +128,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             </div>
 
             <footer className="mt-8 text-center text-sm text-white/60">
-              {t('poweredBy')} <span className="font-bold italic text-white">{t('companyName')}</span>
+              {t('poweredBy')}
               <div className="mt-1 text-xs text-white/40">{t('safeSimpleSold')}</div>
             </footer>
           </div>

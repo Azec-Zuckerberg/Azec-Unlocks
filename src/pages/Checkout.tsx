@@ -20,7 +20,13 @@ const plans = {
   "lifetime": { id: "lifetime", name: "LIFETIME LICENSE", price: "€29.95", usd: "$33.95", description: "Unlimited access, one-time payment" },
 };
 
-
+// Stripe links for each product/plan
+const stripeLinks: Record<string, string> = {
+  "2h": "https://buy.stripe.com/28EfZhgho28y3vPftn6AM03",
+  "1week": "https://buy.stripe.com/5kQ6oHfdkfZo5DX6WR6AM02",
+  "lifetime": "https://buy.stripe.com/8x2dR91muaF40jD2GB6AM00",
+  "unlockall": "https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04",
+};
 
 // Generate a random English word from a dictionary list
 const ENGLISH_WORDS = [
@@ -55,6 +61,7 @@ const CheckoutPage = () => {
   const [couponLoading, setCouponLoading] = useState(false);
   const [proceedingToPayment, setProceedingToPayment] = useState(false);
   const [checkingPayment, setCheckingPayment] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'paypal' | 'stripe'>("paypal");
 
   // Get plan from URL
   const planId = searchParams.get("plan") || "lifetime";
@@ -97,6 +104,12 @@ const CheckoutPage = () => {
 
   const handleNextStep = () => {
     if (currentStep === 0) {
+      if (paymentMethod === 'stripe') {
+        // Redirect to Stripe checkout immediately
+        const stripeUrl = isUnlockAll ? stripeLinks["unlockall"] : stripeLinks[planId];
+        window.open(stripeUrl, '_blank');
+        return;
+      }
       setProceedingToPayment(true);
       setTimeout(() => {
         const nextStep = currentStep + 1;
@@ -269,9 +282,16 @@ const CheckoutPage = () => {
                 <label className="block text-base font-semibold text-white mb-1">
                   {t('paymentMethod')} <span className="text-red-500">*</span>
                 </label>
-                <div className="flex items-center rounded-lg border border-[#232323] bg-[#181818] px-4 py-3 text-white">
-                  <span className="flex-1 text-base">{t('payPalFriendsFamily')}</span>
-                  <svg className="w-6 h-6 text-blue-400 ml-2" viewBox="0 0 32 32" fill="currentColor"><path d="M29.1 8.6c-.3-2.2-2.2-3.6-4.7-3.6h-8.2c-.7 0-1.3.5-1.4 1.2l-4.2 21.1c-.1.4.2.7.6.7h4.2c.3 0 .6-.2.7-.5l1.2-6.1c.1-.3.3-.5.7-.5h2.2c4.6 0 8.2-1.9 9.2-7.3.3-1.7.2-3.1-.3-4.3zm-3.2 4.2c-.7 3.7-3.3 4.1-6.4 4.1h-1.1c-.4 0-.7.3-.8.7l-1.2 6.1c0 .1-.1.1-.2.1h-2.1c-.1 0-.2-.1-.1-.2l3.7-18.7c0-.1.1-.1.2-.1h6.7c1.2 0 2.1.3 2.7.8.6.5.9 1.3.7 2.2z"/></svg>
+                <div className="flex flex-col gap-2">
+                  <label className={`flex items-center rounded-lg border px-4 py-3 cursor-pointer transition ${paymentMethod === 'stripe' ? 'border-blue-500 bg-[#181a2b]' : 'border-[#232323] bg-[#181818]'}`}
+                    onClick={() => setPaymentMethod('stripe')}>
+                    <span className="flex-1 text-base font-semibold">Debit & Credit Card / Apple Pay / Google Pay</span>
+                  </label>
+                  <label className={`flex items-center rounded-lg border px-4 py-3 cursor-pointer transition ${paymentMethod === 'paypal' ? 'border-blue-500 bg-[#181a2b]' : 'border-[#232323] bg-[#181818]'}`}
+                    onClick={() => setPaymentMethod('paypal')}>
+                    <span className="flex-1 text-base font-semibold">PayPal (Friends & Family)</span>
+                    <svg className="w-6 h-6 text-blue-400 ml-2" viewBox="0 0 32 32" fill="currentColor"><path d="M29.1 8.6c-.3-2.2-2.2-3.6-4.7-3.6h-8.2c-.7 0-1.3.5-1.4 1.2l-4.2 21.1c-.1.4.2.7.6.7h4.2c.3 0 .6-.2.7-.5l1.2-6.1c.1-.3.3-.5.7-.5h2.2c4.6 0 8.2-1.9 9.2-7.3.3-1.7.2-3.1-.3-4.3zm-3.2 4.2c-.7 3.7-3.3 4.1-6.4 4.1h-1.1c-.4 0-.7.3-.8.7l-1.2 6.1c0 .1-.1.1-.2.1h-2.1c-.1 0-.2-.1-.1-.2l3.7-18.7c0-.1.1-.1.2-.1h6.7c1.2 0 2.1.3 2.7.8.6.5.9 1.3.7 2.2z"/></svg>
+                  </label>
                 </div>
               </div>
               {/* Terms Checkbox */}
@@ -359,35 +379,20 @@ const CheckoutPage = () => {
           {/* Step 2: Payment Instructions */}
           {currentStep === 1 && (
             <>
-              {isUnlockAll ? (
+              {paymentMethod === 'stripe' ? (
                 <div className="flex flex-col items-center justify-center gap-8 py-8">
                   <div className="w-full max-w-lg bg-[#181818] border border-[#232323] rounded-2xl px-8 py-10 flex flex-col items-center text-center">
                     <img
-                      src={unlockAllProduct.image}
-                      alt={unlockAllProduct.name}
+                      src={isUnlockAll ? unlockAllProduct.image : "/lovable-uploads/Product-external.png"}
+                      alt={isUnlockAll ? unlockAllProduct.name : t('externalChair')}
                       className="h-20 w-20 rounded object-cover border border-[#232323] mb-4"
                     />
-                    <h2 className="text-2xl font-bold text-white mb-2">{unlockAllProduct.name}</h2>
-                    <p className="text-white/80 text-base mb-4">{unlockAllProduct.description}</p>
-                    <div className="text-3xl font-extrabold text-white mb-6">{unlockAllProduct.price}</div>
-                    <div className="mb-6 border border-blue-500 rounded-lg bg-[#151626] px-6 py-4 text-blue-400 text-base">
-                      {t('keyAndLoaderReady')}
-                    </div>
-                    <Button
-                      type="button"
-                      className="w-full bg-[#6c7cff] hover:bg-[#5a6be6] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2"
-                      onClick={handleNextStep}
-                      disabled={checkingPayment}
-                    >
-                      {checkingPayment ? (
-                        <>
-                          <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
-                          {t('checkingPayment')}...
-                        </>
-                      ) : (
-                        t('iDidEverything')
-                      )}
-                    </Button>
+                    <h2 className="text-2xl font-bold text-white mb-2">{isUnlockAll ? unlockAllProduct.name : t('externalChair')}</h2>
+                    <p className="text-white/80 text-base mb-4">{isUnlockAll ? unlockAllProduct.description : plan.name}</p>
+                    <div className="text-3xl font-extrabold text-white mb-6">{isUnlockAll ? unlockAllProduct.price : displayPrice}</div>
+                    <a href={isUnlockAll ? stripeLinks["unlockall"] : stripeLinks[planId]} target="_blank" rel="noopener noreferrer" className="w-full bg-[#635bff] hover:bg-[#5146d8] text-white font-semibold py-3 text-lg rounded-xl flex items-center justify-center gap-2 shadow-none mt-2 transition">
+                      Pay with Card / Apple Pay / Google Pay
+                    </a>
                   </div>
                 </div>
               ) : (
