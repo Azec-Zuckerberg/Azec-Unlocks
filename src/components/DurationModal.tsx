@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface DurationOption {
@@ -24,14 +23,30 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   
+  // Stripe links for each product/plan
+  const stripeLinks: Record<string, string> = {
+    "2h": "https://buy.stripe.com/28EfZhgho28y3vPftn6AM03",
+    "daily": "https://buy.stripe.com/5kQ6oHfdkfZo5DX6WR6AM02",
+    "monthly": "https://buy.stripe.com/8x2dR91muaF40jD2GB6AM00",
+    "lifetime": "https://buy.stripe.com/14AeVdgho8wW6I1dlf6AM05",
+    "unlockall": "https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04",
+  };
+
+  // Plan pricing in USD
+  const plans = {
+    '2h': { usd: '$2.95' },
+    'daily': { usd: '$10.95' },
+    'monthly': { usd: '$29.95' },
+    'lifetime': { usd: '$74.95' },
+  };
+
   const options: DurationOption[] = [
-    { id: '2h', name: t('2HoursLicense'), price: '€2.95', description: t('bestForTesting') },
-    { id: '1week', name: t('1WeekLicense'), price: '€10.95', description: t('idealForExtensiveTesting') },
-    { id: 'lifetime', name: t('monthlyLicense'), price: '€29.95', mostPopular: true, description: t('unlimitedAccessOneTimePayment') },
-    { id: 'lifetime_external', name: t('lifetimeExternalLicense'), price: '€74.95', bestDeal: true, description: t('lifetimeAccessOneTimePayment') },
+    { id: '2h', name: t('2HoursLicense'), price: '$2.95', description: t('bestForTesting') },
+    { id: 'daily', name: t('dailyLicense'), price: '$10.95', description: t('idealForExtensiveTesting') },
+    { id: 'monthly', name: t('monthlyLicense'), price: '$29.95', mostPopular: true, description: t('unlimitedAccessOneTimePayment') },
+    { id: 'lifetime', name: t('lifetimeLicense'), price: '$74.95', bestDeal: true, description: t('lifetimeAccessOneTimePayment') },
   ];
 
   if (!isOpen) return null;
@@ -84,7 +99,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
               {options.map((o) => (
                 <button
                   key={o.id}
-                  onClick={() => navigate(`/checkout?plan=${o.id}`)}
+                  onClick={() => window.open(stripeLinks[o.id], '_blank')}
                   className={`relative flex w-full items-center justify-between rounded-xl
                               bg-white/10 px-4 py-3 text-base font-semibold text-white
                               transition hover:bg-white/20
@@ -103,7 +118,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                         {o.oldPrice}
                       </span>
                     )}
-                    <span className="font-bold">{o.price}</span>
+                    <span className="font-bold">{plans[o.id]?.usd || o.price}</span>
                   </span>
                   {o.bestDeal && (
                     <span className="absolute -top-2 right-2 rounded-full bg-green-400 px-2 py-0.5 text-xs font-bold text-black shadow flex items-center">

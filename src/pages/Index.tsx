@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundNeo from "@/components/BackgroundNeo";
-import { useToast } from "@/hooks/use-toast";
 import StatsSection from "@/components/StatsSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import GlassCard from "@/components/GlassCard";
@@ -28,7 +27,7 @@ const product = {
 const unlockAllProduct = {
   id: "3",
   name: "Unlock All Lifetime",
-  price: 29.95,
+  price: 74.95,
   image: "/lovable-uploads/Product-Unlockall.png",
   category: "Unlocks",
   status: "Undetected",
@@ -41,7 +40,6 @@ const unlockAllProduct = {
 //  Page component
 // ---------------------------------------------------------------------------
 const Index: FC = () => {
-  const { toast } = useToast();
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,14 +47,7 @@ const Index: FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleSelectDuration = (option: any) => {
-    toast({
-      title: t("redirecting_checkout"),
-      description: t("processing_payment", { product: t("external_chair") }),
-    });
-    window.open(option.checkoutUrl, '_blank');
-    setIsModalOpen(false);
-  };
+
 
   return (
     <div className="relative min-h-screen">
@@ -139,7 +130,7 @@ const Index: FC = () => {
                   </Link>
                   <button onClick={handlePurchase} className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4">
                     <span>{t('buy_now')}</span>
-                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at €2.95</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at $2.95</span>
                   </button>
                 </div>
               </div>
@@ -236,10 +227,13 @@ const Index: FC = () => {
                     <span className="mt-1">{t('read_faq')}</span>
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
-                  <Link to="/checkout?product=unlockall" className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4">
+                  <button 
+                    onClick={() => window.open("https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04", '_blank')}
+                    className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4"
+                  >
                     <span>{t('buy_now')}</span>
-                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · €29.95</span>
-                  </Link>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · $74.95</span>
+                  </button>
                 </div>
               </div>
 
