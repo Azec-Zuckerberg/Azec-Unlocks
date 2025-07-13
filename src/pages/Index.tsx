@@ -80,8 +80,84 @@ const Index: FC = () => {
             </div>
           </div>
 
+                    {/* ----------------------------------------------------------------- */}
+          {/* Bundle Deal section (glass card) - FIRST POSITION                 */}
           {/* ----------------------------------------------------------------- */}
-          {/* unified product + features section (glass card)                   */}
+          <GlassCard
+            className="mx-auto mb-20 flex w-full max-w-6xl flex-col gap-12 rounded-3xl border border-white/20 p-8"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+            }}
+          >
+            {/* =============================================================== */}
+            {/* bundle showcase row                                             */}
+            {/* =============================================================== */}
+            <div className="flex flex-col items-center gap-8 lg:flex-row">
+              {/* ------------ LEFT : text + buttons -------------------------- */}
+              <div className="mx-auto flex min-w-[280px] max-w-lg flex-col items-start justify-center gap-8">
+                {/* badge */}
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-green-500/80 px-3 py-1 text-xs font-semibold text-white shadow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M13 2L3 14H12L11 22L21 10H13L13 2Z"
+                        fill="#fff"
+                      />
+                    </svg>
+                    {t("bundle_badge")}
+                  </span>
+                </div>
+
+                {/* title */}
+                <h2 className="mb-2 text-3xl font-extrabold leading-tight text-white md:text-4xl">
+                  {t("bundle_title")}
+                </h2>
+
+                {/* description */}
+                <p className="mb-6 text-base text-white/60">
+                  {t("bundle_desc")}
+                </p>
+
+                {/* pricing info */}
+                <div className="mb-6 flex items-center gap-3">
+                  <span className="text-2xl font-bold text-green-400">{t("bundle_price")}</span>
+                  <span className="text-lg text-white/50 line-through">{t("bundle_original_price")}</span>
+                  <span className="text-sm font-semibold text-green-400">{t("bundle_savings")}</span>
+                </div>
+
+                {/* ---------------- BUTTONS (FIXED!) ------------------------ */}
+                <div className="flex gap-4 w-full items-stretch">
+                  <Link to="/reviews" className="flex-1 w-full h-16 bg-white text-black font-semibold rounded-xl transition hover:bg-white/90 text-center flex flex-col items-center justify-center px-4">
+                    <span className="mt-1">{t('read_faq')}</span>
+                    <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
+                  </Link>
+                  <button 
+                    onClick={() => window.open("https://buy.stripe.com/9B6dR93uC7sSfexftn6AM06", '_blank')}
+                    className="flex-1 w-full h-16 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4"
+                  >
+                    <span>{t('buy_now')}</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">{t("bundle_price")}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* ------------ RIGHT : product image ------------------------- */}
+              <div className="flex flex-1 items-center justify-center">
+                <div className="relative aspect-video w-full max-w-xl overflow-hidden rounded-2xl">
+                  <img
+                    src="/lovable-uploads/Product-bundle.png"
+                    alt={t("bundle_title")}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* ----------------------------------------------------------------- */}
+          {/* External Chair product + features section (glass card)            */}
           {/* ----------------------------------------------------------------- */}
           <GlassCard
             className="mx-auto mb-20 flex w-full max-w-6xl flex-col gap-12 rounded-3xl border border-white/20 p-8"
