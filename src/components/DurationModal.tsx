@@ -29,24 +29,24 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const stripeLinks: Record<string, string> = {
     "2h": "https://buy.stripe.com/28EfZhgho28y3vPftn6AM03",
     "daily": "https://buy.stripe.com/5kQ6oHfdkfZo5DX6WR6AM02",
-    "monthly": "https://buy.stripe.com/00w4gz2qy14ueat0yt6AM08",
+    "monthly": "https://buy.stripe.com/3cI8wP9T0cNcgiB0yt6AM0b",
     "lifetime": "https://buy.stripe.com/14AeVdgho8wW6I1dlf6AM05",
-    "unlockall": "https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04",
+    "unlockall": "https://buy.stripe.com/aFa28rc185kK8Q9ftn6AM0c",
   };
 
   // Plan pricing in USD
   const plans = {
-    '2h': { usd: '$2.95' },
-    'daily': { usd: '$10.95' },
-    'monthly': { usd: '$29.95' },
-    'lifetime': { usd: '$74.95' },
+    '2h': { usd: '$2.99' },
+    'daily': { usd: '$10.99' },
+    'monthly': { usd: '$34.99' },
+    'lifetime': { usd: '$74.99' },
   };
 
   const options: DurationOption[] = [
-    { id: '2h', name: t('2HoursLicense'), price: '$2.95', description: t('bestForTesting') },
-    { id: 'daily', name: t('dailyLicense'), price: '$10.95', description: t('idealForExtensiveTesting') },
-    { id: 'monthly', name: t('monthlyLicense'), price: '$29.95', mostPopular: true, description: t('unlimitedAccessOneTimePayment') },
-    { id: 'lifetime', name: t('lifetimeLicense'), price: '$74.95', bestDeal: true, description: t('lifetimeAccessOneTimePayment') },
+    { id: '2h', name: t('2HoursLicense'), price: '$2.99', description: t('bestForTesting') },
+    { id: 'daily', name: t('dailyLicense'), price: '$10.99', description: t('idealForExtensiveTesting') },
+    { id: 'monthly', name: t('monthlyLicense'), price: '$34.99', mostPopular: true, description: t('unlimitedAccessOneTimePayment') },
+    { id: 'lifetime', name: t('lifetimeLicense'), price: '$34.99', bestDeal: true, description: t('lifetimeAccessOneTimePayment') },
   ];
 
   if (!isOpen) return null;

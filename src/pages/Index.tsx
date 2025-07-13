@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 const product = {
   id: "2",
   name: "External Chair",
-  price: 4.99,
+  price: 34.99,
   image: "/lovable-uploads/Product-external.png",
   category: "DMA",
   status: "Undetected",
@@ -27,7 +27,7 @@ const product = {
 const unlockAllProduct = {
   id: "3",
   name: "Unlock All Lifetime",
-  price: 29.95,
+  price: 34.99,
   image: "/lovable-uploads/Product-Unlockall.png",
   category: "Unlocks",
   status: "Undetected",
@@ -134,7 +134,7 @@ const Index: FC = () => {
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
                   <button 
-                    onClick={() => window.open("https://buy.stripe.com/9B6dR93uC7sSfexftn6AM06", '_blank')}
+                    onClick={() => window.open("https://buy.stripe.com/eVq8wP0iqeVk9Ud2GB6AM0d", '_blank')}
                     className="flex-1 w-full h-16 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4"
                   >
                     <span>{t('buy_now')}</span>
@@ -304,11 +304,11 @@ const Index: FC = () => {
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
                   <button 
-                    onClick={() => window.open("https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04", '_blank')}
+                    onClick={() => window.open("https://buy.stripe.com/aFa28rc185kK8Q9ftn6AM0c", '_blank')}
                     className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4"
                   >
                     <span>{t('buy_now')}</span>
-                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · $29.95</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">Lifetime · $34.99</span>
                   </button>
                 </div>
               </div>
