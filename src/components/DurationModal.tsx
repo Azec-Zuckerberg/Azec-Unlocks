@@ -29,7 +29,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const stripeLinks: Record<string, string> = {
     "2h": "https://buy.stripe.com/28EfZhgho28y3vPftn6AM03",
     "daily": "https://buy.stripe.com/5kQ6oHfdkfZo5DX6WR6AM02",
-    "monthly": "https://buy.stripe.com/8x2dR91muaF40jD2GB6AM00",
+    "monthly": "https://buy.stripe.com/00w4gz2qy14ueat0yt6AM08",
     "lifetime": "https://buy.stripe.com/14AeVdgho8wW6I1dlf6AM05",
     "unlockall": "https://buy.stripe.com/7sY14n9T06oO5DXdlf6AM04",
   };
@@ -128,7 +128,9 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                   )}
                   {o.mostPopular && (
                     <span className="absolute -top-2 right-2 rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-bold text-black shadow flex items-center">
-                      <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2l2.39 4.84L18 7.27l-3.91 3.81L14.78 18 10 14.77 5.22 18l.69-6.92L2 7.27l5.61-.43L10 2z" /></svg>
+                      <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 16L3 6L8.5 10L12 4L15.5 10L21 6L19 16H5M19 19C19 19.6 18.6 20 18 20H6C5.4 20 5 19.6 5 19V18H19V19Z" />
+                      </svg>
                       <span>{t('most_popular')}</span>
                     </span>
                   )}
@@ -137,8 +139,8 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             </div>
 
             <footer className="mt-8 text-center text-sm text-white/60">
-              {t('poweredBy')}
-              <div className="mt-1 text-xs text-white/40">{t('safeSimpleSold')}</div>
+              Powered by <span className="font-bold italic text-white">Stripe</span>
+              <div className="mt-1 text-xs text-white/40">Powering Global Payments</div>
             </footer>
           </div>
         </div>
