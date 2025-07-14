@@ -1,42 +1,27 @@
-import React from "react";
+import React from 'react';
+import Header from '@/components/Header';
+import BackgroundNeo from '@/components/BackgroundNeo';
+import { useTranslation } from 'react-i18next';
 
-const TermsOfService: React.FC = () => {
+const terms = {
+  fr: `🛡️ Notre engagement envers votre satisfaction\n\nChez Azec Unlocks, nous mettons tout en œuvre pour vous offrir une expérience simple, rapide et sécurisée.\n\nNous croyons en la qualité de nos produits et en la transparence de nos services. C’est pourquoi nous vous encourageons à consulter attentivement notre politique de remboursement avant tout achat.\n\nVotre satisfaction est notre priorité, et notre équipe reste à votre écoute pour toute question ou demande d’assistance.\n\n✅ Politique de Remboursement\n\nToutes les ventes effectuées sur notre site sont considérées comme définitives et non remboursables, sauf cas exceptionnel après évaluation par notre équipe.\n\nUn remboursement pourra être envisagé uniquement dans les situations suivantes :\n\nLe produit ne fonctionne pas sur votre appareil en raison d’une erreur avérée de notre part.\n\nVous nous contactez rapidement afin que nous puissions vous proposer une solution adaptée.\n\nImportant :\n\nNous ne vendons aucun logiciel ou programme de type « hack ». Les clés fournies sont des licences d’activation gratuites permettant d’accéder à des outils tiers.\n\nUne fois la clé livrée ou le service utilisé, aucun remboursement ne pourra être accordé.\n\nLa durée de vie d’une licence dépend exclusivement de la disponibilité du logiciel par son éditeur. En cas d’interruption ou d’arrêt du service par ce dernier, aucun remboursement ne sera possible.\n\nToute revente, partage ou redistribution de nos produits sans autorisation écrite est strictement interdite.\n\nEn validant votre commande, vous reconnaissez avoir lu, compris et accepté notre Politique de Remboursement ainsi que nos Conditions Générales d’Utilisation (CGU).`,
+  en: `🛡️ Our Commitment to Your Satisfaction\n\nAt Azec Unlocks, we strive to provide you with a simple, fast, and secure experience.\n\nWe believe in the quality of our products and the transparency of our services. That’s why we encourage you to carefully review our refund policy before making any purchase.\n\nYour satisfaction is our priority, and our team is always available for any questions or assistance.\n\n✅ Refund Policy\n\nAll sales made on our site are considered final and non-refundable, except in exceptional cases after evaluation by our team.\n\nA refund may be considered only in the following situations:\n\nThe product does not work on your device due to a proven error on our part.\n\nYou contact us promptly so we can offer you an appropriate solution.\n\nImportant:\n\nWe do not sell any software or "hack" programs. The keys provided are free activation licenses that allow access to third-party tools.\n\nOnce the key is delivered or the service is used, no refund can be granted.\n\nThe lifetime of a license depends exclusively on the availability of the software by its publisher. In case of interruption or termination of the service by the latter, no refund will be possible.\n\nAny resale, sharing, or redistribution of our products without written authorization is strictly prohibited.\n\nBy confirming your order, you acknowledge that you have read, understood, and accepted our Refund Policy and Terms of Service (TOS).`
+};
+
+export default function TermsOfService() {
+  const { i18n } = useTranslation();
+  const lang = i18n.language.startsWith('fr') ? 'fr' : 'en';
   return (
-    <div className="min-h-screen bg-[#111] flex flex-col items-center px-4 py-12">
-      <div className="w-full max-w-2xl bg-[#181818] rounded-2xl shadow border border-[#232323] px-8 py-10">
-        <h1 className="text-3xl font-extrabold text-white mb-2">Terms of Service</h1>
-        <div className="text-xs text-white/40 mb-8">Date: 11 February 2025</div>
-        <section className="mb-8">
-          <h2 className="text-lg font-bold text-white mb-2">1. Acceptance of Terms</h2>
-          <p className="text-white/80 text-sm">Your access to and use of our service is conditioned upon your acceptance of and compliance with these terms. If you do not agree, please do not use our service.</p>
-        </section>
-        <section className="mb-8">
-          <h2 className="text-lg font-bold text-white mb-2">2. Changes to Terms</h2>
-          <p className="text-white/80 text-sm">We reserve the right to update these terms at any time. It is your responsibility to review them periodically. Continued use of our service after modifications constitutes acceptance of the new terms.</p>
-        </section>
-        <section className="mb-8">
-          <h2 className="text-lg font-bold text-white mb-2">3. Limitation of Liability</h2>
-          <p className="text-white/80 text-sm">We shall not be held responsible for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use our service. We do not guarantee the accuracy or reliability of the service content.</p>
-        </section>
-        <section className="mb-8">
-          <h2 className="text-lg font-bold text-white mb-2">4. Termination</h2>
-          <p className="text-white/80 text-sm">We reserve the right to suspend or terminate your access to our service at any time, without prior notice, if we determine that you have violated these terms.</p>
-        </section>
-        <section className="mb-8">
-          <h2 className="text-lg font-bold text-white mb-2">5. Software Sales</h2>
-          <p className="text-white/80 text-sm">Our service provides software products for sale. By purchasing our software, you acknowledge that you have read and understood the product details, system requirements, and any usage guidelines.</p>
-        </section>
-        <section className="mb-8">
-          <h2 className="text-lg font-bold text-white mb-2">6. Purchases and Refunds</h2>
-          <p className="text-white/80 text-sm">All purchases made through our service are final. We do not offer refunds or exchanges under any circumstances. Please ensure that you review your order carefully before completing the purchase.</p>
-        </section>
-        <section>
-          <h2 className="text-lg font-bold text-white mb-2">7. In-Game Ban Disclaimer</h2>
-          <p className="text-white/80 text-sm">Our software products are intended for use in gaming environments. However, we are not responsible for any bans, suspensions, or penalties that may be imposed by game developers or platform providers as a result of using our software.</p>
-        </section>
+    <div className="min-h-screen flex flex-col bg-transparent relative">
+      <Header />
+      <BackgroundNeo />
+      <div className="flex-1 flex flex-col items-center justify-center py-24 z-10">
+        <div className="glass-base rounded-3xl p-10 max-w-3xl w-full border border-white/10 shadow-2xl backdrop-blur-lg">
+          <div className="text-white/90 whitespace-pre-line text-lg leading-relaxed">
+            {terms[lang]}
+          </div>
+        </div>
       </div>
     </div>
   );
-};
-
-export default TermsOfService; 
+} 

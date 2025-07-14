@@ -206,7 +206,7 @@ const Index: FC = () => {
                   </Link>
                   <button onClick={handlePurchase} className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4">
                     <span>{t('buy_now')}</span>
-                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at $2.95</span>
+                    <span className="text-xs text-white/70 font-normal mt-0.5">starting at $2.99</span>
                   </button>
                 </div>
               </div>
@@ -304,7 +304,7 @@ const Index: FC = () => {
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
                   <button 
-                    onClick={() => window.open("https://buy.stripe.com/aFa28rc185kK8Q9ftn6AM0c", '_blank')}
+                    onClick={() => window.open("https://buy.stripe.com/eVqcN50iqeVk0jD94Z6AM0h", '_blank')}
                     className="flex-1 w-full h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-4"
                   >
                     <span>{t('buy_now')}</span>

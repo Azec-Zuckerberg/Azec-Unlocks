@@ -27,8 +27,8 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   
   // Stripe links for each product/plan
   const stripeLinks: Record<string, string> = {
-    "2h": "https://buy.stripe.com/28EfZhgho28y3vPftn6AM03",
-    "daily": "https://buy.stripe.com/5kQ6oHfdkfZo5DX6WR6AM02",
+    "2h": "https://buy.stripe.com/00w9ATe9geVk9Uddlf6AM0f",
+    "daily": "https://buy.stripe.com/14AeVd5CKdRgd6p94Z6AM0g",
     "monthly": "https://buy.stripe.com/3cI8wP9T0cNcgiB0yt6AM0b",
     "lifetime": "https://buy.stripe.com/14AeVdgho8wW6I1dlf6AM05",
     "unlockall": "https://buy.stripe.com/aFa28rc185kK8Q9ftn6AM0c",
