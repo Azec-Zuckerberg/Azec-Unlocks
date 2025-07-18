@@ -25,26 +25,26 @@ const Header = () => {
   }, [open]);
 
   return (
-    <header className="fixed top-0 left-1/2 -translate-x-1/2 z-50 max-w-3xl mx-auto mt-6 rounded-2xl px-4 py-2 flex items-center justify-center border border-white/20" 
+    <header className="fixed top-0 left-1/2 -translate-x-1/2 z-50 max-w-3xl mx-auto mt-6 rounded-2xl px-2 md:px-4 py-2 flex items-center justify-center border border-white/20" 
             style={{
               background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(8px)',
               WebkitBackdropFilter: 'blur(8px)'
             }}>
       {/* Logo */}
-      <div className="w-10 h-10 flex items-center justify-center rounded-full bg-black/80 border-2 border-[#810D0A] shadow-[0_0_12px_1.5px_rgba(129,13,10,0.4)] mr-4 overflow-hidden">
-        <img src="/lovable-uploads/AzecLogo.png" alt="Azec Logo" className="w-8 h-8 object-contain" />
+      <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/80 border-2 border-[#810D0A] shadow-[0_0_12px_1.5px_rgba(129,13,10,0.4)] mr-2 md:mr-4 overflow-hidden">
+        <img src="/lovable-uploads/AzecLogo.png" alt="Azec Logo" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
       </div>
       {/* Navigation */}
-      <nav className="flex items-center space-x-6">
-        <Link to="/" className="text-white/90 font-medium hover:text-white transition">{t('store')}</Link>
-        <Link to="/reviews" className="text-white/90 font-medium hover:text-white transition">{t('reviews')}</Link>
-        <Link to="/faq" className="text-white/90 font-medium hover:text-white transition">{t('faq')}</Link>
-        <Link to="/contact" className="text-white/90 font-medium hover:text-white transition">{t('contact')}</Link>
-        <Link to="/guides" className="text-white/90 font-medium hover:text-white transition">{t('guides')}</Link>
+      <nav className="flex items-center space-x-3 md:space-x-6">
+        <Link to="/" className="text-white/90 font-medium hover:text-white transition text-sm md:text-base">{t('store')}</Link>
+        <Link to="/reviews" className="text-white/90 font-medium hover:text-white transition text-sm md:text-base">{t('reviews')}</Link>
+        <Link to="/faq" className="text-white/90 font-medium hover:text-white transition text-sm md:text-base">{t('faq')}</Link>
+        <Link to="/contact" className="text-white/90 font-medium hover:text-white transition text-sm md:text-base">{t('contact')}</Link>
+        <Link to="/guides" className="text-white/90 font-medium hover:text-white transition text-sm md:text-base">{t('guides')}</Link>
       </nav>
       {/* Divider */}
-      <div className="mx-4 h-8 w-px bg-white/10" />
+      <div className="mx-2 md:mx-4 h-8 w-px bg-white/10" />
       {/* Language Selector Dropdown */}
       <div className="relative" ref={dropdownRef}>
         <button

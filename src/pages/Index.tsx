@@ -8,6 +8,9 @@ import GlassCard from "@/components/GlassCard";
 import DurationModal from "@/components/DurationModal";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import UnlockAllCarousel from "@/components/UnlockAllCarousel";
+import ExternalChairCarousel from "@/components/ExternalChairCarousel";
+import CountdownOffer from "@/components/CountdownOffer";
 
 // ---------------------------------------------------------------------------
 //  Sample product data (kept exactly as you had it)
@@ -145,13 +148,7 @@ const Index: FC = () => {
 
               {/* ------------ RIGHT : product image ------------------------- */}
               <div className="flex flex-1 items-center justify-center">
-                <div className="relative aspect-video w-full max-w-xl overflow-hidden rounded-2xl">
-                  <img
-                    src="/lovable-uploads/Product-bundle.png"
-                    alt={t("bundle_title")}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <UnlockAllCarousel />
               </div>
             </div>
           </GlassCard>
@@ -213,13 +210,7 @@ const Index: FC = () => {
 
               {/* ------------ RIGHT : product image ------------------------- */}
               <div className="flex flex-1 items-center justify-center">
-                <div className="relative aspect-video w-full max-w-xl overflow-hidden rounded-2xl">
-                  <img
-                    src={product.image}
-                    alt={t("external_chair")}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <ExternalChairCarousel />
               </div>
             </div>
 
@@ -315,13 +306,7 @@ const Index: FC = () => {
 
               {/* ------------ RIGHT : product image ------------------------- */}
               <div className="flex flex-1 items-center justify-center">
-                <div className="relative aspect-video w-full max-w-xl overflow-hidden rounded-2xl">
-                  <img
-                    src={unlockAllProduct.image}
-                    alt={t("unlockall_title")}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <UnlockAllCarousel />
               </div>
             </div>
           </GlassCard>
