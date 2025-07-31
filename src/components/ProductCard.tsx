@@ -1,4 +1,5 @@
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { ShieldCheck } from "lucide-react";
 
 export interface Product {
@@ -19,9 +20,13 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const statusClass = product.status === "Undetected" ? "status-undetected" : "status-update";
   
   const handlePurchase = () => {
+    // Track the purchase event
+    trackEvent('purchase_click', 'ecommerce', product.name, product.price);
+    
     toast({
       title: "Redirecting to checkout",
       description: `Processing payment for ${product.name}...`,

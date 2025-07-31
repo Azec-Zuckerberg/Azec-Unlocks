@@ -8,7 +8,7 @@ const slides = [
   },
   {
     type: 'video',
-    src: 'https://player.vimeo.com/video/1102436930',
+    src: 'https://player.vimeo.com/video/1102436930?autoplay=1&muted=1&background=1',
     alt: 'External Chair Preview Video',
   },
 ];
@@ -21,17 +21,15 @@ export default function ExternalChairCarousel() {
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  // Auto-slide every 4 seconds using setInterval
+  // Always auto-slide every 4 seconds using setInterval
   useEffect(() => {
-    if (slides[current].type === 'image') {
-      timeoutRef.current = setInterval(() => {
-        setPrev(current => {
-          setDirection('left');
-          setCurrent(c => (c + 1) % slides.length);
-          return current;
-        });
-      }, 4000);
-    }
+    timeoutRef.current = setInterval(() => {
+      setPrev(current => {
+        setDirection('left');
+        setCurrent(c => (c + 1) % slides.length);
+        return current;
+      });
+    }, 4000);
     return () => {
       if (timeoutRef.current) clearInterval(timeoutRef.current);
     };

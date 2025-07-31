@@ -11,11 +11,14 @@ import Guides from "./pages/Guides";
 import Reviews from "./pages/Reviews";
 import TermsOfService from "./pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
+import { usePageTracking } from "./hooks/useAnalytics";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const AppContent = () => {
+  usePageTracking();
+
+  return (
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -32,6 +35,12 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AppContent />
   </QueryClientProvider>
 );
 
