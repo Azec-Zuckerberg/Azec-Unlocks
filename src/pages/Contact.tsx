@@ -5,53 +5,44 @@ import BackgroundNeo from '@/components/BackgroundNeo';
 import Header from '@/components/Header';
 import { useTranslation } from 'react-i18next';
 
-// Declare EmailJS types
-declare global {
-  interface Window {
-    emailjs: {
-      send: (serviceId: string, templateId: string, templateParams: any) => Promise<any>;
-    };
-  }
-}
-
 /**
  * Contact page – modern glassmorphism, dark-theme, accent #810D0A.
  * Dependencies (add once):  npm i lucide-react framer-motion
  */
 export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useTranslation();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setIsSubmitting(true);
     setStatus('idle');
 
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const message = formData.get('message') as string;
-
     try {
-      // Send email using EmailJS
-      await window.emailjs.send(
-        'service_p3ed737', // Your EmailJS service ID
-        'template_mmjn7ol', // Your EmailJS template ID
-        {
-          name: name,
-          email: email,
-          message: message,
-        }
-      );
+      const formData = new FormData(e.currentTarget);
+      
+      // Submit to FormSubmit
+      const response = await fetch('https://formsubmit.co/azecunlocks@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.get('name'),
+          email: formData.get('email'),
+          message: formData.get('message')
+        })
+      });
 
-      setStatus('success');
-      (e.target as HTMLFormElement).reset();
-    } catch (error) {
-      console.error('EmailJS error:', error);
+      if (response.ok) {
+        setStatus('success');
+        (e.target as HTMLFormElement).reset();
+      } else {
+        setStatus('error');
+      }
+    } catch {
       setStatus('error');
     } finally {
-      setIsSubmitting(false);
       // auto-dismiss message after 4 s
       setTimeout(() => setStatus('idle'), 4000);
     }
@@ -133,14 +124,18 @@ export default function Contact() {
               )}
             </AnimatePresence>
 
-            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            <form 
+              className="flex flex-col gap-5" 
+              onSubmit={handleSubmit}
+              action="https://formsubmit.co/azecunlocks@gmail.com"
+              method="POST"
+            >
               <input
                 type="text"
                 name="name"
                 placeholder={t('contact_name_placeholder')}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] placeholder-white/40"
                 required
-                disabled={isSubmitting}
               />
               <input
                 type="email"
@@ -148,7 +143,6 @@ export default function Contact() {
                 placeholder={t('contact_email_placeholder')}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] placeholder-white/40"
                 required
-                disabled={isSubmitting}
               />
               <textarea
                 name="message"
@@ -156,20 +150,14 @@ export default function Contact() {
                 rows={5}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] resize-none placeholder-white/40"
                 required
-                disabled={isSubmitting}
               ></textarea>
 
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                disabled={isSubmitting}
-                className={`font-semibold py-3 px-6 rounded-xl transition ${
-                  isSubmitting 
-                    ? 'bg-gray-600 text-gray-300 cursor-not-allowed' 
-                    : 'bg-[#810D0A] hover:bg-[#a11a16] text-white'
-                }`}
+                className="bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold py-3 px-6 rounded-xl transition"
               >
-                {isSubmitting ? t('contact_sending') || 'Sending...' : t('contact_send_message')}
+                {t('contact_send_message')}
               </motion.button>
             </form>
           </motion.div>
