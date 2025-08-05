@@ -36,13 +36,12 @@ export default function Contact() {
     try {
       // Send email using EmailJS
       await window.emailjs.send(
-        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
-        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        'service_p3ed737', // Your EmailJS service ID
+        'template_mmjn7ol', // Your EmailJS template ID
         {
-          from_name: name,
-          from_email: email,
+          name: name,
+          email: email,
           message: message,
-          to_name: 'Azec Unlocks Support',
         }
       );
 
