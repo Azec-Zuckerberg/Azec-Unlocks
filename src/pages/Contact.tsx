@@ -5,25 +5,54 @@ import BackgroundNeo from '@/components/BackgroundNeo';
 import Header from '@/components/Header';
 import { useTranslation } from 'react-i18next';
 
+// Declare EmailJS types
+declare global {
+  interface Window {
+    emailjs: {
+      send: (serviceId: string, templateId: string, templateParams: any) => Promise<any>;
+    };
+  }
+}
+
 /**
  * Contact page – modern glassmorphism, dark-theme, accent #810D0A.
  * Dependencies (add once):  npm i lucide-react framer-motion
  */
 export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useTranslation();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSubmitting(true);
+    setStatus('idle');
+
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
 
     try {
-      // 👉 integrate with your API / e-mail provider here
-      await new Promise((res) => setTimeout(res, 1200));
+      // Send email using EmailJS
+      await window.emailjs.send(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        {
+          from_name: name,
+          from_email: email,
+          message: message,
+          to_name: 'Azec Unlocks Support',
+        }
+      );
+
       setStatus('success');
       (e.target as HTMLFormElement).reset();
-    } catch {
+    } catch (error) {
+      console.error('EmailJS error:', error);
       setStatus('error');
     } finally {
+      setIsSubmitting(false);
       // auto-dismiss message after 4 s
       setTimeout(() => setStatus('idle'), 4000);
     }
@@ -108,29 +137,40 @@ export default function Contact() {
             <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
               <input
                 type="text"
+                name="name"
                 placeholder={t('contact_name_placeholder')}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] placeholder-white/40"
                 required
+                disabled={isSubmitting}
               />
               <input
                 type="email"
+                name="email"
                 placeholder={t('contact_email_placeholder')}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] placeholder-white/40"
                 required
+                disabled={isSubmitting}
               />
               <textarea
+                name="message"
                 placeholder={t('contact_message_placeholder')}
                 rows={5}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] resize-none placeholder-white/40"
                 required
+                disabled={isSubmitting}
               ></textarea>
 
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold py-3 px-6 rounded-xl transition"
+                disabled={isSubmitting}
+                className={`font-semibold py-3 px-6 rounded-xl transition ${
+                  isSubmitting 
+                    ? 'bg-gray-600 text-gray-300 cursor-not-allowed' 
+                    : 'bg-[#810D0A] hover:bg-[#a11a16] text-white'
+                }`}
               >
-                {t('contact_send_message')}
+                {isSubmitting ? t('contact_sending') || 'Sending...' : t('contact_send_message')}
               </motion.button>
             </form>
           </motion.div>
