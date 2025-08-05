@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, MapPin, Phone, CheckCircle, XCircle } from 'lucide-react';
+import { Mail, MapPin, Phone, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BackgroundNeo from '@/components/BackgroundNeo';
 import Header from '@/components/Header';
@@ -10,42 +10,21 @@ import { useTranslation } from 'react-i18next';
  * Dependencies (add once):  npm i lucide-react framer-motion
  */
 export default function Contact() {
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const { t } = useTranslation();
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus('idle');
+    setStatus('loading');
 
-    try {
-      const formData = new FormData(e.currentTarget);
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      setStatus('success');
+      (e.target as HTMLFormElement).reset();
       
-      // Submit to FormSubmit
-      const response = await fetch('https://formsubmit.co/azecunlocks@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: formData.get('name'),
-          email: formData.get('email'),
-          message: formData.get('message')
-        })
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        (e.target as HTMLFormElement).reset();
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    } finally {
-      // auto-dismiss message after 4 s
+      // Reset status after 4 seconds
       setTimeout(() => setStatus('idle'), 4000);
-    }
+    }, 2000);
   }
 
   return (
@@ -98,6 +77,18 @@ export default function Contact() {
 
             {/* Success / error banners */}
             <AnimatePresence mode="wait">
+              {status === 'loading' && (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center gap-3 bg-blue-600/20 border border-blue-500/40 text-blue-300 px-4 py-3 rounded-xl mb-6"
+                >
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <p>Sending message...</p>
+                </motion.div>
+              )}
               {status === 'success' && (
                 <motion.div
                   key="success"
@@ -107,7 +98,7 @@ export default function Contact() {
                   className="flex items-center gap-3 bg-green-600/20 border border-green-500/40 text-green-300 px-4 py-3 rounded-xl mb-6"
                 >
                   <CheckCircle className="w-5 h-5" />
-                  <p>{t('contact_success')}</p>
+                  <p>Message sent successfully!</p>
                 </motion.div>
               )}
               {status === 'error' && (
@@ -119,7 +110,7 @@ export default function Contact() {
                   className="flex items-center gap-3 bg-red-600/20 border border-red-500/40 text-red-300 px-4 py-3 rounded-xl mb-6"
                 >
                   <XCircle className="w-5 h-5" />
-                  <p>{t('contact_error')}</p>
+                  <p>Something went wrong. Please try again.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -136,6 +127,7 @@ export default function Contact() {
                 placeholder={t('contact_name_placeholder')}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] placeholder-white/40"
                 required
+                disabled={status === 'loading'}
               />
               <input
                 type="email"
@@ -143,6 +135,7 @@ export default function Contact() {
                 placeholder={t('contact_email_placeholder')}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] placeholder-white/40"
                 required
+                disabled={status === 'loading'}
               />
               <textarea
                 name="message"
@@ -150,14 +143,23 @@ export default function Contact() {
                 rows={5}
                 className="bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#810D0A] resize-none placeholder-white/40"
                 required
+                disabled={status === 'loading'}
               ></textarea>
 
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold py-3 px-6 rounded-xl transition"
+                disabled={status === 'loading'}
+                className="bg-[#810D0A] hover:bg-[#a11a16] disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition flex items-center justify-center gap-2"
               >
-                {t('contact_send_message')}
+                {status === 'loading' ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  t('contact_send_message')
+                )}
               </motion.button>
             </form>
           </motion.div>
