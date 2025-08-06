@@ -1,5 +1,6 @@
 import { ShieldCheck, Zap, RefreshCw, Wallet, Gem, Headphones } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import OptimizedGlass from './OptimizedGlass';
 
 const FeaturesSection = () => {
   const { t } = useTranslation();
@@ -19,20 +20,14 @@ const FeaturesSection = () => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
         {features.map((f, i) => (
-          <div
+          <OptimizedGlass
             key={f.title}
-            className="glass-card flex flex-col items-center gap-3 sm:gap-4 p-4 sm:p-6 md:p-8 h-full min-h-[160px] sm:min-h-[200px] border border-white/10 rounded-xl sm:rounded-2xl"
-            style={{
-              background: 'rgba(255, 255, 255, 0.08)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.20)',
-              borderRadius: '1rem',
-            }}
+            variant="subtle"
+            className="flex flex-col items-center gap-3 sm:gap-4 p-4 sm:p-6 md:p-8 h-full min-h-[160px] sm:min-h-[200px] rounded-2xl"
           >
             <h3 className="text-white text-lg sm:text-xl font-semibold mt-2 mb-1 text-center">{f.title}</h3>
             <p className="text-white/70 text-sm sm:text-base leading-relaxed text-center">{f.desc}</p>
-          </div>
+          </OptimizedGlass>
         ))}
       </div>
     </section>

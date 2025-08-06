@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import UnlockAllCarousel from "@/components/UnlockAllCarousel";
 import ExternalChairCarousel from "@/components/ExternalChairCarousel";
 import CountdownOffer from "@/components/CountdownOffer";
+import OptimizedGlass from "@/components/OptimizedGlass";
+import TiltedCard from "@/components/TiltedCard";
 
 // ---------------------------------------------------------------------------
 //  Sample product data (kept exactly as you had it)
@@ -83,16 +85,12 @@ const Index: FC = () => {
             </div>
           </div>
 
-                    {/* ----------------------------------------------------------------- */}
+          {/* ----------------------------------------------------------------- */}
           {/* Bundle Deal section (glass card) - FIRST POSITION                 */}
           {/* ----------------------------------------------------------------- */}
-          <GlassCard
-            className="mx-auto mb-12 sm:mb-20 flex w-full max-w-6xl flex-col gap-8 sm:gap-12 rounded-2xl sm:rounded-3xl border border-white/20 p-4 sm:p-6 md:p-8"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-            }}
+          <OptimizedGlass
+            variant="ultra"
+            className="mx-auto mb-12 sm:mb-20 flex w-full max-w-6xl flex-col gap-8 sm:gap-12 p-4 sm:p-6 md:p-8 rounded-3xl"
           >
             {/* =============================================================== */}
             {/* bundle showcase row                                             */}
@@ -127,7 +125,7 @@ const Index: FC = () => {
                 <div className="mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
                   <span className="text-xl sm:text-2xl font-bold text-green-400">{t("bundle_price")}</span>
                   <span className="text-base sm:text-lg text-white/50 line-through">{t("bundle_original_price")}</span>
-                  <span className="text-xs sm:text-sm font-semibold text-green-400">{t("bundle_savings")}</span>
+                  <span className="text-sm sm:text-base font-semibold text-green-400">{t("bundle_savings")}</span>
                 </div>
 
                 {/* ---------------- BUTTONS (FIXED!) ------------------------ */}
@@ -137,7 +135,7 @@ const Index: FC = () => {
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
                   <button 
-                    onClick={() => window.open("https://buy.stripe.com/eVq8wP0iqeVk9Ud2GB6AM0d", '_blank')}
+                    onClick={() => window.open("https://buy.stripe.com/bJe7sL1mu6oOaYhbd76AM0i", '_blank')}
                     className="flex-1 w-full h-12 sm:h-16 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-3 sm:px-4"
                   >
                     <span className="text-sm sm:text-base">{t('buy_now')}</span>
@@ -151,18 +149,14 @@ const Index: FC = () => {
                 <UnlockAllCarousel />
               </div>
             </div>
-          </GlassCard>
+          </OptimizedGlass>
 
           {/* ----------------------------------------------------------------- */}
           {/* External Chair product + features section (glass card)            */}
           {/* ----------------------------------------------------------------- */}
-          <GlassCard
-            className="mx-auto mb-12 sm:mb-20 flex w-full max-w-6xl flex-col gap-8 sm:gap-12 rounded-2xl sm:rounded-3xl border border-white/20 p-4 sm:p-6 md:p-8"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-            }}
+          <OptimizedGlass
+            variant="premium"
+            className="mx-auto mb-12 sm:mb-20 flex w-full max-w-6xl flex-col gap-8 sm:gap-12 p-4 sm:p-6 md:p-8 rounded-3xl"
           >
             {/* =============================================================== */}
             {/* product showcase row                                           */}
@@ -221,10 +215,18 @@ const Index: FC = () => {
               {/* card 1 */}
               <div className="flex flex-col items-center rounded-2xl border border-white/20 p-4 sm:p-8">
                 <div className="mb-4 sm:mb-6 flex w-full justify-center">
-                  <img
-                    src="/Ban2.png"
-                    alt={t("feature1_alt")}
-                    className="max-h-32 sm:max-h-48 w-auto rounded-2xl object-contain"
+                  <TiltedCard
+                    imageSrc="/Ban2.png"
+                    altText={t("feature1_alt")}
+                    captionText={t("feature1_title")}
+                    containerHeight="200px"
+                    containerWidth="100%"
+                    imageHeight="192px"
+                    imageWidth="300px"
+                    rotateAmplitude={17}
+                    scaleOnHover={1.05}
+                    showMobileWarning={false}
+                    showTooltip={false}
                   />
                 </div>
                 <h3 className="mb-2 text-center text-lg sm:text-xl font-bold text-white">
@@ -235,10 +237,18 @@ const Index: FC = () => {
               {/* card 2 */}
               <div className="flex flex-col items-center rounded-2xl border border-white/20 p-4 sm:p-8">
                 <div className="mb-4 sm:mb-6 flex w-full justify-center">
-                  <img
-                    src="/Ban1.png"
-                    alt={t("feature2_alt")}
-                    className="max-h-32 sm:max-h-48 w-auto rounded-2xl object-contain"
+                  <TiltedCard
+                    imageSrc="/Ban1.png"
+                    altText={t("feature2_alt")}
+                    captionText={t("feature2_title")}
+                    containerHeight="200px"
+                    containerWidth="100%"
+                    imageHeight="192px"
+                    imageWidth="300px"
+                    rotateAmplitude={17}
+                    scaleOnHover={1.05}
+                    showMobileWarning={false}
+                    showTooltip={false}
                   />
                 </div>
                 <h3 className="mb-2 text-center text-lg sm:text-xl font-bold text-white">
@@ -246,18 +256,14 @@ const Index: FC = () => {
                 </h3>
               </div>
             </div>
-          </GlassCard>
+          </OptimizedGlass>
 
           {/* ----------------------------------------------------------------- */}
           {/* Unlock All product + features section (glass card)                */}
           {/* ----------------------------------------------------------------- */}
-          <GlassCard
-            className="mx-auto mb-12 sm:mb-20 flex w-full max-w-6xl flex-col gap-8 sm:gap-12 rounded-2xl sm:rounded-3xl border border-white/20 p-4 sm:p-6 md:p-8"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-            }}
+          <OptimizedGlass
+            variant="premium"
+            className="mx-auto mb-12 sm:mb-20 flex w-full max-w-6xl flex-col gap-8 sm:gap-12 p-4 sm:p-6 md:p-8 rounded-3xl"
           >
             {/* =============================================================== */}
             {/* product showcase row                                           */}
@@ -309,7 +315,7 @@ const Index: FC = () => {
                 <UnlockAllCarousel />
               </div>
             </div>
-          </GlassCard>
+          </OptimizedGlass>
         </div>
 
         {/* stats + features */}

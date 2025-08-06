@@ -1,6 +1,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ShieldCheck } from "lucide-react";
+import OptimizedGlass from './OptimizedGlass';
 
 export interface Product {
   id: string;
@@ -35,15 +36,10 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
   };
   
   return (
-    <div 
-      className="glass-card glass-card-hover p-6 group cursor-pointer relative min-w-[280px] max-w-[340px] w-full"
-      style={{
-        background: 'rgba(255, 255, 255, 0.08)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        border: '1px solid rgba(255,255,255,0.20)',
-        borderRadius: '1rem',
-      }}
+    <OptimizedGlass
+      variant="default"
+      hover={true}
+      className="p-6 relative min-w-[280px] max-w-[340px] w-full rounded-2xl"
       onClick={handlePurchase}
     >
       <div className="relative mb-6">
@@ -79,7 +75,7 @@ const ProductCard = ({ product, onPurchase }: ProductCardProps) => {
           <p className="text-white font-bold text-2xl">€{product.price.toFixed(2)}</p>
         </div>
       </div>
-    </div>
+    </OptimizedGlass>
   );
 };
 

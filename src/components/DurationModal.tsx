@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import OptimizedGlass from './OptimizedGlass';
 
 interface DurationOption {
   id: string;
@@ -60,8 +61,9 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           onClick={onClose}
         />
         <div className="relative w-full max-w-xs mx-4">
-          <div
-            className="duration-modal-popup glass-card border border-white/20 px-6 pt-6 pb-4 rounded-3xl shadow-xl"
+          <OptimizedGlass
+            variant="premium"
+            className="duration-modal-popup px-6 pt-6 pb-4 shadow-xl rounded-3xl"
           >
             <div className="mb-4 w-full">
               <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black">
@@ -142,7 +144,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
               Powered by <span className="font-bold italic text-white">Stripe</span>
               <div className="mt-1 text-xs text-white/40">Powering Global Payments</div>
             </footer>
-          </div>
+          </OptimizedGlass>
         </div>
       </div>
     </>
