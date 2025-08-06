@@ -12,15 +12,15 @@ const StatsSection: React.FC = () => {
   ];
 
   return (
-    <section className="w-full flex flex-col items-center justify-center mt-24 mb-16">
-      <h2 className="text-white text-2xl md:text-3xl font-bold mb-8 text-center">{t('stats_title')}</h2>
-      <div className="grid w-full max-w-6xl grid-cols-2 md:grid-cols-4 gap-6 px-6">
+    <section className="w-full flex flex-col items-center justify-center mt-16 sm:mt-24 mb-12 sm:mb-16">
+      <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center">{t('stats_title')}</h2>
+      <div className="grid w-full max-w-6xl grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-6">
         {stats.map(({ value, label }) => (
           <div
             key={label}
             className="
               relative flex flex-col items-center justify-center
-              rounded-2xl p-8
+              rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8
               border border-white/10 backdrop-blur-lg
               bg-white/5 hover:bg-white/10
               ring-1 ring-inset ring-white/5 hover:ring-white/20
@@ -29,7 +29,7 @@ const StatsSection: React.FC = () => {
             "
           >
             <span
-              className="text-4xl md:text-5xl font-extrabold bg-gradient-to-br from-white via-gray-100/90 to-gray-400/70 bg-clip-text text-transparent mb-1"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-br from-white via-gray-100/90 to-gray-400/70 bg-clip-text text-transparent mb-1"
               style={{letterSpacing: "0.01em"}}
             >
               {value}

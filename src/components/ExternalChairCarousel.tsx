@@ -67,7 +67,7 @@ export default function ExternalChairCarousel() {
 
   return (
     <div
-      className="relative w-full max-w-xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-black/80 via-[#1a1a1a]/80 to-black/60 border border-white/10 flex items-center justify-center"
+      className="relative w-full max-w-xl mx-auto aspect-video rounded-xl sm:rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-black/80 via-[#1a1a1a]/80 to-black/60 border border-white/10 flex items-center justify-center"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -95,7 +95,7 @@ export default function ExternalChairCarousel() {
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
-                className="w-full h-full object-cover rounded-2xl"
+                className="w-full h-full object-cover rounded-xl sm:rounded-2xl"
               ></iframe>
             )}
           </div>
@@ -119,7 +119,7 @@ export default function ExternalChairCarousel() {
               frameBorder="0"
               allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
-              className="w-full h-full object-cover rounded-2xl"
+              className="w-full h-full object-cover rounded-xl sm:rounded-2xl"
             ></iframe>
           )}
         </div>
@@ -127,7 +127,7 @@ export default function ExternalChairCarousel() {
       {/* Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-2 z-40"
+        className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-1.5 sm:p-2 z-40"
         aria-label="Previous"
         style={{backdropFilter:'blur(4px)'}}
       >
@@ -135,19 +135,19 @@ export default function ExternalChairCarousel() {
       </button>
       <button
         onClick={next}
-        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-2 z-40"
+        className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-1.5 sm:p-2 z-40"
         aria-label="Next"
         style={{backdropFilter:'blur(4px)'}}
       >
         &#8594;
       </button>
       {/* Indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-40">
+      <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-2 z-40">
         {slides.map((_, i) => (
           <div
             key={i}
-            className={`transition-all duration-300 h-1.5 rounded-full ${i === current ? 'w-8 bg-white/90 shadow-[0_0_8px_2px_rgba(255,255,255,0.4)]' : 'w-3 bg-white/30'}`}
-            style={{margin: '0 2px'}}
+            className={`transition-all duration-300 h-1 sm:h-1.5 rounded-full ${i === current ? 'w-6 sm:w-8 bg-white/90 shadow-[0_0_8px_2px_rgba(255,255,255,0.4)]' : 'w-2 sm:w-3 bg-white/30'}`}
+            style={{margin: '0 1px sm:2px'}}
           />
         ))}
       </div>
