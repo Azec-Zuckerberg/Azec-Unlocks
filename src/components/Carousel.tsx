@@ -191,11 +191,6 @@ export default function Carousel({
                   src={item.image} 
                   alt={item.title} 
                   className="carousel-image"
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'contain'
-                  }}
                 />
               )}
               {item.video && (
@@ -206,12 +201,6 @@ export default function Carousel({
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
                   className="carousel-video"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    border: 'none'
-                  }}
                 />
               )}
             </motion.div>

@@ -12,7 +12,7 @@ const externalChairItems = [
     id: 2,
     title: "External Chair Video",
     description: "Watch the external chair in action",
-    video: "https://player.vimeo.com/video/1102436930?autoplay=1&muted=1&background=1",
+    video: "https://player.vimeo.com/video/1102436930?autoplay=1&muted=1&background=1&loop=1",
   },
 ];
 
@@ -22,7 +22,7 @@ export default function ExternalChairCarousel() {
       <Carousel
         items={externalChairItems}
         baseWidth={500}
-        autoplay={true}
+        autoplay={false}
         autoplayDelay={4000}
         pauseOnHover={true}
         loop={true}
