@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import {
   forwardRef,
   useImperativeHandle,
@@ -173,7 +174,7 @@ const Beams: React.FC<BeamsProps> = ({
   speed = 2,
   noiseIntensity = 1.75,
   scale = 0.2,
-  rotation = 0,
+  rotation = 50,
 }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const beamMaterial = useMemo(
@@ -383,4 +384,4 @@ const DirLight: React.FC<DirLightProps> = ({
   );
 };
 
-export default Beams; 
+export default Beams;

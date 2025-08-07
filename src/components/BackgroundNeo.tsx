@@ -9,9 +9,9 @@ import Beams from './Beams';
 const BackgroundNeo: React.FC = () => (
   <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
     <Beams
-      beamWidth={2}
-      beamHeight={100}
-      beamNumber={12}
+      beamWidth={3}
+      beamHeight={30}
+      beamNumber={20}
       lightColor="#ffffff"
       speed={2}
       noiseIntensity={1.75}

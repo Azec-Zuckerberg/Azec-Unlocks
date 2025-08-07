@@ -1,55 +1,20 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-// replace icons with your own if needed
-import { FiCircle, FiCode, FiFileText, FiLayers, FiLayout } from "react-icons/fi";
+import { motion, useMotionValue, useTransform, Transition } from "framer-motion";
 
 import "./Carousel.css";
 
-const DEFAULT_ITEMS = [
-  {
-    title: "Text Animations",
-    description: "Cool text animations for your projects.",
-    id: 1,
-    icon: <FiFileText className="carousel-icon" />,
-  },
-  {
-    title: "Animations",
-    description: "Smooth animations for your projects.",
-    id: 2,
-    icon: <FiCircle className="carousel-icon" />,
-  },
-  {
-    title: "Components",
-    description: "Reusable components for your projects.",
-    id: 3,
-    icon: <FiLayers className="carousel-icon" />,
-  },
-  {
-    title: "Backgrounds",
-    description: "Beautiful backgrounds and patterns for your projects.",
-    id: 4,
-    icon: <FiLayout className="carousel-icon" />,
-  },
-  {
-    title: "Common UI",
-    description: "Common UI components are coming soon!",
-    id: 5,
-    icon: <FiCode className="carousel-icon" />,
-  },
-];
-
 const DRAG_BUFFER = 0;
 const VELOCITY_THRESHOLD = 500;
-const GAP = 8;
-const SPRING_OPTIONS = { type: "spring", stiffness: 180, damping: 35 };
+const GAP = 12;
+const SPRING_OPTIONS: Transition = { type: "spring", stiffness: 300, damping: 30 };
 
 interface CarouselItem {
+  id: number;
   title: string;
   description: string;
-  id: number;
-  icon?: React.ReactNode;
   image?: string;
   video?: string;
+  icon?: React.ReactNode;
 }
 
 interface CarouselProps {
@@ -63,7 +28,7 @@ interface CarouselProps {
 }
 
 export default function Carousel({
-  items = DEFAULT_ITEMS,
+  items = [],
   baseWidth = 300,
   autoplay = false,
   autoplayDelay = 3000,
@@ -71,8 +36,7 @@ export default function Carousel({
   loop = false,
   round = false,
 }: CarouselProps) {
-  const containerPadding = 0;
-  const itemWidth = baseWidth - containerPadding * 2;
+  const itemWidth = baseWidth;
   const trackItemOffset = itemWidth + GAP;
 
   const carouselItems = loop ? [...items, items[0]] : items;
@@ -97,13 +61,13 @@ export default function Carousel({
   }, [pauseOnHover]);
 
   useEffect(() => {
-    if (autoplay && (!pauseOnHover || !isHovered) && !isResetting) {
+    if (autoplay && (!pauseOnHover || !isHovered)) {
       const timer = setInterval(() => {
         setCurrentIndex((prev) => {
-          if (loop && prev === items.length - 1) {
-            return prev + 1; // This will trigger the smooth reset
+          if (prev === items.length - 1 && loop) {
+            return prev + 1;
           }
-          if (prev >= carouselItems.length - 1) {
+          if (prev === carouselItems.length - 1) {
             return loop ? 0 : prev;
           }
           return prev + 1;
@@ -115,39 +79,20 @@ export default function Carousel({
     autoplay,
     autoplayDelay,
     isHovered,
-    isResetting,
     loop,
     items.length,
     carouselItems.length,
     pauseOnHover,
   ]);
 
-  const effectiveTransition = isResetting ? { duration: 0 } : SPRING_OPTIONS;
-
-  const goToPrevious = () => {
-    if (loop && currentIndex === 0) {
-      setCurrentIndex(items.length - 1);
-    } else {
-      setCurrentIndex((prev) => Math.max(prev - 1, 0));
-    }
-  };
-
-  const goToNext = () => {
-    if (loop && currentIndex === items.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
-    }
-  };
+  const effectiveTransition: Transition = isResetting ? { duration: 0 } : SPRING_OPTIONS;
 
   const handleAnimationComplete = () => {
     if (loop && currentIndex === carouselItems.length - 1) {
-      setTimeout(() => {
-        setIsResetting(true);
-        setCurrentIndex(0);
-        x.set(0);
-        setTimeout(() => setIsResetting(false), 100);
-      }, 100);
+      setIsResetting(true);
+      x.set(0);
+      setCurrentIndex(0);
+      setTimeout(() => setIsResetting(false), 50);
     }
   };
 
@@ -169,14 +114,30 @@ export default function Carousel({
     }
   };
 
+  const goToNext = () => {
+    if (loop && currentIndex === items.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
+    }
+  };
+
+  const goToPrevious = () => {
+    if (loop && currentIndex === 0) {
+      setCurrentIndex(items.length - 1);
+    } else {
+      setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    }
+  };
+
   const dragProps = loop
     ? {}
     : {
-        dragConstraints: {
-          left: -trackItemOffset * (carouselItems.length - 1),
-          right: 0,
-        },
-      };
+      dragConstraints: {
+        left: -trackItemOffset * (carouselItems.length - 1),
+        right: 0,
+      },
+    };
 
   return (
     <div
@@ -184,6 +145,7 @@ export default function Carousel({
       className={`carousel-container ${round ? "round" : ""}`}
       style={{
         width: `${baseWidth}px`,
+        maxWidth: '100%',
         ...(round && { height: `${baseWidth}px`, borderRadius: "50%" }),
       }}
     >
@@ -192,7 +154,7 @@ export default function Carousel({
         drag="x"
         {...dragProps}
         style={{
-          width: itemWidth,
+          width: '100%',
           gap: `${GAP}px`,
           perspective: 1000,
           perspectiveOrigin: `${currentIndex * trackItemOffset + itemWidth / 2}px 50%`,
@@ -224,55 +186,53 @@ export default function Carousel({
               }}
               transition={effectiveTransition}
             >
-              {item.image ? (
+              {item.image && (
                 <img 
                   src={item.image} 
-                  alt={item.title}
-                  className="w-full h-full object-cover"
+                  alt={item.title} 
+                  className="carousel-image"
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'contain'
+                  }}
                 />
-              ) : item.video ? (
-                <div className="w-full h-full relative bg-black overflow-hidden">
-                  <iframe
-                    src={item.video}
-                    title={item.title}
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                    style={{ 
-                      border: 'none',
-                      borderRadius: '16px'
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-800">
-                  <span className="carousel-icon-container">
-                    {item.icon}
-                  </span>
-                </div>
+              )}
+              {item.video && (
+                <iframe
+                  src={item.video}
+                  title={item.title}
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  className="carousel-video"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    border: 'none'
+                  }}
+                />
               )}
             </motion.div>
           );
         })}
       </motion.div>
-      
+
       {/* Navigation Arrows */}
-      <button
+      <button 
+        className="carousel-arrow carousel-arrow-prev" 
         onClick={goToPrevious}
-        className="absolute left-1 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/60 text-white rounded-full p-1.5 z-50 transition-all duration-200 text-sm"
         aria-label="Previous"
-        style={{backdropFilter:'blur(4px)'}}
       >
-        &#8592;
+        ‹
       </button>
-      <button
+      <button 
+        className="carousel-arrow carousel-arrow-next" 
         onClick={goToNext}
-        className="absolute right-1 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/60 text-white rounded-full p-1.5 z-50 transition-all duration-200 text-sm"
         aria-label="Next"
-        style={{backdropFilter:'blur(4px)'}}
       >
-        &#8594;
+        ›
       </button>
 
       <div className={`carousel-indicators-container ${round ? "round" : ""}`}>
@@ -280,9 +240,8 @@ export default function Carousel({
           {items.map((_, index) => (
             <motion.div
               key={index}
-              className={`carousel-indicator ${
-                currentIndex % items.length === index ? "active" : "inactive"
-              }`}
+              className={`carousel-indicator ${currentIndex % items.length === index ? "active" : "inactive"
+                }`}
               animate={{
                 scale: currentIndex % items.length === index ? 1.2 : 1,
               }}
