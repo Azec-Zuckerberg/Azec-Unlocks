@@ -18,7 +18,7 @@ const externalChairItems = [
 
 export default function ExternalChairCarousel() {
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto px-4 sm:px-0">
       <Carousel
         items={externalChairItems}
         baseWidth={500}
