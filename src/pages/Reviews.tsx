@@ -6,31 +6,31 @@ import { useTranslation } from "react-i18next";
 const ratings = [5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3];
 const shuffledRatings = ratings.sort(() => Math.random() - 0.5);
 const reviews = [
-  { name: "Ethan", country: "Ireland", date: "September 3, 2024", rating: 4.94, review: "Aura formed the whole lobby 32 kills lets go Azec on top" },
-  { name: "Giovanni", country: "Italy", date: "September 19, 2024", rating: 4.00, review: "It works good just make sure to run as admin or it wont start sometimes" },
-  { name: "keloex",      country: "Canada", date: "October 6, 2024", rating: 3.64, review: "i only use aimbot no ban safe for main" },
-  { name: "Samuel",  country: "Denmark", date: "October 24, 2024", rating: 3.65, review: "Dope just rember to close background apps made it faster for me" },
-  { name: "Sebastian", country: "Germany", date: "November 12, 2024", rating: 4.77, review: "No lie this one is actually legit word" },
-  { name: "Liam",     country: "Ireland", date: "November 29, 2024", rating: 4.41, review: "Was scared it was sketchy but nah runs smooth and no weird popups" },
-  { name: "perfectGamer", country: "Bulgaria", date: "December 11, 2024", rating: 4.71, review: "Good stuff just dont forget to save settings lost mine once lol" },
-  { name: "Hugo",     country: "France", date: "December 28, 2024", rating: 4.59, review: "It do what it say not much to say but its good" },
-  { name: "Marek",    country: "Czech Republic", date: "January 13, 2025", rating: 4.30, review: "solid chair got couple errors at first but restart fixed it" },
-  { name: "electroGamer", country: "USA", date: "January 28, 2025", rating: 4.96, review: "W bro actually got me some crazy wins nice shiit" },
-  { name: "Marcus",   country: "Sweden", date: "February 5, 2025", rating: 4.07, review: "Works but needs a bit more feature imo still worth it tho" },
-  { name: "Pavel",    country: "Russia", date: "February 20, 2025", rating: 4.33, review: "Got confused on first run but found guide on discord and then was easy" },
-  { name: "Tomás",    country: "Spain", date: "March 2, 2025", rating: 4.74, review: "Not bad for price just backup your configs just in case" },
-  { name: "David",    country: "Poland", date: "March 18, 2025", rating: 4.43, review: "Clean fast word to anyone looking for a decent chair" },
-  { name: "xPro",        country: "Denmark", date: "March 28, 2025", rating: 4.79, review: "No bugs for me just make sure you update before using good stuff" },
-  { name: "Gabriel",  country: "France", date: "April 6, 2025", rating: 4.37, review: "Azec on top" },
-  { name: "Ivan",     country: "Bulgaria", date: "April 15, 2025", rating: 4.56, review: "W toool" },
-  { name: "Antoine", country: "Spain", date: "April 29, 2025", rating: 3.57, review: "buen cheato lo recomiendo" },
-  { name: "Dominic",  country: "Italy", date: "May 7, 2025", rating: 3.84, review: "Functional" },
-  { name: "MoneyInthebag",    country: "USA", date: "May 18, 2025", rating: 3.93, review: "Works" },
-  { name: "Antoine",  country: "France", date: "May 25, 2025", rating: 3.62, review: "Nice just dont spam buttons or it might freeze happened once to me" },
-  { name: "Tomislav", country: "Croatia", date: "June 1, 2025", rating: 3.85, review: "Easy to use thanks" },
-  { name: "Erik",     country: "Norway", date: "June 10, 2025", rating: 3.65, review: "Good chair hit diamond2 in 2days" },
-  { name: "Benjamin", country: "Germany", date: "June 21, 2025", rating: 3.92, review: "Confused me at start but it's fine now runs nice" },
-  { name: "Michael",  country: "Ireland", date: "June 28, 2025", rating: 4.11, review: "Tried other cheats but this is bests and cheapest" }
+  { name: "Ethan", country: "France", date: "September 3, 2024", rating: 4.94, review: "aura formed the whole lobby 32 kills lets go azec on top fr fr" },
+  { name: "Giovanni", country: "UK", date: "September 19, 2024", rating: 4.00, review: "it works good just make sure to run as admin or it wont start sometimes" },
+  { name: "keloex",      country: "France", date: "October 6, 2024", rating: 3.64, review: "i only use aimbot no ban safe for main acc" },
+  { name: "Samuel",  country: "France", date: "October 24, 2024", rating: 3.65, review: "dope just remember to close background apps made it faster for me" },
+  { name: "Sebastian", country: "France", date: "November 12, 2024", rating: 4.77, review: "no cap this one is actually legit word" },
+  { name: "Liam",     country: "UK", date: "November 29, 2024", rating: 4.41, review: "was scared it was sketchy but nah runs smooth and no weird popups" },
+  { name: "perfectGamer", country: "France", date: "December 11, 2024", rating: 4.71, review: "good stuff just dont forget to save settings lost mine once lol" },
+  { name: "Hugo",     country: "France", date: "December 28, 2024", rating: 4.59, review: "it do what it say not much to say but its good" },
+  { name: "Marek",    country: "France", date: "January 13, 2025", rating: 4.30, review: "solid chair got couple errors at first but restart fixed it" },
+  { name: "electroGamer", country: "USA", date: "January 28, 2025", rating: 4.96, review: "w bro actually got me some crazy wins nice shit" },
+  { name: "Marcus",   country: "France", date: "February 5, 2025", rating: 4.07, review: "works but needs a bit more features imo still worth it tho" },
+  { name: "Pavel",    country: "France", date: "February 20, 2025", rating: 4.33, review: "got confused on first run but found guide on discord and then was easy" },
+  { name: "Tomás",    country: "Spain", date: "March 2, 2025", rating: 4.74, review: "buen cheato lo recomiendo" },
+  { name: "David",    country: "France", date: "March 18, 2025", rating: 4.43, review: "clean fast word to anyone looking for a decent chair" },
+  { name: "xPro",        country: "France", date: "March 28, 2025", rating: 4.79, review: "no bugs for me just make sure you update before using good stuff" },
+  { name: "Gabriel",  country: "France", date: "April 6, 2025", rating: 4.37, review: "azec on top" },
+  { name: "Ivan",     country: "France", date: "April 15, 2025", rating: 4.56, review: "w tool" },
+  { name: "Antoine", country: "France", date: "April 29, 2025", rating: 3.57, review: "nice just dont spam buttons or it might freeze happened once to me" },
+  { name: "Dominic",  country: "UK", date: "May 7, 2025", rating: 3.84, review: "functional" },
+  { name: "MoneyInthebag",    country: "USA", date: "May 18, 2025", rating: 3.93, review: "works" },
+  { name: "Antoine",  country: "France", date: "May 25, 2025", rating: 3.62, review: "nice just dont spam buttons or it might freeze happened once to me" },
+  { name: "Tomislav", country: "UK", date: "June 1, 2025", rating: 3.85, review: "easy to use thanks" },
+  { name: "Erik",     country: "France", date: "June 10, 2025", rating: 3.65, review: "good chair hit diamond2 in 2days" },
+  { name: "Benjamin", country: "France", date: "June 21, 2025", rating: 3.92, review: "confused me at start but its fine now runs nice" },
+  { name: "Michael",  country: "USA", date: "June 28, 2025", rating: 4.11, review: "tried other cheats but this is best and cheapest" }
 ].map((r, i) => ({ ...r, rating: shuffledRatings[i] }));
 
 const reviewsSorted = [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -65,10 +65,11 @@ const Reviews = () => {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-extrabold text-white mb-2 text-center">{t('reviews_title')}</h1>
           <p className="text-white/70 text-center mb-8">{t('reviews_subtitle')}</p>
+          
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {reviewsSorted.map((r, i) => (
               <div key={i} className="glass-base rounded-2xl p-5 flex flex-col justify-between min-h-[180px] border border-white/10 shadow-md">
-                <div className="mb-4 text-white/90 text-base font-medium">“{r.review}”</div>
+                <div className="mb-4 text-white/90 text-base font-medium">"{r.review}"</div>
                 <div className="mt-auto pt-4 border-t border-white/10 flex flex-col gap-1">
                   <div className="flex items-center justify-between">
                     <span className="text-white/80 text-sm font-semibold">{r.name}</span>

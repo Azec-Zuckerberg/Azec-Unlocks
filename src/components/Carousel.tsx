@@ -36,7 +36,10 @@ export default function Carousel({
   loop = false,
   round = false,
 }: CarouselProps) {
-  const itemWidth = baseWidth;
+  const [currentWidth, setCurrentWidth] = useState(baseWidth);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  const itemWidth = currentWidth;
   const trackItemOffset = itemWidth + GAP;
 
   const carouselItems = loop ? [...items, items[0]] : items;
@@ -46,6 +49,28 @@ export default function Carousel({
   const [isResetting, setIsResetting] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Handle responsive sizing
+  useEffect(() => {
+    const updateSize = () => {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        setCurrentWidth(Math.min(baseWidth, 280));
+        setIsMobile(true);
+      } else if (width <= 768) {
+        setCurrentWidth(Math.min(baseWidth, 350));
+        setIsMobile(false);
+      } else {
+        setCurrentWidth(baseWidth);
+        setIsMobile(false);
+      }
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [baseWidth]);
+
   useEffect(() => {
     if (pauseOnHover && containerRef.current) {
       const container = containerRef.current;
@@ -142,11 +167,11 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`carousel-container ${round ? "round" : ""}`}
+      className={`carousel-container ${round ? "round" : ""} ${isMobile ? "mobile" : ""}`}
       style={{
-        width: `${baseWidth}px`,
+        width: `${currentWidth}px`,
         maxWidth: '100%',
-        ...(round && { height: `${baseWidth}px`, borderRadius: "50%" }),
+        ...(round && { height: `${currentWidth}px`, borderRadius: "50%" }),
       }}
     >
       <motion.div
@@ -177,7 +202,7 @@ export default function Carousel({
           return (
             <motion.div
               key={index}
-              className={`carousel-item ${round ? "round" : ""}`}
+              className={`carousel-item ${round ? "round" : ""} ${isMobile ? "mobile" : ""}`}
               style={{
                 width: itemWidth,
                 height: round ? itemWidth : "100%",

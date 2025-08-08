@@ -62,7 +62,7 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         />
         <div className="relative w-full max-w-xs mx-4">
           <OptimizedGlass
-            variant="premium"
+            variant="default"
             className="duration-modal-popup px-6 pt-6 pb-4 shadow-xl rounded-3xl"
           >
             <div className="mb-4 w-full">

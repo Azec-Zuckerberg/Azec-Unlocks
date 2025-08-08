@@ -7,6 +7,7 @@
   width: 100%;
   max-width: 100%;
   height: 350px;
+  margin: 0 auto;
 }
 
 /* Mobile responsive adjustments */
@@ -15,6 +16,7 @@
     height: 250px;
     border-radius: 20px;
     max-width: 90vw;
+    margin: 0 auto;
   }
 }
 
@@ -23,7 +25,17 @@
     height: 200px;
     border-radius: 16px;
     max-width: 95vw;
+    margin: 0 auto;
   }
+}
+
+/* Mobile-specific container styles */
+.carousel-container.mobile {
+  max-width: 280px;
+  width: 100%;
+  height: 200px;
+  border-radius: 16px;
+  margin: 0 auto;
 }
 
 .carousel-track {
@@ -54,6 +66,13 @@
   .carousel-item {
     border-radius: 16px;
   }
+}
+
+/* Mobile-specific item styles */
+.carousel-item.mobile {
+  border-radius: 16px;
+  max-width: 280px;
+  width: 100%;
 }
 
 .carousel-item:active {
@@ -92,6 +111,14 @@
   }
 }
 
+/* Mobile-specific image styles */
+.carousel-item.mobile .carousel-image {
+  border-radius: 16px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
 .carousel-video {
   width: 100%;
   height: 100%;
@@ -112,6 +139,14 @@
   .carousel-video {
     border-radius: 16px;
   }
+}
+
+/* Mobile-specific video styles */
+.carousel-item.mobile .carousel-video {
+  border-radius: 16px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-item.round .carousel-image {

@@ -13,6 +13,7 @@ import ExternalChairCarousel from "@/components/ExternalChairCarousel";
 import CountdownOffer from "@/components/CountdownOffer";
 import OptimizedGlass from "@/components/OptimizedGlass";
 import TiltedCard from "@/components/TiltedCard";
+import GlassSurface from "@/components/GlassSurface";
 
 // ---------------------------------------------------------------------------
 //  Sample product data (kept exactly as you had it)
@@ -164,16 +165,16 @@ const Index: FC = () => {
             <div className="flex flex-col items-center gap-6 sm:gap-8 lg:flex-row">
               {/* ------------ LEFT : text + buttons -------------------------- */}
               <div className="mx-auto flex min-w-[280px] max-w-lg flex-col items-start justify-center gap-6 sm:gap-8">
-                {/* badge */}
+                {/* bundle badge */}
                 <div className="mb-2 flex items-center gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[#810D0A]/80 px-2 sm:px-3 py-1 text-xs font-semibold text-white shadow">
-                    <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none">
+                  <span className="inline-flex items-center rounded-full bg-gradient-to-r from-green-500 to-green-600 px-2.5 sm:px-3.5 py-1.5 text-sm font-semibold text-white shadow-md transform hover:scale-105 transition-all duration-200 border border-green-400/30">
+                    <svg className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 mr-2" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M13 2L3 14H12L11 22L21 10H13L13 2Z"
                         fill="#fff"
                       />
                     </svg>
-                    {t("undetected")}
+                    {t("external_chair_bundle_badge")}
                   </span>
                 </div>
 
@@ -195,7 +196,10 @@ const Index: FC = () => {
                     <span className="text-sm sm:text-base mt-1">{t('read_faq')}</span>
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
-                  <button onClick={handlePurchase} className="flex-1 w-full h-12 sm:h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-3 sm:px-4">
+                  <button 
+                    onClick={handlePurchase}
+                    className="flex-1 w-full h-12 sm:h-16 bg-[#810D0A] hover:bg-[#a11a16] text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-3 sm:px-4"
+                  >
                     <span className="text-sm sm:text-base">{t('buy_now')}</span>
                     <span className="text-xs text-white/70 font-normal mt-0.5">starting at $2.99</span>
                   </button>

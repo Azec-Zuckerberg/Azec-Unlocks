@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Carousel from './Carousel';
 
 const unlockAllItems = [
@@ -47,11 +47,31 @@ const unlockAllItems = [
 ];
 
 export default function UnlockAllCarousel() {
+  const [baseWidth, setBaseWidth] = useState(500);
+
+  // Responsive baseWidth based on screen size
+  useEffect(() => {
+    const updateBaseWidth = () => {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        setBaseWidth(280); // Mobile
+      } else if (width <= 768) {
+        setBaseWidth(350); // Tablet
+      } else {
+        setBaseWidth(500); // Desktop
+      }
+    };
+
+    updateBaseWidth();
+    window.addEventListener('resize', updateBaseWidth);
+    return () => window.removeEventListener('resize', updateBaseWidth);
+  }, []);
+
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 sm:px-0">
+    <div className="w-full max-w-2xl mx-auto">
       <Carousel
         items={unlockAllItems}
-        baseWidth={500}
+        baseWidth={baseWidth}
         autoplay={true}
         autoplayDelay={5000}
         pauseOnHover={true}

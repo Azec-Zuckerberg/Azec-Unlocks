@@ -201,5 +201,9 @@
   "bundle_price": "$44.99",
   "bundle_original_price": "$69.99",
   "bundle_savings": "Save 35%",
-  "bundle_badge": "BEST VALUE"
+  "bundle_badge": "BEST VALUE",
+  "external_chair_bundle_title": "External Chair + Free Unlock All",
+  "external_chair_bundle_desc": "Get the External Chair and unlock all camos, attachments, and operators for free! The ultimate combo deal.",
+  "external_chair_bundle_price": "$34.99",
+  "external_chair_bundle_badge": "BUY LIFETIME AND GET UNLOCK ALL FOR FREE"
 } 
