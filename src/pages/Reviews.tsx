@@ -2,61 +2,94 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundNeo from "@/components/BackgroundNeo";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 
-const ratings = [5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3];
-const shuffledRatings = ratings.sort(() => Math.random() - 0.5);
-const reviews = [
-  { name: "Ethan", country: "France", date: "September 3, 2024", rating: 4.94, review: "aura formed the whole lobby 32 kills lets go azec on top fr fr" },
-  { name: "Giovanni", country: "UK", date: "September 19, 2024", rating: 4.00, review: "it works good just make sure to run as admin or it wont start sometimes" },
-  { name: "keloex",      country: "France", date: "October 6, 2024", rating: 3.64, review: "i only use aimbot no ban safe for main acc" },
-  { name: "Samuel",  country: "France", date: "October 24, 2024", rating: 3.65, review: "dope just remember to close background apps made it faster for me" },
-  { name: "Sebastian", country: "France", date: "November 12, 2024", rating: 4.77, review: "no cap this one is actually legit word" },
-  { name: "Liam",     country: "UK", date: "November 29, 2024", rating: 4.41, review: "was scared it was sketchy but nah runs smooth and no weird popups" },
-  { name: "perfectGamer", country: "France", date: "December 11, 2024", rating: 4.71, review: "good stuff just dont forget to save settings lost mine once lol" },
-  { name: "Hugo",     country: "France", date: "December 28, 2024", rating: 4.59, review: "it do what it say not much to say but its good" },
-  { name: "Marek",    country: "France", date: "January 13, 2025", rating: 4.30, review: "solid chair got couple errors at first but restart fixed it" },
-  { name: "electroGamer", country: "USA", date: "January 28, 2025", rating: 4.96, review: "w bro actually got me some crazy wins nice shit" },
-  { name: "Marcus",   country: "France", date: "February 5, 2025", rating: 4.07, review: "works but needs a bit more features imo still worth it tho" },
-  { name: "Pavel",    country: "France", date: "February 20, 2025", rating: 4.33, review: "got confused on first run but found guide on discord and then was easy" },
-  { name: "Tomás",    country: "Spain", date: "March 2, 2025", rating: 4.74, review: "buen cheato lo recomiendo" },
-  { name: "David",    country: "France", date: "March 18, 2025", rating: 4.43, review: "clean fast word to anyone looking for a decent chair" },
-  { name: "xPro",        country: "France", date: "March 28, 2025", rating: 4.79, review: "no bugs for me just make sure you update before using good stuff" },
-  { name: "Gabriel",  country: "France", date: "April 6, 2025", rating: 4.37, review: "azec on top" },
-  { name: "Ivan",     country: "France", date: "April 15, 2025", rating: 4.56, review: "w tool" },
-  { name: "Antoine", country: "France", date: "April 29, 2025", rating: 3.57, review: "nice just dont spam buttons or it might freeze happened once to me" },
-  { name: "Dominic",  country: "UK", date: "May 7, 2025", rating: 3.84, review: "functional" },
-  { name: "MoneyInthebag",    country: "USA", date: "May 18, 2025", rating: 3.93, review: "works" },
-  { name: "Antoine",  country: "France", date: "May 25, 2025", rating: 3.62, review: "nice just dont spam buttons or it might freeze happened once to me" },
-  { name: "Tomislav", country: "UK", date: "June 1, 2025", rating: 3.85, review: "easy to use thanks" },
-  { name: "Erik",     country: "France", date: "June 10, 2025", rating: 3.65, review: "good chair hit diamond2 in 2days" },
-  { name: "Benjamin", country: "France", date: "June 21, 2025", rating: 3.92, review: "confused me at start but its fine now runs nice" },
-  { name: "Michael",  country: "USA", date: "June 28, 2025", rating: 4.11, review: "tried other cheats but this is best and cheapest" }
-].map((r, i) => ({ ...r, rating: shuffledRatings[i] }));
+type Review = { name: string; date: string; review: string; vouchNo: number };
 
-const reviewsSorted = [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+function sanitizeReviewText(input: string): string {
+  return input
+    // remove common boilerplate lines
+    .replace(/\bView proof\b/gi, "")
+    // remove Discord mentions and channel/role references
+    .replace(/<@!?\d+>/g, "")
+    .replace(/<@&\d+>/g, "")
+    .replace(/<#\d+>/g, "")
+    // remove URLs
+    .replace(/https?:\/\/\S+/g, "")
+    // remove explicit game references (R6/R6S/Rainbow Six Siege)
+    .replace(/\brainbow\s+six\s*siege\b/gi, "game")
+    .replace(/\br6s\b/gi, "game")
+    .replace(/\br6\b/gi, "game")
+    // collapse multiple spaces/newlines
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-function renderStars(rating: number) {
-  const full = Math.floor(rating);
-  const half = rating - full >= 0.25 && rating - full < 0.75;
-  const empty = 5 - full - (half ? 1 : 0);
-  return (
-    <span className="flex items-center gap-0.5">
-      {Array(full).fill(0).map((_, i) => (
-        <svg key={i} className="w-4 h-4" style={{ color: '#7C0906' }} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.176 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z"/></svg>
-      ))}
-      {half && (
-        <svg className="w-4 h-4" style={{ color: '#7C0906' }} fill="currentColor" viewBox="0 0 20 20"><defs><linearGradient id="half"><stop offset="50%" stopColor="currentColor"/><stop offset="50%" stopColor="transparent"/></linearGradient></defs><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.176 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z" fill="url(#half)"/></svg>
-      )}
-      {Array(empty).fill(0).map((_, i) => (
-        <svg key={i} className="w-4 h-4 text-gray-600/40" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.176 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z"/></svg>
-      ))}
-    </span>
-  );
+function formatHumanDate(dateTime: string): string {
+  const base = dateTime.includes(" ") ? dateTime.split(" ")[0] : (dateTime.includes("T") ? dateTime.split("T")[0] : dateTime);
+  const [y, m, d] = base.split("-").map((n) => parseInt(n, 10));
+  const dt = new Date(Date.UTC(y, (m || 1) - 1, d || 1));
+  const formatted = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(dt);
+  // Lowercase the month
+  return formatted.replace(/[A-Za-z]+/g, (s) => s.toLowerCase());
+}
+
+function parseReviews(raw: string): Review[] {
+  const text = raw.replace(/\r\n?/g, "\n");
+  const entries: Review[] = [];
+  // Pattern: @username (id) \n <review text> \n Vouch Nº123 \n YYYY-MM-DD hh:mm:ss
+  const userBlockRegex = /(\n|^)\s*@([^\n]+?)\s*\([^\n]*\)\s*\n([\s\S]*?)\n\s*Vouch Nº\s*(\d+)\s*\n\s*([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})/g;
+  let m: RegExpExecArray | null;
+  while ((m = userBlockRegex.exec(text)) !== null) {
+    const nameRaw = m[2].trim();
+    const name = nameRaw.startsWith("@") ? nameRaw : `@${nameRaw}`;
+    const reviewRaw = m[3];
+    const review = sanitizeReviewText(reviewRaw);
+    const vouchNo = parseInt(m[4], 10);
+    const date = m[5];
+    if (review.length > 0) {
+      entries.push({ name, review, vouchNo, date });
+    }
+  }
+  // Remove all vouches from @sixifyy
+  const filtered = entries.filter(e => e.name.toLowerCase() !== "@sixifyy");
+  // Sort by date desc, then vouchNo desc
+  filtered.sort((a, b) => {
+    const dt = new Date(b.date).getTime() - new Date(a.date).getTime();
+    return dt !== 0 ? dt : b.vouchNo - a.vouchNo;
+  });
+  const count = filtered.length;
+  // Renumber sequentially from 1..N
+  const renumbered = filtered.map((e, idx) => ({ ...e, vouchNo: count - idx }));
+  return renumbered;
 }
 
 const Reviews = () => {
   const { t } = useTranslation();
-  
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/reviews.txt")
+      .then((r) => r.text())
+      .then((raw) => {
+        if (cancelled) return;
+        const parsed = parseReviews(raw);
+        setReviews(parsed);
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen relative">
       <BackgroundNeo />
@@ -65,19 +98,22 @@ const Reviews = () => {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-extrabold text-white mb-2 text-center">{t('reviews_title')}</h1>
           <p className="text-white/70 text-center mb-8">{t('reviews_subtitle')}</p>
-          
+
+        {!loaded && (
+          <div className="text-center text-white/60">Loading reviews…</div>
+        )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {reviewsSorted.map((r, i) => (
+            {reviews.map((r, i) => (
               <div key={i} className="glass-base rounded-2xl p-5 flex flex-col justify-between min-h-[180px] border border-white/10 shadow-md">
                 <div className="mb-4 text-white/90 text-base font-medium">"{r.review}"</div>
                 <div className="mt-auto pt-4 border-t border-white/10 flex flex-col gap-1">
                   <div className="flex items-center justify-between">
                     <span className="text-white/80 text-sm font-semibold">{r.name}</span>
-                    {renderStars(r.rating)}
+                    <span className="text-white/60 text-xs">Vouch Nº{r.vouchNo}</span>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-white/50">
-                    <span>{r.country}</span>
-                    <span>{r.date}</span>
+                  <div className="flex items-center justify-end text-xs text-white/50">
+                    <span>{formatHumanDate(r.date)}</span>
                   </div>
                 </div>
               </div>
