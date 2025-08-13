@@ -30,8 +30,8 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const stripeLinks: Record<string, string> = {
     "2h": "https://buy.stripe.com/00w9ATe9geVk9Uddlf6AM0f",
     "daily": "https://buy.stripe.com/14AeVd5CKdRgd6p94Z6AM0g",
-    "monthly": "https://buy.stripe.com/3cI8wP9T0cNcgiB0yt6AM0b",
-    "lifetime": "https://buy.stripe.com/14AeVdgho8wW6I1dlf6AM05",
+    "monthly": "https://buy.stripe.com/7sY00je9gfZo6I1gxr6AM0o",
+    "lifetime": "https://buy.stripe.com/28E5kDaX4cNc0jD0yt6AM0q",
     "unlockall": "https://buy.stripe.com/aFa28rc185kK8Q9ftn6AM0c",
   };
 
@@ -39,15 +39,15 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const plans = {
     '2h': { usd: '$2.99' },
     'daily': { usd: '$10.99' },
-    'monthly': { usd: '$34.99' },
-    'lifetime': { usd: '$74.99' },
+    'monthly': { usd: '$29.99' },
+    'lifetime': { usd: '$79.99' },
   };
 
   const options: DurationOption[] = [
     { id: '2h', name: t('2HoursLicense'), price: '$2.99', description: t('bestForTesting') },
     { id: 'daily', name: t('dailyLicense'), price: '$10.99', description: t('idealForExtensiveTesting') },
-    { id: 'monthly', name: t('monthlyLicense'), price: '$34.99', mostPopular: true, description: t('unlimitedAccessOneTimePayment') },
-    { id: 'lifetime', name: t('lifetimeLicense'), price: '$34.99', bestDeal: true, description: t('lifetimeAccessOneTimePayment') },
+    { id: 'monthly', name: t('monthlyLicense'), price: '$29.99', mostPopular: true, description: t('unlimitedAccessOneTimePayment') },
+    { id: 'lifetime', name: t('lifetimeLicense'), price: '$79.99', bestDeal: true, description: t('lifetimeAccessOneTimePayment') },
   ];
 
   if (!isOpen) return null;
@@ -113,6 +113,14 @@ const DurationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     <span className="mt-1 text-xs font-normal text-white/50">
                       {o.description}
                     </span>
+                    {o.id === 'lifetime' && (
+                      <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-medium text-white/90 ring-1 ring-white/15">
+                        <svg className="h-3.5 w-3.5 text-white/90" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                        <span>{t('lifetime_unlockall_free_badge')}</span>
+                      </span>
+                    )}
                   </span>
                   <span className="ml-2 flex flex-col items-end">
                     {o.oldPrice && (

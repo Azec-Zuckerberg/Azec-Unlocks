@@ -77,7 +77,7 @@ const Index: FC = () => {
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300/80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path d="M12 3L4 7v5c0 5.25 4.5 9.25 8 10 3.5-.75 8-4.75 8-10V7l-8-4z" fill="currentColor" stroke="currentColor" strokeLinejoin="round" />
                   </svg>
-                  {t('trusted_by_customers')} <span className="font-bold text-green-300/90">4.23</span>
+                  {t('trusted_by_customers')} <span className="font-bold text-green-300/90">4.53</span>
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 text-green-300/80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path d="M9 5l7 7-7 7" strokeLinejoin="round" strokeLinecap="round"/>
                   </svg>
@@ -136,7 +136,7 @@ const Index: FC = () => {
                     <span className="text-xs text-black/70 font-normal mt-0.5">{t('they_speak_for_us')}</span>
                   </Link>
                   <button 
-                    onClick={() => window.open("https://buy.stripe.com/bJe7sL1mu6oOaYhbd76AM0i", '_blank')}
+                    onClick={() => window.open("https://buy.stripe.com/28E5kDaX4cNc0jD0yt6AM0q", '_blank')}
                     className="flex-1 w-full h-12 sm:h-16 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition text-center flex flex-col items-center justify-center px-3 sm:px-4"
                   >
                     <span className="text-sm sm:text-base">{t('buy_now')}</span>
