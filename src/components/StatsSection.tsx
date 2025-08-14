@@ -7,7 +7,7 @@ const StatsSection: React.FC = () => {
   const stats = [
     { value: "1282", label: t('stats_products_sold') },
     { value: "2022", label: 'SELLING SINCE' },
-    { value: "224", label: t('stats_reviews_received') },
+    { value: "177", label: t('stats_reviews_received') },
     { value: "4.53", label: t('stats_average_rating') },
   ];
 
