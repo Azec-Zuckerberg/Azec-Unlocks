@@ -14,6 +14,8 @@ function sanitizeReviewText(input: string): string {
     .replace(/<@!?\d+>/g, "")
     .replace(/<@&\d+>/g, "")
     .replace(/<#\d+>/g, "")
+    // replace @sixify / @sixifyy with @azec
+    .replace(/@sixifyy?/gi, "@azec")
     // remove URLs
     .replace(/https?:\/\/\S+/g, "")
     // remove explicit game references (R6/R6S/Rainbow Six Siege)
@@ -23,6 +25,29 @@ function sanitizeReviewText(input: string): string {
     // collapse multiple spaces/newlines
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function isLikelyNegative(text: string): boolean {
+  const negativePatterns: RegExp[] = [
+    /\b(scam\w*|fraud|fake)\b/i,
+    /\b(bad|awful|terrible|horrible|worst|trash|meh|mid)\b/i,
+    /\b(don't|do not|doesn't|didn't|cant|can't|cannot|won't)\s+(work|working|recommend|buy|purchase|use|reply|respond|answer|help|assist)\b/i,
+    /\b(no|without)\s+(reply|response|answer|support|help)\b/i,
+    /\b(never|didn't|doesn't|won't)\s+(reply|respond|answer|help|assist)\b/i,
+    /\b(not|never)\s+(working|work|good|worth|recommended|responsive|legit|legitimate|helpful)\b/i,
+    /\b(broken|bug|buggy|issue|issues|problem|problems|error|errors|failed|failure|crash|crashes)\b/i,
+    /\b(slow|lag|laggy|delay|delayed|unresponsive)\b/i,
+    /\b(rude|toxic|impolite|ignoring|ignored|ignore)\b/i,
+    /\b(refund|chargeback|dispute)\b/i,
+    /\b(lost|lose|loss)\b/i,
+    /\b(ban|banned|detected|detection|unsafe|unsecure|untrusted)\b/i,
+    /\b(avoid|stay away|not worth|waste of|wasting)\b/i,
+    /👎|❌|😡|😠/,
+  ];
+  for (const re of negativePatterns) {
+    if (re.test(text)) return true;
+  }
+  return false;
 }
 
 function formatHumanDate(dateTime: string): string {
@@ -48,25 +73,40 @@ function parseReviews(raw: string): Review[] {
   while ((m = userBlockRegex.exec(text)) !== null) {
     const nameRaw = m[2].trim();
     const name = nameRaw.startsWith("@") ? nameRaw : `@${nameRaw}`;
+    const nameNormalized = name.replace(/@sixifyy?/i, "@azec");
     const reviewRaw = m[3];
     const review = sanitizeReviewText(reviewRaw);
     const vouchNo = parseInt(m[4], 10);
     const date = m[5];
     if (review.length > 0) {
-      entries.push({ name, review, vouchNo, date });
+      entries.push({ name: nameNormalized, review, vouchNo, date });
     }
   }
-  // Remove all vouches from @sixifyy
-  const filtered = entries.filter(e => e.name.toLowerCase() !== "@sixifyy");
+  // Base filter: remove any that mention Fortnite or have likely negative sentiment
+  let filtered = entries.slice();
+  filtered = filtered.filter((e) => !/fortnite/i.test(e.review));
+  filtered = filtered.filter((e) => !isLikelyNegative(e.review));
+
   // Sort by date desc, then vouchNo desc
   filtered.sort((a, b) => {
     const dt = new Date(b.date).getTime() - new Date(a.date).getTime();
     return dt !== 0 ? dt : b.vouchNo - a.vouchNo;
   });
   const count = filtered.length;
-  // Renumber sequentially from 1..N
-  const renumbered = filtered.map((e, idx) => ({ ...e, vouchNo: count - idx }));
-  return renumbered;
+  // Renumber sequentially from 1..N (display numbers)
+  let renumbered = filtered.map((e, idx) => ({ ...e, vouchNo: count - idx }));
+
+  // Build removal set for specific displayed vouch numbers
+  const removeVouchNos = new Set<number>([29, 33, 38, 39, 40, 41, 42, 47, 50, 51, 52, 53, 56, 82]);
+  for (let n = 58; n <= 73; n++) removeVouchNos.add(n);
+
+  // Remove by displayed vouch numbers
+  renumbered = renumbered.filter((e) => !removeVouchNos.has(e.vouchNo));
+
+  // Re-number again after removals so UI stays sequential
+  const finalCount = renumbered.length;
+  const finalRenumbered = renumbered.map((e, idx) => ({ ...e, vouchNo: finalCount - idx }));
+  return finalRenumbered;
 }
 
 const Reviews = () => {

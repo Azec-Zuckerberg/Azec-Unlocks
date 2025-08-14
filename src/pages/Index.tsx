@@ -152,6 +152,9 @@ const Index: FC = () => {
             </div>
           </OptimizedGlass>
 
+          {/* Stats after Ultimate bundle deal */}
+          <StatsSection />
+
           {/* ----------------------------------------------------------------- */}
           {/* External Chair product + features section (glass card)            */}
           {/* ----------------------------------------------------------------- */}
@@ -323,7 +326,6 @@ const Index: FC = () => {
         </div>
 
         {/* stats + features */}
-        <StatsSection />
         <FeaturesSection />
       </main>
 
